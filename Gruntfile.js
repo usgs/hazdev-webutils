@@ -93,6 +93,11 @@ module.exports = function (grunt) {
 		grunt.config(['jshint', 'scripts'], filepath);
 	});
 
+	grunt.registerTask('test', [
+		'connect:dev',
+		'mocha_phantomjs'
+	]);
+
 	grunt.registerTask('default', [
 		'connect:dev',
 		'mocha_phantomjs',
