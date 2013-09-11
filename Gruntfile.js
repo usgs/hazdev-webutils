@@ -1,9 +1,5 @@
 'use strict';
 
-var LIVE_RELOAD_PORT = 35729;
-var lrSnippet = require('connect-livereload')({port: LIVE_RELOAD_PORT});
-var gateway = require('gateway');
-
 var mountFolder = function (connect, dir) {
 	return connect.static(require('path').resolve(dir));
 };
@@ -30,10 +26,7 @@ module.exports = function (grunt) {
 		watch: {
 			scripts: {
 				files: ['<%= app.src %>/**/*.js'],
-				tasks: ['concurrent:scripts'],
-				options: {
-					livereload: LIVE_RELOAD_PORT
-				}
+				tasks: ['concurrent:scripts']
 			},
 			tests: {
 				files: ['<%= app.test %>/*.html', '<%= app.test %>/**/*.js'],
