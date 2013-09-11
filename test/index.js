@@ -18,6 +18,8 @@ require.config({
 require([
 	'mocha',
 ], function (mocha) {
+	'use strict';
+
 	mocha.setup('bdd');
 
 	// Add each test class here as they are implemented
@@ -28,7 +30,7 @@ require([
 		'spec/util/UtilTest'
 	], function () {
 		if (window.mochaPhantomJS) {
-			mochaPhantomJS.run();
+			window.mochaPhantomJS.run();
 		} else {
 			mocha.run();
 		}
