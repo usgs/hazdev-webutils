@@ -12,7 +12,6 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-	console.log('test!');
 	/**
 	 * Constructor for utility callback class.
 	 *
