@@ -4,10 +4,19 @@
 	"homepage": "http://earthquake.usgs.gov/",
 	"repository": "https://github.com/usgs/hazdev-webutils.git",
 	"description": "Utilities commonly used in web applicatiosn developed by the EHP HazDev team.",
-	"author": {"name": "Jeremy Fee", "email": "jmfee@usgs.gov"},
+	"author": {
+		"name": "Jeremy Fee",
+		"email": "jmfee@usgs.gov"
+	},
 	"contributors": [
-		{"name": "Eric Martinez", "email": "emartinez@usgs.gov"},
-		{"name": "Eddie Hunter", "email": "ehunter@usgs.gov"}
+		{
+			"name": "Eric Martinez",
+			"email": "emartinez@usgs.gov"
+		},
+		{
+			"name": "Eddie Hunter",
+			"email": "ehunter@usgs.gov"
+		}
 	],
 	"keywords": [
 		"usgs",
@@ -41,7 +50,8 @@
 		"grunt-open": "~0.2.0",
 		"grunt-text-replace": "~0.3.6",
 		"matchdep": "~0.1.2",
-		"mocha": "~1.9.0"
+		"mocha": "~1.9.0",
+		"grunt-cli": "~0.1.9"
 	},
 	"engines": {
 		"node": ">=0.8.0"
