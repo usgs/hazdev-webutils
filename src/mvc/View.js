@@ -23,6 +23,7 @@ define([
 
 		this._initialize();
 	};
+	View.prototype = Object.create(Events.prototype);
 
 	View.prototype._initialize = function () {
 	};
