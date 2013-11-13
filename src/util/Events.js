@@ -15,6 +15,8 @@ define([
 		this._listeners = {};
 	};
 
+	var instance = null;
+
 	/**
 	 * Add an event listener
 	 *
@@ -107,7 +109,16 @@ define([
 	};
 
 	// make Events a global event source
-	Events.call(Events);
+	instance = new Events();
+	Events.on = function _events_on () {
+		return Events.prototype.on.apply(instance, arguments);
+	};
+	Events.off = function _events_off () {
+		return Events.prototype.on.apply(instance, arguments);
+	};
+	Events.trigger = function _events_trigger () {
+		return Events.prototype.trigger.apply(instance, arguments);
+	};
 
 	// intercept window.onhashchange events, or simulate if browser doesn't
 	// support, and send to global Events object

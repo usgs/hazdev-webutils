@@ -1,49 +1,50 @@
 {
-	"name": "hazdev-webutils",
-	"version": "0.0.1",
-	"homepage": "http://earthquake.usgs.gov/",
-	"repository": "https://github.com/usgs/hazdev-webutils.git",
-	"description": "Utilities commonly used in web applicatiosn developed by the EHP HazDev team.",
-	"author": {
-		"name": "Jeremy Fee",
-		"email": "jmfee@usgs.gov"
-	},
-	"contributors": [
-		{
-			"name": "Eric Martinez",
-			"email": "emartinez@usgs.gov"
-		},
-		{
-			"name": "Eddie Hunter",
-			"email": "ehunter@usgs.gov"
-		}
-	],
-	"keywords": [
-		"usgs",
-		"ehp",
-		"hazdev",
-		"mvc",
-		"util"
-	],
-	"scripts": {
-		"test": "grunt test"
-	},
-	"license": "Public Domain",
-	"dependencies": {},
-	"devDependencies": {
-		"chai": "~1.7.0",
-		"connect-livereload": "~0.2.0",
-		"gateway": "~0.1.1",
-		"grunt": "~0.4.1",
-		"grunt-concurrent": "~0.3.0",
-		"grunt-contrib-connect": "~0.3.0",
-		"grunt-contrib-jshint": "~0.6.0",
-		"grunt-contrib-watch": "~0.4.4",
-		"grunt-mocha-phantomjs": "~0.2.8",
-		"matchdep": "~0.1.2",
-		"mocha": "~1.9.0"
-	},
-	"engines": {
-		"node": ">=0.8.0"
-	}
+  "name": "hazdev-webutils",
+  "version": "0.0.2",
+  "homepage": "http://earthquake.usgs.gov/",
+  "repository": "https://github.com/usgs/hazdev-webutils.git",
+  "description": "Utilities commonly used in web applications developed by the EHP HazDev team.",
+  "author": {
+    "name": "Jeremy Fee",
+    "email": "jmfee@usgs.gov"
+  },
+  "contributors": [
+    {
+      "name": "Eric Martinez",
+      "email": "emartinez@usgs.gov"
+    },
+    {
+      "name": "Eddie Hunter",
+      "email": "ehunter@usgs.gov"
+    }
+  ],
+  "keywords": [
+    "usgs",
+    "ehp",
+    "hazdev",
+    "mvc",
+    "util"
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "license": "Public Domain",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "~1.7.0",
+    "connect-livereload": "~0.2.0",
+    "gateway": "~0.1.1",
+    "grunt": "~0.4.1",
+    "grunt-concurrent": "~0.3.0",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-mocha-phantomjs": "~0.2.8",
+    "matchdep": "~0.1.2",
+    "mocha": "~1.9.0",
+    "sinon": "~1.7.3"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
 }
