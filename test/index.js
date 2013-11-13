@@ -2,7 +2,8 @@ require.config({
 	baseUrl: '..',
 	paths: {
 		mocha: 'mocha/mocha',
-		chai: 'chai/chai'
+		chai: 'chai/chai',
+		sinon: 'sinon/pkg/sinon'
 	},
 	shim: {
 		mocha: {
@@ -11,6 +12,9 @@ require.config({
 		chai: {
 			deps: ['mocha'],
 			exports: 'chai'
+		},
+		sinon: {
+			exports: 'sinon'
 		}
 	}
 });
