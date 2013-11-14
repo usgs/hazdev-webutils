@@ -114,7 +114,7 @@ define([
 		return Events.prototype.on.apply(instance, arguments);
 	};
 	Events.off = function _events_off () {
-		return Events.prototype.on.apply(instance, arguments);
+		return Events.prototype.off.apply(instance, arguments);
 	};
 	Events.trigger = function _events_trigger () {
 		return Events.prototype.trigger.apply(instance, arguments);
