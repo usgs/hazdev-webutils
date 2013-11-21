@@ -31,7 +31,8 @@ require([
 		'spec/mvc/CollectionTest',
 		'spec/mvc/ModelTest',
 		'spec/util/EventsTest',
-		'spec/util/UtilTest'
+		'spec/util/UtilTest',
+		'spec/util/XhrTest'
 	], function () {
 		if (window.mochaPhantomJS) {
 			window.mochaPhantomJS.run();

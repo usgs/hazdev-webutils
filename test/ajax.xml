@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rootnode>
+	<element>Some content</element>
+	<complex id="complex-element-1">
+		<element>Some more content</element>
+		<element>Second child element of complex container</element>
+	</complex>
+</rootnode>
