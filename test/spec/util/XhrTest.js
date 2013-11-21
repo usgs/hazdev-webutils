@@ -12,7 +12,7 @@ define([
 ) {
 	'use strict';
 	var expect = chai.expect;
-	
+
 	describe('Xhr test suite.', function () {
 		describe('Constructor', function () {
 			it('Can be defined.', function () {
