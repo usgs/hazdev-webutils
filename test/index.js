@@ -30,6 +30,8 @@ require([
 	require([
 		'spec/mvc/CollectionTest',
 		'spec/mvc/ModelTest',
+		'spec/mvc/SelectViewTest',
+
 		'spec/util/EventsTest',
 		'spec/util/UtilTest',
 		'spec/util/XhrTest'
