@@ -130,13 +130,13 @@ define([
 			    queryString,
 			    xhr,
 			    h,
-			    urlParts;
+			    a;
 
 			options = Util.extend({}, DEFAULT_AJAX_OPTIONS, options);
 			url = options.url;
 
 			// no cross-domain stuff
-			var a = document.createElement('a'); // Hack to parse only the pathname
+			a = document.createElement('a'); // Hack to parse only the pathname
 			a.setAttribute('href', url);
 			url = a.pathname;
 
