@@ -145,7 +145,7 @@ define([
 		indexes.sort(function(a,b) { return a-b; });
 
 		for (i = indexes.length-1; i >= 0; i--) {
-			this._data.splice(indexes[i]);
+			this._data.splice(indexes[i], 1);
 		}
 
 		// reset id cache
@@ -169,7 +169,7 @@ define([
 		this.destroy();
 
 		// set new array
-		this._data = data;
+		this._data = data || [];
 
 		// notify listeners
 		this.trigger('reset', data);
