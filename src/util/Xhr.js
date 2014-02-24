@@ -231,7 +231,9 @@ define([
 		 * @return a unique callback name.
 		 */
 		getCallbackName: function () {
-			return '_xhr_callback_' + new Date().getTime();
+			var now = new Date().getTime(),
+			    rand = parseInt(Math.random() * now, 10);
+			return '_xhr_callback_' + now + '_' + rand;
 		}
 
 	};
