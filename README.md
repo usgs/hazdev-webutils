@@ -43,6 +43,10 @@ will be fixed in a subsequent update to this bower package.
 Changelog
 ---------
 
+### 0.0.5 - 2014-02-24
+ - Added toJSON method to Collection and Model for serialization to JSON.
+ - Updated Xhr.jsonp to support multiple requests made in same millisecond.
+
 ### 0.0.4 - 2013-11-21
  - Added an Xhr utility class for making AJAX and JSONP requests.
 
