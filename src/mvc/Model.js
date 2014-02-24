@@ -99,5 +99,13 @@ define([
 		return null;
 	};
 
+	/**
+	 * Override toJSON method to serialize only model data.
+	 */
+	Model.prototype.toJSON = function () {
+		return this._model;
+	};
+
+
 	return Model;
 });

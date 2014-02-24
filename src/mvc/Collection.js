@@ -233,6 +233,14 @@ define([
 		}
 	};
 
+	/**
+	 * Override toJSON method to serialize only collection data.
+	 */
+	Collection.prototype.toJSON = function () {
+		return this._data;
+	};
+
+
 	// return from constructor
 	return Collection;
 });
