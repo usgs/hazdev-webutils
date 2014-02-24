@@ -205,6 +205,29 @@ define([
 			});
 		});
 
+		describe('selectById()', function () {
+			var model = new Model({'id': 'test', 'value': 1.2}),
+			    model2 = new Model({'id': 'test2', 'value': 2.1}),
+			    collection = new Collection([model, model2]);
+
+			it('clears selection if no matching item found', function () {
+				// select an item
+				collection.select(model);
+				// select using an invalid id
+				collection.selectById('test3');
+				// shouldn't have a selection
+				expect(collection.getSelected()).to.equal(null);
+			});
+
+			it('selects item with corresponding id', function () {
+				// select an item
+				collection.select(model2);
+				// select a different item
+				collection.selectById('test');
+				// should be model with id 'test'
+				expect(collection.getSelected()).to.equal(model);
+			});
+		});
 
 		describe('sort()', function () {
 			it('sorts the underlying array', function () {

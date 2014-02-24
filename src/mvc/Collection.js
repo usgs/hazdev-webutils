@@ -234,6 +234,18 @@ define([
 	};
 
 	/**
+	 * Utility method to select collection item using its id.
+	 */
+	Collection.prototype.selectById = function (id) {
+		var obj = this.get(id);
+		if (obj !== null) {
+			this.select(obj);
+		} else {
+			this.deselect();
+		}
+	};
+
+	/**
 	 * Override toJSON method to serialize only collection data.
 	 */
 	Collection.prototype.toJSON = function () {
