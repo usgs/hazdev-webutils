@@ -6,7 +6,8 @@ define([
 ) {
 	'use strict';
 
-	var DEFAULT_JSONP_OPTIONS,
+	var CALLBACK_SEQUENCE = 0,
+	    DEFAULT_JSONP_OPTIONS,
 	    DEFAULT_AJAX_OPTIONS,
 	    Xhr;
 
@@ -231,9 +232,8 @@ define([
 		 * @return a unique callback name.
 		 */
 		getCallbackName: function () {
-			var now = new Date().getTime(),
-			    rand = parseInt(Math.random() * now, 10);
-			return '_xhr_callback_' + now + '_' + rand;
+			return '_xhr_callback_' + new Date().getTime() +
+					'_' + (++CALLBACK_SEQUENCE);
 		}
 
 	};
