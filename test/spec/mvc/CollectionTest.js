@@ -222,6 +222,27 @@ define([
 			});
 		});
 
+		describe('toJSON()', function () {
+			it('serializes collection data', function () {
+				var data,
+				    collection;
+
+				data = [
+					{
+						'key1': 'value1',
+						'key2': 2.1234
+					},
+					{
+						'obj1': 1.5678,
+						'obj2': 'blah'
+					}
+				];
+				collection = new Collection(data);
+
+				expect(JSON.parse(JSON.stringify(collection))).to.deep.equal(data);
+			});
+		});
+
 	});
 
 });

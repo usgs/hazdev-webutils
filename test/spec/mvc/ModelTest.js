@@ -77,6 +77,21 @@ define([
 			});
 		});
 
+		describe('toJSON()', function () {
+			it('serializes model data', function () {
+				var data,
+				    model;
+
+				data = {
+					'key1': 'value1',
+					'key2': 2.1234
+				};
+				model = new Model(data);
+
+				expect(JSON.parse(JSON.stringify(model))).to.deep.equal(data);
+			});
+		});
+
 	});
 
 });
