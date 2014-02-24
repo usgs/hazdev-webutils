@@ -106,5 +106,18 @@ define([
 			});
 		});
 
+		describe('getCallbackName()', function () {
+			it('returns unique callback names', function () {
+				var i,
+				    callbackNames = {},
+				    name;
+
+				for (i = 0; i < 1000; i++) {
+					name = Xhr.getCallbackName();
+					expect(callbackNames).to.not.have.ownProperty(name);
+					callbackNames[name] = true;
+				}
+			});
+		});
 	});
 });
