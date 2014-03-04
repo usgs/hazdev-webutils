@@ -43,7 +43,7 @@ define([
 	Collection.prototype.data = function () {
 		return this._data;
 	};
-	
+
 	/**
 	 * Sorts the data.
 	 */
@@ -78,7 +78,7 @@ define([
 
 	/**
 	 * Get an object in the collection by ID.
-	 * 
+	 *
 	 * Uses getIds(), so builds map of ID to INDEX on first access O(N).
 	 * Subsequent access should be O(1).
 	 *
@@ -193,7 +193,7 @@ define([
 	};
 
 
-	/** 
+	/**
 	 * Get the currently selected object.
 	 */
 	Collection.prototype.getSelected = function () {
@@ -237,7 +237,19 @@ define([
 	 * Override toJSON method to serialize only collection data.
 	 */
 	Collection.prototype.toJSON = function () {
-		return this._data;
+		var json = this._data.slice(0),
+		    item,
+		    i,
+		    len;
+		for (i = 0, len = json.length; i < len; i++) {
+			item = json[i];
+			if (typeof item === 'object' &&
+					item !== null &&
+					typeof item.toJSON === 'function') {
+				json[i] = item.toJSON();
+			}
+		}
+		return json;
 	};
 
 
