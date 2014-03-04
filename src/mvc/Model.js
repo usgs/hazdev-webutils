@@ -84,7 +84,7 @@ define([
 	 * @param key {String}
 	 *      the value to get; when key is undefined, returns the object with all
 	 *      values.
-	 * @return 
+	 * @return
 	 *      - if key is specified, the value or null if no value exists.
 	 *      - when key is not specified, the underlying object is returned.
 	 *        (Any changes to this underlying object will not trigger events!!!)
@@ -103,7 +103,18 @@ define([
 	 * Override toJSON method to serialize only model data.
 	 */
 	Model.prototype.toJSON = function () {
-		return this._model;
+		var json = Util.extend({}, this._model),
+		    key,
+		    value;
+		for (key in json) {
+			value = json[key];
+			if (typeof value === 'object' &&
+					value !== null &&
+					typeof value.toJSON === 'function') {
+				json[key] = value.toJSON();
+			}
+		}
+		return json;
 	};
 
 
