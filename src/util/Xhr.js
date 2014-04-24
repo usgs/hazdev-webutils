@@ -126,7 +126,8 @@ define([
 		 *      Content-type header must also be specified. Default is null.
 		 */
 		ajax: function (options) {
-			var url,
+			var inputUrl,
+			    url,
 			    postdata,
 			    queryString,
 			    xhr,
@@ -134,12 +135,22 @@ define([
 			    a;
 
 			options = Util.extend({}, DEFAULT_AJAX_OPTIONS, options);
+			inputUrl = options.url;
 			url = options.url;
 
 			// no cross-domain stuff
 			a = document.createElement('a'); // Hack to parse only the pathname
 			a.setAttribute('href', url);
 			url = a.pathname;
+
+			// Fix IE pathname bug
+			if (url.substr(0, 1) !== '/' && (
+					inputUrl.substr(0, 1) === '/' ||
+					inputUrl.substr(0, 5) === 'http:' ||
+					input.Url.substr(0, 6) === 'https:')) {
+				// If input URL was absolute, so should be the resulting URL
+				url = '/' + url;
+			}
 
 			postdata = options.rawdata;
 
