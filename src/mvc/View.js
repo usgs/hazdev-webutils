@@ -21,7 +21,7 @@ define([
 		this._el = (options && options.hasOwnProperty('el')) ?
 				options.el : document.createElement('div');
 		// issue #14: this is a bridge, and only "el" or "_el" should remain.
-		this.el = this._el;
+		this._el = this._el;
 
 		this._initialize();
 	};
