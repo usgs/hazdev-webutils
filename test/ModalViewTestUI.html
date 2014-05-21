@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="/mvc/ModalView.css" />
+</head>
+<body>
+		<h2>This is a test</h2>
+
+	<script src="requirejs/require.js"></script>
+	<script>
+		require.config({
+
+		});
+
+		require([
+			'mvc/ModalView'
+
+		], function (
+			ModalView
+
+		) {
+			'use strict';
+			var modalView = new ModalView ( 'hello', {
+				title: 'this is a title'
+			});
+
+			modalView.show();
+
+		});
+	</script>
+</body>
+</html>
