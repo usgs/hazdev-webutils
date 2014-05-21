@@ -69,7 +69,6 @@ define([
 		this._onMaskKeyDown = this._onMaskKeyDown.bind(this);
 		this.render();
 
-
 		if (!__INITIALIZED__) {
 			_initialize();
 		}
