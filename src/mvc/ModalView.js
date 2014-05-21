@@ -65,10 +65,8 @@ define([
 		this.message = message;
 		this.options = Util.extend({}, DEFAULTS, options||null);
 		this._el.modal = this;
-
-		this._onMaskKeyDown = this._onMaskKeyDown.bind(this);
-
 		this._createViewSkeleton(this.el, this.options);
+		this._onMaskKeyDown = this._onMaskKeyDown.bind(this);
 		this.render();
 
 
