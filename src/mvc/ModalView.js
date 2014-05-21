@@ -47,8 +47,8 @@ define([
 		MASK = document.createElement('div');
 		Util.addClass(MASK, 'modal');
 		MASK_VISIBLE = false;
-
 		__INITIALIZED__ = true;
+
 	};
 
 	var _buttonCallback = function (evt) {
@@ -66,7 +66,9 @@ define([
 		this.options = Util.extend({}, DEFAULTS, options||null);
 		this._el.modal = this;
 
-		this._createViewSkeleton(this._el, this.options);
+		this._onMaskKeyDown = this._onMaskKeyDown.bind(this);
+
+		this._createViewSkeleton(this.el, this.options);
 		this.render();
 
 
@@ -199,6 +201,13 @@ define([
 		return this;
 	};
 
+	ModalView.prototype._onMaskKeyDown = function (event) {
+		if (event.keyCode === 27) {
+			this.hide();
+		}
+	};
+
+
 	ModalView.prototype.show = function () {
 		var oldChild = null;
 
@@ -218,6 +227,7 @@ define([
 		if (!MASK_VISIBLE) {
 			document.body.appendChild(MASK);
 			MASK_VISIBLE = true;
+			MASK.addEventListener('keydown', this._onMaskKeyDown);
 		}
 
 		// For accessibility, focus the top of this new dialog
@@ -245,6 +255,7 @@ define([
 		} else if (MASK_VISIBLE) {
 			MASK.parentNode.removeChild(MASK);
 			MASK_VISIBLE = false;
+			MASK.removeEventListener('keydown', this._onMaskKeyDown);
 		}
 
 		if (FOCUS_STACK.length > 0) {
