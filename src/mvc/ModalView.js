@@ -144,6 +144,13 @@ define([
 		return button;
 	};
 
+
+	ModalView.prototype._onMaskKeyDown = function (event) {
+		if (event.keyCode === 27) {
+			this.hide();
+		}
+	};
+
 	ModalView.prototype.setMessage = function (message) {
 		this.message = message;
 
@@ -196,13 +203,6 @@ define([
 		this.trigger('render', this);
 		return this;
 	};
-
-	ModalView.prototype._onMaskKeyDown = function (event) {
-		if (event.keyCode === 27) {
-			this.hide();
-		}
-	};
-
 
 	ModalView.prototype.show = function () {
 		var oldChild = null;
