@@ -223,7 +223,7 @@ define([
 		if (!MASK_VISIBLE) {
 			document.body.appendChild(MASK);
 			MASK_VISIBLE = true;
-			MASK.addEventListener('keydown', this._onMaskKeyDown);
+			window.addEventListener('keydown', this._onMaskKeyDown);
 		}
 
 		// For accessibility, focus the top of this new dialog
@@ -251,7 +251,7 @@ define([
 		} else if (MASK_VISIBLE) {
 			MASK.parentNode.removeChild(MASK);
 			MASK_VISIBLE = false;
-			MASK.removeEventListener('keydown', this._onMaskKeyDown);
+			window.removeEventListener('keydown', this._onMaskKeyDown);
 		}
 
 		if (FOCUS_STACK.length > 0) {
