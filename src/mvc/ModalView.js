@@ -48,7 +48,6 @@ define([
 		Util.addClass(MASK, 'modal');
 		MASK_VISIBLE = false;
 		__INITIALIZED__ = true;
-
 	};
 
 	var _buttonCallback = function (evt) {
@@ -130,9 +129,11 @@ define([
 		}
 
 		button.innerHTML = buttonInfo.text;
+
 		if (buttonInfo.title !== '') {
 			button.setAttribute('title', buttonInfo.title);
 		}
+
 		button.modal = this;
 		button.info = buttonInfo;
 
@@ -142,8 +143,6 @@ define([
 
 		return button;
 	};
-
-
 
 	ModalView.prototype.setMessage = function (message) {
 		this.message = message;
