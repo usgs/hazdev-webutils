@@ -34,7 +34,7 @@ define([
 	    DEFAULTS = {
 				closable: true, // Should modal box include little "X' in corner
 				title: document.title + ' Says...'
-			};
+	    };
 
 	var _initialize = function () {
 		// Create the dialog stack
@@ -64,7 +64,7 @@ define([
 		this.message = message;
 		this.options = Util.extend({}, DEFAULTS, options||null);
 		this._el.modal = this;
-		this._createViewSkeleton(this.el, this.options);
+		this._createViewSkeleton(this._el, this.options);
 		this._onKeyDown = this._onKeyDown.bind(this);
 		this.render();
 
@@ -144,11 +144,20 @@ define([
 		return button;
 	};
 
+	/**
+	 * This method is bound to the ModalView instance using the
+	 * Function.prototype.bind method, thus the reference to "this" is correct
+	 * even though this is a keydown event handler.
+	 *
+	 * @param event {KeyEvent}
+	 *      The event that triggered this call.
+	 */
 	ModalView.prototype._onKeyDown = function (event) {
 		if (event.keyCode === 27) {
 			this.hide();
 		}
 	};
+
 
 	ModalView.prototype.setMessage = function (message) {
 		this.message = message;
