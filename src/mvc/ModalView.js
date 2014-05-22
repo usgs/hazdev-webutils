@@ -34,7 +34,7 @@ define([
 	    DEFAULTS = {
 				closable: true, // Should modal box include little "X' in corner
 				title: document.title + ' Says...'
-	    };
+			};
 
 	var _initialize = function () {
 		// Create the dialog stack
@@ -43,7 +43,7 @@ define([
 		// Create the focus stack
 		FOCUS_STACK = [];
 
-	  // Create the modal mask
+		// Create the modal mask
 		MASK = document.createElement('div');
 		Util.addClass(MASK, 'modal');
 		MASK_VISIBLE = false;
@@ -65,7 +65,7 @@ define([
 		this.options = Util.extend({}, DEFAULTS, options||null);
 		this._el.modal = this;
 		this._createViewSkeleton(this.el, this.options);
-		this._onMaskKeyDown = this._onMaskKeyDown.bind(this);
+		this._onKeyDown = this._onKeyDown.bind(this);
 		this.render();
 
 		if (!__INITIALIZED__) {
@@ -144,8 +144,7 @@ define([
 		return button;
 	};
 
-
-	ModalView.prototype._onMaskKeyDown = function (event) {
+	ModalView.prototype._onKeyDown = function (event) {
 		if (event.keyCode === 27) {
 			this.hide();
 		}
@@ -223,7 +222,7 @@ define([
 		if (!MASK_VISIBLE) {
 			document.body.appendChild(MASK);
 			MASK_VISIBLE = true;
-			window.addEventListener('keydown', this._onMaskKeyDown);
+			window.addEventListener('keydown', this._onKeyDown);
 		}
 
 		// For accessibility, focus the top of this new dialog
@@ -251,7 +250,7 @@ define([
 		} else if (MASK_VISIBLE) {
 			MASK.parentNode.removeChild(MASK);
 			MASK_VISIBLE = false;
-			window.removeEventListener('keydown', this._onMaskKeyDown);
+			window.removeEventListener('keydown', this._onKeyDown);
 		}
 
 		if (FOCUS_STACK.length > 0) {
