@@ -284,8 +284,8 @@ define([
 				nextFocus.focus();
 			}
 		}
-		document.body.classList.remove('backgroundScrollDisable');
 
+		document.body.classList.remove('backgroundScrollDisable');
 		this.trigger('hide', this);
 		return this;
 	};
