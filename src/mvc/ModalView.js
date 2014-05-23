@@ -88,30 +88,37 @@ define([
 			}
 		}
 
-		header = this._el.appendChild(document.createElement('header'));
-		Util.addClass(header, 'modal-header');
+		if (this.options.title) {
+			header = this._el.appendChild(document.createElement('header'));
+			Util.addClass(header, 'modal-header');
 
-		this._title = header.appendChild(document.createElement('h3'));
-		this._title.setAttribute('tabIndex', '-1');
-		Util.addClass(this._title, 'modal-title');
+			this._title = header.appendChild(document.createElement('h3'));
+			this._title.setAttribute('tabIndex', '-1');
+			Util.addClass(this._title, 'modal-title');
 
-		if (this.options.closable) {
-			closeButton = header.appendChild(document.createElement('span'));
-			Util.addClass(closeButton, 'modal-close-link');
-			closeButton.setAttribute('title', 'Cancel');
-			closeButton.innerHTML = 'x';
-			Util.addEvent(closeButton, 'click', (function (modal) {
-				return function () {
-					modal.hide();
-				};
-			})(this));
+
+			if (this.options.closable) {
+				closeButton = header.appendChild(document.createElement('span'));
+				Util.addClass(closeButton, 'modal-close-link');
+				closeButton.setAttribute('title', 'Cancel');
+				closeButton.innerHTML = 'x';
+				Util.addEvent(closeButton, 'click', (function (modal) {
+					return function () {
+						modal.hide();
+					};
+				})(this));
+			}
 		}
 
 		this._content = this._el.appendChild(document.createElement('section'));
+		this._content.setAttribute('tabIndex', '-1');
 		Util.addClass(this._content, 'modal-content');
 
-		this._footer = this._el.appendChild(document.createElement('footer'));
-		Util.addClass(this._footer, 'modal-footer');
+		if (this.options.buttons && this.options.length) {
+			this._footer = this._el.appendChild(document.createElement('footer'));
+			Util.addClass(this._footer, 'modal-footer');
+		}
+
 	};
 
 	ModalView.prototype._createButton = function (info) {
@@ -194,13 +201,16 @@ define([
 		}
 
 		// Set the modal dialog title
-		this._title.innerHTML = this.options.title;
-
+		if (this.options.title) {
+			this._title.innerHTML = this.options.title;
+		}
 		// Clear any old footer content
-		while (this._footer.childNodes.length > 0) {
-			button = this._footer.firstChild;
-			Util.removeEvent(button, 'click', _buttonCallback);
-			this._footer.removeChild(button);
+		if (this.options.buttons && this.options.buttons.length) {
+			while (this._footer.childNodes.length > 0) {
+				button = this._footer.firstChild;
+				Util.removeEvent(button, 'click', _buttonCallback);
+				this._footer.removeChild(button);
+			}
 		}
 
 		// Set new footer content
@@ -216,7 +226,7 @@ define([
 		var oldChild = null;
 
 		// Mask already has a dialog in it, add to dialog stack and continue
-		while (MASK.childNodes.length !== 0) {
+		while (MASK.firstChild) {
 			oldChild = MASK.firstChild;
 			if (oldChild.modal instanceof ModalView) {
 				DIALOG_STACK.push(oldChild.modal);
@@ -236,7 +246,12 @@ define([
 
 		// For accessibility, focus the top of this new dialog
 		FOCUS_STACK.push(document.activeElement || false);
-		this._title.focus();
+
+		if (this.options.title) {
+			this._title.focus();
+		} else {
+			this._content.focus();
+		}
 
 		this.trigger('show', this);
 		return this;
