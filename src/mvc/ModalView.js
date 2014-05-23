@@ -240,6 +240,7 @@ define([
 		// Show the mask if not yet visible
 		if (!MASK_VISIBLE) {
 			document.body.appendChild(MASK);
+			document.body.classList.add('backgroundScrollDisable');
 			MASK_VISIBLE = true;
 			window.addEventListener('keydown', this._onKeyDown);
 		}
@@ -283,6 +284,7 @@ define([
 				nextFocus.focus();
 			}
 		}
+		document.body.classList.remove('backgroundScrollDisable');
 
 		this.trigger('hide', this);
 		return this;
