@@ -114,7 +114,7 @@ define([
 		this._content.setAttribute('tabIndex', '-1');
 		Util.addClass(this._content, 'modal-content');
 
-		if (this.options.buttons && this.options.length) {
+		if (this.options.buttons && this.options.buttons.length) {
 			this._footer = this._el.appendChild(document.createElement('footer'));
 			Util.addClass(this._footer, 'modal-footer');
 		}
