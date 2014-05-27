@@ -274,6 +274,7 @@ define([
 			DIALOG_STACK.pop().show();
 		} else if (MASK_VISIBLE) {
 			MASK.parentNode.removeChild(MASK);
+			document.body.classList.remove('backgroundScrollDisable');
 			MASK_VISIBLE = false;
 			window.removeEventListener('keydown', this._onKeyDown);
 		}
@@ -285,7 +286,6 @@ define([
 			}
 		}
 
-		document.body.classList.remove('backgroundScrollDisable');
 		this.trigger('hide', this);
 		return this;
 	};
