@@ -240,6 +240,7 @@ define([
 		// Show the mask if not yet visible
 		if (!MASK_VISIBLE) {
 			document.body.appendChild(MASK);
+			document.body.classList.add('backgroundScrollDisable');
 			MASK_VISIBLE = true;
 			window.addEventListener('keydown', this._onKeyDown);
 		}
@@ -273,6 +274,7 @@ define([
 			DIALOG_STACK.pop().show();
 		} else if (MASK_VISIBLE) {
 			MASK.parentNode.removeChild(MASK);
+			document.body.classList.remove('backgroundScrollDisable');
 			MASK_VISIBLE = false;
 			window.removeEventListener('keydown', this._onKeyDown);
 		}
