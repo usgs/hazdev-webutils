@@ -108,6 +108,8 @@ define([
 					};
 				})(this));
 			}
+		}  else {
+			this._el.classList.add('no-header');
 		}
 
 		this._content = this._el.appendChild(document.createElement('section'));
@@ -117,6 +119,8 @@ define([
 		if (this.options.buttons && this.options.buttons.length) {
 			this._footer = this._el.appendChild(document.createElement('footer'));
 			Util.addClass(this._footer, 'modal-footer');
+		} else {
+			this._el.classList.add('no-footer');
 		}
 
 	};
