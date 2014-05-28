@@ -26,9 +26,6 @@
 	padding-top: 43px;
 
 	overflow: hidden;
-
-	/*margin:10px;
-	padding:0;*/
 }
 .modal-header {
 	padding:0 36px 0 0; /* Space on right for close link [X]*/
@@ -87,16 +84,16 @@
 }
 .modal-footer {
 	position:absolute;
-		right:0;
-		bottom:0;
-		left:0;
-		background-color:#FFF;
-		-moz-box-shadow:0 -2px 5px rgba(53,53,53,.5);
-		-webkit-box-shadow:0 -2px 5px rgba(53,53,53,.5);
-		box-shadow:0 -2px 5px rgba(53,53,53,.5);
-		margin:0;
-		padding:8px 12px 8px;
-		height:37px;
+	right:0;
+	bottom:0;
+	left:0;
+	background-color:#FFF;
+	-moz-box-shadow:0 -2px 5px rgba(53,53,53,.5);
+	-webkit-box-shadow:0 -2px 5px rgba(53,53,53,.5);
+	box-shadow:0 -2px 5px rgba(53,53,53,.5);
+	margin:0;
+	padding:8px 12px 8px;
+	height:37px;
 }
 .modal-error > .modal-header > .modal-title,
 .modal-warning > .modal-header > .modal-title,
