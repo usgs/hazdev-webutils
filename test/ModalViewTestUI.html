@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
+	<style>
+		* {
+			-moz-box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+
+	</style>
 	<link rel="stylesheet" href="/mvc/ModalView.css" />
 </head>
 <body>
@@ -250,7 +258,7 @@
 		Integer bibendum turpis id libero imperdiet aliquam. Pellentesque convallis
 		massa et porta elementum. Aenean felis turpis, sodales sed sem tempor,
 		condimentum auctor ligula. Nulla quis pellentesque augue. Nullam vitae
-		volutpat ante, pretium euismod lectus.
+		volutpat ante, pretium euismod lectus. END.
 	</p>
 	<script src="requirejs/require.js"></script>
 	<script>
@@ -269,7 +277,7 @@
 			'use strict';
 
 			var modalView = new ModalView (
-					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
+					'START ipsum dolor sit amet, consectetur adipiscing elit. ' +
 					'Phasellus ultrices mattis lorem, et ultricies leo mattis ' +
 					'vel. Donec sodales adipiscing sem vel feugiat. Sed odio elit, ' +
 					'volutpat in dignissim in, mollis nec neque. Sed leo tortor, temp ' +
@@ -313,9 +321,45 @@
 					'risus eros, et dapibus nisl viverra eget. Suspendisse blandit ' +
 					'scelerisque libero at commodo. Proin pretium ullamcorper turpis, ' +
 					'in molestie orci tincidunt non. Integer ultrices, massa vel ' +
-					'dictum dignissim, mi ligula laoreet nunc, at congue orci orci ', {
+					'dictum dignissim, mi ligula laoreet nunc, at congue orci orci ' +
+
+					'Quisque quis odio lobortis leo gravida auctor non non mauris. ' +
+					'Cras dictum gravida tempor. Donec id leo massa. Maecenas eu '+
+					'ultricies dui. Maecenas massa ante, fringilla vel enim vel, ' +
+					'mattis scelerisque velit. In lorem erat, ornare sed dolor ' +
+					'adipiscing, interdum egestas odio. Donec vulputate urna erat. ' +
+					'Cras elementum nisi nec augue vehicula auctor. Pellentesque et' +
+					'augue elementum, egestas odio sed, viverra libero. Donec ultrices ' +
+					'risus eros, et dapibus nisl viverra eget. Suspendisse blandit ' +
+					'scelerisque libero at commodo. Proin pretium ullamcorper turpis, ' +
+					'in molestie orci tincidunt non. Integer ultrices, massa vel ' +
+					'dictum dignissim, mi ligula laoreet nunc, at congue orci orci ' +
+
+					'Quisque quis odio lobortis leo gravida auctor non non mauris. ' +
+					'Cras dictum gravida tempor. Donec id leo massa. Maecenas eu '+
+					'ultricies dui. Maecenas massa ante, fringilla vel enim vel, ' +
+					'mattis scelerisque velit. In lorem erat, ornare sed dolor ' +
+					'adipiscing, interdum egestas odio. Donec vulputate urna erat. ' +
+					'Cras elementum nisi nec augue vehicula auctor. Pellentesque et' +
+					'augue elementum, egestas odio sed, viverra libero. Donec ultrices ' +
+					'risus eros, et dapibus nisl viverra eget. Suspendisse blandit ' +
+					'scelerisque libero at commodo. Proin pretium ullamcorper turpis, ' +
+					'in molestie orci tincidunt non. Integer ultrices, massa vel ' +
+					'dictum dignissim, mi ligula laoreet nunc, at congue orci orci ' +
+
+					'Quisque quis odio lobortis leo gravida auctor non non mauris. ' +
+					'Cras dictum gravida tempor. Donec id leo massa. Maecenas eu '+
+					'ultricies dui. Maecenas massa ante, fringilla vel enim vel, ' +
+					'mattis scelerisque velit. In lorem erat, ornare sed dolor ' +
+					'adipiscing, interdum egestas odio. Donec vulputate urna erat. ' +
+					'Cras elementum nisi nec augue vehicula auctor. Pellentesque et' +
+					'augue elementum, egestas odio sed, viverra libero. Donec ultrices ' +
+					'risus eros, et dapibus nisl viverra eget. Suspendisse blandit ' +
+					'scelerisque libero at commodo. Proin pretium ullamcorper turpis, ' +
+					'in molestie orci tincidunt non. Integer ultrices, massa vel ' +
+					'dictum dignissim, mi ligula laoreet nunc, at congue orci END ', {
 				title: 'false',
-				buttons: ['buttons']
+				buttons: ['false']
 			});
 
 			modalView.show();
