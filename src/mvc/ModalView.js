@@ -162,6 +162,7 @@ define([
 	ModalView.prototype._onKeyDown = function (event) {
 		if (event.keyCode === 27) {
 			this.hide();
+			this.destroy();
 		}
 	};
 
@@ -288,6 +289,16 @@ define([
 
 		this.trigger('hide', this);
 		return this;
+	};
+
+	ModalView.prototype.destroy = function () {
+		this._content = null;
+		this._el = null;
+		this.options = null;
+		this._title = null;
+		this._footer = null;
+
+		View.prototype.destroy.call(this);
 	};
 
 	return ModalView;
