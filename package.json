@@ -1,6 +1,6 @@
 {
   "name": "hazdev-webutils",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "homepage": "http://earthquake.usgs.gov/",
   "repository": "https://github.com/usgs/hazdev-webutils.git",
   "description": "Utilities commonly used in web applications developed by the EHP HazDev team.",
