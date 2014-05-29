@@ -130,10 +130,16 @@ define([
 			    postdata,
 			    queryString,
 			    xhr,
-			    h;
+			    h,
+			    a;
 
 			options = Util.extend({}, DEFAULT_AJAX_OPTIONS, options);
 			url = options.url;
+			if (options.restrictOrigin) {
+				a = document.createElement('a'); // Hack to parse only the pathname
+				a.setAttribute('href', url);
+				url = a.pathname;
+			}
 			postdata = options.rawdata;
 
 			if (options.data !== null) {
