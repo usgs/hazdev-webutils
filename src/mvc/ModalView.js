@@ -66,6 +66,7 @@ define([
 		this._el.modal = this;
 		this._createViewSkeleton(this._el, this.options);
 		this._onKeyDown = this._onKeyDown.bind(this);
+		this.hide = this.hide.bind(this);
 		this.render();
 
 		if (!__INITIALIZED__) {
@@ -102,11 +103,8 @@ define([
 				Util.addClass(closeButton, 'modal-close-link');
 				closeButton.setAttribute('title', 'Cancel');
 				closeButton.innerHTML = 'x';
-				Util.addEvent(closeButton, 'click', (function (modal) {
-					return function () {
-						modal.hide();
-					};
-				})(this));
+				Util.addEvent(closeButton, 'click', this.hide);
+				this._closeButton = closeButton;
 			}
 		}  else {
 			this._el.classList.add('no-header');
@@ -292,6 +290,38 @@ define([
 
 		this.trigger('hide', this);
 		return this;
+	};
+
+	/**
+	 * Remove event listeners and free references.
+	 *
+	 * You should call hide first.
+	 */
+	ModalView.prototype.destroy = function () {
+		var button;
+
+		if (this.options.buttons && this.options.buttons.length) {
+			while (this._footer.childNodes.length > 0) {
+				button = this._footer.firstChild;
+				Util.removeEvent(button, 'click', _buttonCallback);
+				this._footer.removeChild(button);
+			}
+		}
+
+		if (this._closeButton) {
+			this._closeButton.removeEventListener('click', this.hide);
+			this._closeButton = null;
+		}
+
+		delete this._el.modal;
+		delete this._onKeyDown;
+		delete this.hide;
+
+		this._footer = null;
+		this._title = null;
+		this._content = null;
+		this._el = null;
+		this.options = null;
 	};
 
 	return ModalView;
