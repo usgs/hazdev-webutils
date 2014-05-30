@@ -13,6 +13,11 @@
 </head>
 <body>
 	<h2>This is a test</h2>
+	<button class="header-and-footer">Header and Footer</button>
+	<button class="no-header">No Header</button>
+	<button class="no-footer">No Footer</button>
+	<button class="no-header-or-footer">No Header or Footer</button>
+
 	<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
 		consectetur erat vel pulvinar placerat. Sed sem ante, egestas non molestie
@@ -276,8 +281,7 @@
 		) {
 			'use strict';
 
-			var modalView = new ModalView (
-					'START ipsum dolor sit amet, consectetur adipiscing elit. ' +
+			var LOREM = 					'START ipsum dolor sit amet, consectetur adipiscing elit. ' +
 					'Phasellus ultrices mattis lorem, et ultricies leo mattis ' +
 					'vel. Donec sodales adipiscing sem vel feugiat. Sed odio elit, ' +
 					'volutpat in dignissim in, mollis nec neque. Sed leo tortor, temp ' +
@@ -357,12 +361,42 @@
 					'risus eros, et dapibus nisl viverra eget. Suspendisse blandit ' +
 					'scelerisque libero at commodo. Proin pretium ullamcorper turpis, ' +
 					'in molestie orci tincidunt non. Integer ultrices, massa vel ' +
-					'dictum dignissim, mi ligula laoreet nunc, at congue orci END ', {
-				title: 'false',
-				buttons: ['false']
+					'dictum dignissim, mi ligula laoreet nunc, at congue orci END ';
+
+
+			var headerAndFooter = document.querySelector('.header-and-footer'),
+			    noHeader = document.querySelector('.no-header'),
+			    noFooter = document.querySelector('.no-footer'),
+			    noHeaderOrFooter = document.querySelector('.no-header-or-footer'),
+			    headerAndFooterModal,
+			    noHeaderModal,
+			    noFooterModal,
+			    noHeaderOrFooterModal;
+
+			headerAndFooterModal = new ModalView(LOREM, {
+				'title': 'Header',
+				'buttons': ['Footer']
 			});
 
-			modalView.show();
+			noHeaderModal = new ModalView(LOREM, {
+				'title': '',
+				'buttons': ['Footer']
+			});
+
+			noFooterModal = new ModalView(LOREM, {
+				'title': 'Header',
+				'buttons': []
+			});
+
+			noHeaderOrFooterModal = new ModalView(LOREM, {
+				'title': '',
+				'buttons': []
+			});
+
+			headerAndFooter.addEventListener('click', headerAndFooterModal.show.bind(headerAndFooterModal));
+			noHeader.addEventListener('click', noHeaderModal.show.bind(noHeaderModal));
+			noFooter.addEventListener('click', noFooterModal.show.bind(noFooterModal));
+			noHeaderOrFooter.addEventListener('click', noHeaderOrFooterModal.show.bind(noHeaderOrFooterModal));
 
 		});
 	</script>
