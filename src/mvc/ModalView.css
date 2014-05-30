@@ -27,7 +27,7 @@
 
 	overflow: hidden;
 }
-.modal-header {
+.modal-dialog > .modal-header {
 	padding:0 36px 0 0; /* Space on right for close link [X]*/
 	background-color:#DDD;
 	border-bottom:1px solid #999;
@@ -82,7 +82,7 @@
 .modal-dialog.no-footer {
 	padding-bottom: 8px;
 }
-.modal-footer {
+.modal-dialog > .modal-footer {
 	position:absolute;
 	right:0;
 	bottom:0;
