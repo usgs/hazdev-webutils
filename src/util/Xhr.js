@@ -135,6 +135,7 @@ define([
 
 			options = Util.extend({}, DEFAULT_AJAX_OPTIONS, options);
 			url = options.url;
+			// TODO move this if statement into external method
 			if (options.restrictOrigin) {
 				a = document.createElement('a'); // Hack to parse only the pathname
 				a.setAttribute('href', url);

@@ -56,6 +56,18 @@ define([
 
 				Xhr.ajax({
 					url: 'does-not-exist.hmtl',
+					restrictOrigin: true,
+					success: success,
+					error: error
+				});
+			});
+
+			it('restricts origin when specified', function (done) {
+				// TODO write this to test with & without options.restrictOrigin
+				var success = true;
+				var error = false;
+				Xhr.ajax({
+					url: 'ajax.hmtl',
 					success: success,
 					error: error
 				});
