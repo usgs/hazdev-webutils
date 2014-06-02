@@ -170,7 +170,7 @@ define([
 						if (options.success !== null) {
 							data = xhr.response;
 							contentType = xhr.getResponseHeader('Content-Type');
-							if (contentType.indexOf('json') !== -1) {
+							if (contentType && contentType.indexOf('json') !== -1) {
 								data = JSON.parse(data);
 							}
 							options.success(data, xhr);
