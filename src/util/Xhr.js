@@ -234,11 +234,18 @@ define([
 		},
 
 		restrictOrigin: function (url) {
-			var a;
+			var a,
+			    needSlash = false; // Needed for IE, which omits leading slash.
 
+			if (url.indexOf('http') === 0 || url.indexOf('/') === 0) {
+				needSlash = true;
+			}
 			a = document.createElement('a'); // Hack to parse only the pathname
 			a.setAttribute('href', url);
 			url = a.pathname;
+			if (needSlash && url.indexOf('/') !== 0) {
+				url = '/' + url;
+			}
 
 			return url;
 		}
