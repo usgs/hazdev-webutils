@@ -80,7 +80,7 @@ define([
 				fakeXhr.restore();
 			});
 
-			it('restricts origin when specified', function (done) {
+			it('restricts origin when specified', function () {
 				var success = sinon.spy(),
 				    error = sinon.spy();
 
@@ -98,7 +98,7 @@ define([
 				expect(error.called).to.equal(false);
 			});
 
-			it('keeps the origin when restrict is false', function (done) {
+			it('keeps the origin when restrict is false', function () {
 				var success = sinon.spy(),
 				    error = sinon.spy();
 
