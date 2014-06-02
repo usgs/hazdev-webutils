@@ -23,6 +23,7 @@ define([
 		});
 
 		describe('ajax()', function () {
+
 			it('is a function', function () {
 				expect(Xhr).to.respondTo('ajax');
 			});
@@ -62,16 +63,59 @@ define([
 				});
 			});
 
+		});
+
+		describe('ajax() - restrict origin', function () {
+			var fakeXhr,
+			    testXhr;
+
+			before(function () {
+				fakeXhr = sinon.useFakeXMLHttpRequest();
+				fakeXhr.onCreate = function (xhr) {
+					testXhr = xhr;
+				};
+			});
+
+			after(function () {
+				fakeXhr.restore();
+			});
+
 			it('restricts origin when specified', function (done) {
-				// TODO write this to test with & without options.restrictOrigin
-				var success = true;
-				var error = false;
+				var success = sinon.spy(),
+				    error = sinon.spy();
+
 				Xhr.ajax({
-					url: 'ajax.hmtl',
+					url: 'http://myfakesite.com/test/path.xml',
+					restrictOrigin: true,
 					success: success,
 					error: error
 				});
+
+				testXhr.respond(200, {}, "OK");
+
+				expect(testXhr.url).to.equal('/test/path.xml');
+				expect(success.called).to.equal(true);
+				expect(error.called).to.equal(false);
 			});
+
+			it('keeps the origin when restrict is false', function (done) {
+				var success = sinon.spy(),
+				    error = sinon.spy();
+
+				Xhr.ajax({
+					url: 'http://otherfakesite.com/test/path.xml',
+					restrictOrigin: false,
+					success: success,
+					error: error
+				});
+
+				testXhr.respond(200, {}, "OK");
+
+				expect(testXhr.url).to.equal('http://otherfakesite.com/test/path.xml');
+				expect(success.called).to.equal(true);
+				expect(error.called).to.equal(false);
+			});
+
 		});
 
 		describe('jsonp()', function () {
