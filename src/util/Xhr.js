@@ -130,14 +130,13 @@ define([
 			    postdata,
 			    queryString,
 			    xhr,
-			    h,
-			    a;
+			    h;
 
 			options = Util.extend({}, DEFAULT_AJAX_OPTIONS, options);
 			url = options.url;
 
 			if (options.restrictOrigin) {
-				url = Xhr.restrictOrigin(options.restrictOrigin, url);
+				url = Xhr.restrictOrigin(url);
 			}
 			postdata = options.rawdata;
 
@@ -234,14 +233,13 @@ define([
 					'_' + (++CALLBACK_SEQUENCE);
 		},
 
-		restrictOrigin: function (restrictOrigin, url) {
+		restrictOrigin: function (url) {
 			var a;
 
-			if (restrictOrigin) {
-				a = document.createElement('a'); // Hack to parse only the pathname
-				a.setAttribute('href', url);
-				url = a.pathname;
-			}
+			a = document.createElement('a'); // Hack to parse only the pathname
+			a.setAttribute('href', url);
+			url = a.pathname;
+
 			return url;
 		}
 
