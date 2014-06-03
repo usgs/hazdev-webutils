@@ -20,8 +20,6 @@ define([
 		// element where this view is rendered
 		this._el = (options && options.hasOwnProperty('el')) ?
 				options.el : document.createElement('div');
-		// issue #14: this is a bridge, and only "el" or "_el" should remain.
-		this._el = this._el;
 
 		this._initialize();
 	};
