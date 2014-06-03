@@ -64,9 +64,9 @@ define([
 		this.message = message;
 		this.options = Util.extend({}, DEFAULTS, options||null);
 		this._el.modal = this;
-		this._createViewSkeleton(this._el, this.options);
 		this._onKeyDown = this._onKeyDown.bind(this);
 		this.hide = this.hide.bind(this);
+		this._createViewSkeleton(this._el, this.options);
 		this.render();
 
 		if (!__INITIALIZED__) {
