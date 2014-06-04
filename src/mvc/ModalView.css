@@ -70,14 +70,15 @@
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
-	color: #777;
-	background: #E0E0E0;
-	border: 1px solid #CECECE;
+	color: #666;
+	background: #EEEEEE;
+	border: 1px solid #ddd;
 }
 .modal-close-link:hover,
 .modal-close-link:active {
-	color: #555;
-	background: #eaeaea;
+	color: #777;
+	background: #e0e0e0;
+	border-color:#ccc;
 }
 .modal-content {
 	height:100%;
