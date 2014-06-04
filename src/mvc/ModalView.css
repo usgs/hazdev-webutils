@@ -76,7 +76,6 @@
 }
 .modal-close-link:hover,
 .modal-close-link:active {
-	color: #777;
 	background: #e0e0e0;
 	border-color:#ccc;
 }
