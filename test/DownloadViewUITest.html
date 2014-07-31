@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<style>
+		* {
+			-moz-box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+	</style>
+	<link rel="stylesheet" href="/mvc/ModalView.css" />
+	<link rel="stylesheet" href="/mvc/DownloadView.css" />
+</head>
+<body>
+	<h2>This is a test</h2>
+
+	<script src="requirejs/require.js"></script>
+	<script>
+
+		require.config({
+
+		});
+
+		require([
+			'mvc/Collection',
+			'mvc/DownloadView'
+		], function (
+			Collection,
+			DownloadView
+		) {
+			'use strict';
+
+			var collection, button, downloadView;
+
+			collection = new Collection([
+				{id: 1, name: 'Name 1'},
+				{id: 2, name: 'Name 2'},
+				{id: 3, name: 'Name 3'},
+				{id: 4, name: 'Name 4'},
+				{id: 5, name: 'Name 5'},
+				{id: 6, name: 'Name 6'},
+				{id: 7, name: 'Name 7'},
+				{id: 8, name: 'Name 8'}
+			]);
+
+			downloadView = new DownloadView({
+				collection: collection,
+				format: function (collection) {
+					var data = collection.data(),
+					    item,
+					    i,
+					    len,
+					    content = [];
+
+					content.push('ID\tName');
+					for (i = 0, len = data.length; i < len; i++) {
+						item = data[i];
+						content.push(item.id + '\t' + item.name);
+					}
+					return content.join('\n');
+				},
+				help: '<p>Copy the following tab-separated-values and paste into a spreadsheet application</p>'
+			});
+
+			button = document.createElement('button');
+			button.innerHTML = 'Download';
+			button.addEventListener('click', downloadView.show);
+			document.querySelector('body').appendChild(button);
+		});
+	</script>
+</body>
+</html>
