@@ -1,4 +1,4 @@
-/* global define, describe, it */
+/* global define, describe, it, before, after */
 define([
 	'chai',
 	'sinon',
@@ -91,7 +91,7 @@ define([
 					error: error
 				});
 
-				testXhr.respond(200, {}, "OK");
+				testXhr.respond(200, {}, 'OK');
 
 				expect(testXhr.url).to.equal('/test/path.xml');
 				expect(success.called).to.equal(true);
@@ -109,7 +109,7 @@ define([
 					error: error
 				});
 
-				testXhr.respond(200, {}, "OK");
+				testXhr.respond(200, {}, 'OK');
 
 				expect(testXhr.url).to.equal('http://otherfakesite.com/test/path.xml');
 				expect(success.called).to.equal(true);
