@@ -29,6 +29,7 @@ define([
 		renderNow: true
 	};
 
+
 	/**
 	 * Create a CollectionTable to display a collection.
 	 *
@@ -50,6 +51,9 @@ define([
 		this._options = Util.extend({}, DEFAULTS, options);
 		View.call(this, options);
 	};
+
+	CollectionTable.prototype = Object.create(View.prototype);
+
 
 	/**
 	 * Initialize the CollectionTable.
