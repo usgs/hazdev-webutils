@@ -31,6 +31,7 @@ require([
 		'spec/mvc/CollectionTest',
 		'spec/mvc/ModelTest',
 		'spec/mvc/SelectViewTest',
+		'spec/mvc/CollectionTableTest',
 
 		'spec/util/EventsTest',
 		'spec/util/UtilTest',
