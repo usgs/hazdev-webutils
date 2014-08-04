@@ -48,7 +48,10 @@ define([
 	 * Sorts the data.
 	 */
 	Collection.prototype.sort = function (method) {
-		this._data.sort(method);
+		var data = this._data;
+		data.sort(method);
+		// "reset" to new sort order
+		this.reset(data);
 	};
 
 	/**
