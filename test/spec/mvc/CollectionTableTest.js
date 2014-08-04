@@ -2,13 +2,11 @@
 define([
 	'chai',
 	'sinon',
-	'mvc/Model',
 	'mvc/Collection',
 	'mvc/CollectionTable'
 ], function (
 	chai,
 	sinon,
-	Model,
 	Collection,
 	CollectionTable
 ) {
