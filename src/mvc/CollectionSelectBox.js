@@ -28,6 +28,11 @@ define([
 	 * @param options.className {String}
 	 *        Default 'collection-selectbox'.
 	 *        Class name for select box.
+	 * @param options.collection {Collection}
+	 *        the collection to display.
+	 *        NOTE: the collection should have an existing selection;
+	 *        otherwise, the first item in the select box will be selected
+	 *        in the UI and not in the collection.
 	 * @see mvc/View
 	 */
 	var CollectionSelectBox = function (options) {
@@ -82,18 +87,14 @@ define([
 		var options = this._options,
 		    format = options.format,
 		    data = this._collection.data(),
+		    selected = this._collection.getSelected(),
 		    i, len,
-		    selected,
 		    markup = [];
 
-		selected = this._collection.getSelected();
-		if (!selected) {
-			markup.push('<option value=""></option>');
-		}
-
 		for (i = 0, len = data.length; i < len; i++) {
-			markup.push('<option value="' + i + '">' +
-					format(data[i]) + '</option>');
+			markup.push('<option value="' + i + '"' +
+					(selected === data[i] ? ' selected="selected"' : '') +
+					'>' + format(data[i]) + '</option>');
 		}
 		this._selectBox.innerHTML = markup.join('');
 

@@ -96,13 +96,6 @@ define([
 				selectBox._onChange();
 				expect(collection.getSelected().id).to.equal(3);
 			});
-
-			it('deselects collection item', function () {
-				collection.selectById(2);
-				selectBox._selectBox.value = '';
-				selectBox._onChange();
-				expect(collection.getSelected()).to.equal(null);
-			});
 		});
 
 		describe('Shows selected collection item', function () {
@@ -127,13 +120,6 @@ define([
 				// value is zero based index into collection
 				expect(el.value).to.equal('1');
 			});
-
-			it('removes selected class on deselect', function () {
-				collection.select(collection.get(2));
-				collection.deselect();
-				expect(el.value).to.equal('');
-			});
-
 		});
 
 	});
