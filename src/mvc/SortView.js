@@ -6,7 +6,7 @@ define([
 ], function (
 	Collection,
 	View,
-	SelectView
+	CollectionSelectBox
 ) {
 	'use strict';
 
@@ -55,18 +55,20 @@ define([
 		sortCollection = new Collection(options.sorts);
 		sortCollection.on('select', this._onSelect, this);
 		this._sortCollection = sortCollection;
+		// initial sort order
+		if (options.defaultSort) {
+			sortCollection.select(sortCollection.get(options.defaultSort));
+		} else {
+			sortCollection.select(sortCollection.data()[0]);
+		}
 
-		this._selectView = new SelectView({
+		this._selectView = new CollectionSelectBox({
 			el: el.querySelector('select'),
 			collection: sortCollection,
 			format: function (item) {
 				return item.title;
 			}
 		});
-
-		if (options.defaultSort) {
-			sortCollection.select(sortCollection.get(options.defaultSort));
-		}
 	};
 
 	/**
