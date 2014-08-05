@@ -1,22 +1,6 @@
-.download-view {
-	position:relative;
-	height:100%;
-}
-
-.download-view > .help {
-	position:absolute;
-	left:0;
-	top:0;
-	height:20%;
-	width:100%;
-	overflow-y: auto;
-}
 
 .download-view > .download {
-	position: absolute;
-	left:0;
-	top:23%;
-	height:77%;
+	min-height:10em;
 	width:100%;
 }
 
