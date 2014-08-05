@@ -8,6 +8,9 @@
 			-webkit-box-sizing:border-box;
 			box-sizing:border-box;
 		}
+		.selected > td {
+			background-color:#ccc;
+		}
 	</style>
 	<link rel="stylesheet" href="/mvc/ModalView.css" />
 	<link rel="stylesheet" href="/mvc/DownloadView.css" />
@@ -17,56 +20,63 @@
 
 	<script src="requirejs/require.js"></script>
 	<script>
-
 		require.config({
 
 		});
 
 		require([
 			'mvc/Collection',
-			'mvc/DownloadView'
+			'mvc/DataTable'
 		], function (
 			Collection,
-			DownloadView
+			DataTable
 		) {
 			'use strict';
 
-			var collection, button, downloadView;
+			var collection, button, dataTable, body;
 
 			collection = new Collection([
-				{id: 1, name: 'Name 1'},
-				{id: 2, name: 'Name 2'},
-				{id: 3, name: 'Name 3'},
-				{id: 4, name: 'Name 4'},
-				{id: 5, name: 'Name 5'},
-				{id: 6, name: 'Name 6'},
-				{id: 7, name: 'Name 7'},
-				{id: 8, name: 'Name 8'}
+				{id: 1, name: 'Name z'},
+				{id: 2, name: 'Name y'},
+				{id: 3, name: 'Name x'},
+				{id: 4, name: 'Name w'},
+				{id: 5, name: 'Name v'},
+				{id: 6, name: 'Name u'},
+				{id: 7, name: 'Name t'},
+				{id: 8, name: 'Name s'}
 			]);
 
-			downloadView = new DownloadView({
+			dataTable = new DataTable({
 				collection: collection,
-				format: function (collection) {
-					var data = collection.data(),
-					    item,
-					    i,
-					    len,
-					    content = [];
-
-					content.push('ID\tName');
-					for (i = 0, len = data.length; i < len; i++) {
-						item = data[i];
-						content.push(item.id + '\t' + item.name);
+				columns: [
+					{
+						'className': 'id',
+						'title': 'ID',
+						'format': function (item) { return item.id; }
+					},
+					{
+						'className': 'name',
+						'title': 'Name',
+						'format': function (item) { return item.name; }
 					}
-					return content.join('\n');
-				},
-				help: '<p>Copy the following tab-separated-values and paste into a spreadsheet application</p>'
+				],
+				sorts: [
+					{
+						'id': 'id',
+						'title': 'ID',
+						'sortBy': function (item) { return item.id; }
+					},
+					{
+						'id': 'name',
+						'title': 'Name',
+						'sortBy': function (item) { return item.name; }
+					}
+				],
+				defaultSort: 'name',
+				clickToSelect: true
 			});
 
-			button = document.createElement('button');
-			button.innerHTML = 'Download';
-			button.addEventListener('click', downloadView.show);
-			document.querySelector('body').appendChild(button);
+			document.querySelector('body').appendChild(dataTable._el);
 		});
 	</script>
 </body>
