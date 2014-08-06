@@ -35,7 +35,7 @@ define([
 	 */
 	var DataTable = function (options) {
 		this._options = options;
-		View.call(this);
+		View.call(this, options);
 	};
 
 	/**
