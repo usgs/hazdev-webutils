@@ -22,6 +22,8 @@ define([
 				//   title: '',
 				// format function for data cells
 				//   format: function (item) { return ''; }
+				// whether column is header for its row
+				//   header: false
 			//}
 		],
 		emptyMarkup: 'No data to display',
@@ -42,6 +44,9 @@ define([
 	 *        - className {String} class name for header and data cells.
 	 *        - title {String} markup for header cell.
 	 *        - format {Function(item)} function to format data cell.
+	 *        - header {Boolean} default false.
+	 *          whether column is row header and should use th scope=row (true),
+	 *          or a regular data cell and should use td (false).
 	 * @param options.clickToSelect {Boolean}
 	 *        Default false.  Whether clicking on table rows should select
 	 *        the corresponding collection item.
@@ -137,7 +142,8 @@ define([
 			markup.push('<tr data-id="' + id + '">');
 			for (c = 0, cLen = columns.length; c < cLen; c++) {
 				column = columns[c];
-				markup.push('<td class="' + column.className + '">' +
+				markup.push('<' + (column.header ? 'th scope="row"' : 'td') +
+						' class="' + column.className + '">' +
 						column.format(item) + '</td>');
 			}
 			markup.push('</tr>');
