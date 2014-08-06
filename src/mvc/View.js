@@ -31,6 +31,11 @@ define([
 	View.prototype.render = function () {
 	};
 
+	/** Undo any initialization. */
+	View.prototype.destroy = function () {
+		this._el = null;
+	};
+
 	// return constructor from closure
 	return View;
 });
