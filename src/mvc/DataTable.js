@@ -35,18 +35,22 @@ define([
 	 */
 	var DataTable = function (options) {
 		this._options = options;
-		View.call(this);
+		View.call(this, options);
 	};
 
 	/**
 	 * Initialize the DataTable.
 	 */
 	DataTable.prototype._initialize = function () {
-		var el = this._el,
+		var el,
 		    options = this._options,
 		    collection = options.collection,
 		    tools;
 
+		// call parent initialize
+		View.prototype._initialize.call(this);
+
+		el = this._el;
 		el.innerHTML = '<div class="datatable-tools"></div>' +
 				'<div class="datatable-data"></div>';
 		el.classList.add('datatable');
@@ -82,6 +86,31 @@ define([
 				Util.extend({}, options, {
 					el: el.querySelector('.datatable-data')
 				}));
+	};
+
+	/**
+	 * Destroy the DataTable.
+	 */
+	DataTable.prototype.destroy = function () {
+		if (this._sortView) {
+			this._sortView.destroy();
+			this._sortView = null;
+		}
+
+		this._downloadButton.removeEventListener('click', this._downloadView.show);
+		this._downloadButton = null;
+
+		delete this._formatDownload;
+		this._downloadView.destroy();
+		this._downloadView = null;
+
+		this._collectionTable.destroy();
+		this._collectionTable = null;
+
+		this._options = null;
+
+		// call parent destroy
+		View.prototype.destroy.call(this);
 	};
 
 	/**

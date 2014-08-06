@@ -125,6 +125,51 @@ define([
 
 		});
 
+		describe('Support row headers', function () {
+			var el = document.createElement('div'),
+			    collection,
+			    collectionTable;
+
+			collection = new Collection([
+				{id: 1},
+				{id: 2},
+				{id: 3}
+			]);
+
+			collectionTable = new CollectionTable({
+				el: el,
+				collection: collection,
+				columns: [
+					{
+						className: 'id',
+						title: 'ID',
+						header: true,
+						format: function (item) {
+							return item.id;
+						}
+					},
+					{
+						className: 'name',
+						title: 'Name',
+						format: function (item) {
+							return item.id;
+						}
+					}
+				]
+			});
+
+			it('uses th scope=row when header is true', function () {
+				var idCell = el.querySelector('tbody > tr > .id');
+				expect(idCell.nodeName).to.equal('TH');
+				expect(idCell.getAttribute('scope')).to.equal('row');
+			});
+
+			it('uses td when header is not true', function () {
+				var nameCell = el.querySelector('tbody > tr > .name');
+				expect(nameCell.nodeName).to.equal('TD');
+				expect(nameCell.getAttribute('scope')).to.equal(null);
+			});
+		});
 	});
 
 });
