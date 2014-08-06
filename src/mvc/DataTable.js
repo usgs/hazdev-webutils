@@ -16,6 +16,22 @@ define([
 
 	/**
 	 * Create a new DataTable to display a collection.
+	 *
+	 * @param options {Object}
+	 *        all options except "el" are passed to CollectionTable.
+	 * @param options.sorts {Array<Object>}
+	 *        sort objects used by SortView.
+	 * @param options.formatDownload {Function(Collection)}
+	 *        Optional, default is Tab Separated Values.
+	 * @param options.columns {Array<Object>}
+	 *        column objects used by CollectionTable.
+	 * @param options.columns[X].formatDownload {Function(Object)}
+	 *        Optional, default is column.format.
+	 *        Function used to format a column value for download.
+	 *        Used by DataTable._formatDownload.
+	 * @see CollectionTable
+	 * @see SortView
+	 * @see DownloadView
 	 */
 	var DataTable = function (options) {
 		this._options = options;

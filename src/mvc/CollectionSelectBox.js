@@ -83,6 +83,9 @@ define([
 		}
 	};
 
+	/**
+	 * Destroy CollectionSelectBox.
+	 */
 	CollectionSelectBox.prototype.destroy = function () {
 		var collection = this._collection;
 
