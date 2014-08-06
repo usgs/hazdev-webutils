@@ -70,6 +70,15 @@
 						'id': 'name',
 						'title': 'Name',
 						'sortBy': function (item) { return item.name; }
+					},
+					{
+						'id': 'custom',
+						'title': 'Custom',
+						'sort': function (a, b) {
+							var arand = a.id * (Math.random() * 100),
+							    brand = b.id * (Math.random() * 100);
+							return brand - arand;
+						}
 					}
 				],
 				defaultSort: 'name',
