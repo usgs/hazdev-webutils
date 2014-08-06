@@ -13,11 +13,17 @@ define([
 	/**
 	 * Construct a SortView.
 	 *
+	 * Sort objects can specify a custom sort function (sort),
+	 * or a value to be sorted (sortBy) and sort order (descending).
+	 *
 	 * @param options {Object}
 	 * @param options.sorts {Array<Object>}
 	 *        array of sort objects, with properties:
 	 *        - id {String|Number} unique identifier for sort
 	 *        - title {String} display name for sort
+	 *        And:
+	 *        - sort {Function(a, b)} sorting function.
+	 *        Or:
 	 *        - sortBy {Function(Object)} return value for sorting.
 	 *        - descending {Boolean} default false, whether to
 	 *          sort ascending (true) or descending (false).
@@ -88,10 +94,15 @@ define([
 	 * Handle sort collection select event.
 	 */
 	SortView.prototype._onSelect = function () {
-		var selected = this._sortCollection.getSelected();
+		var selected = this._sortCollection.getSelected(),
+		    sort;
 
 		if (selected) {
-			this._collection.sort(this._getSortFunction(selected.sortBy, selected.descending));
+			sort = selected.sort;
+			if (!sort) {
+				sort = this._getSortFunction(selected.sortBy, selected.descending);
+			}
+			this._collection.sort(sort);
 		}
 	};
 
