@@ -2,8 +2,7 @@
 	position:fixed !important;
 	top:0; right:0; bottom:0; left:0;
 	margin:0;
-	/*padding:56px 0 61px;*/
-	padding:8px 0;
+	padding:0;
 	background-color:#EEE;
 	background-color:rgba(0,0,0,0.75);
 	z-index:9999;
@@ -22,78 +21,72 @@
 	width:auto;
 	height:auto;
 	background-color:#FFF;
-	padding-bottom: 38px;
-	padding-top: 43px;
-
+	padding: 43px 0;
 	overflow: hidden;
 }
-.modal-dialog > .modal-header {
-	padding:0 36px 0 0; /* Space on right for close link [X]*/
-	background-color:#DDD;
-	border-bottom:1px solid #999;
-	color:#333;
-	z-index: 10;
+
+.modal-dialog > .modal-header,
+.modal-dialog > .modal-footer {
+	box-sizing:border-box;
 	position: absolute;
-	top:0;
 	left:0;
 	right:0;
 	height:43px;
+	z-index:10;
+	margin:0;
+	padding:10px;
+	color:#333;
+	-webkit-box-shadow:0 0 7px rgba(0,0,0,0.6);
+	-moz-box-shadow:0 0 7px rgba(0,0,0,.6);
+	box-shadow:0 0 7px rgba(0,0,0,.6);
 }
 .modal-dialog.no-header {
-	padding-top:8px;
+	padding-top: 8px;
+}
+
+.modal-dialog.no-footer {
+	padding-bottom:8px;
+}
+.modal-dialog > .modal-header {
+	top:0;
+	padding-right:36px; /* Space on right for close link [X]*/
+}
+.modal-dialog > .modal-footer {
+	bottom:0;
 }
 .modal-title {
 	margin:0;
-	padding:10px 16px;
+	padding:0;
 	outline:none;
 }
 .modal-close-link {
 	display: block;
 	position: absolute;
-	top: 9px;
-	right: 9px;
-	width: 25px;
-	height: 24px;
-
-	color: #fff;
-	font:bold 18px/1.2 'Arial';
+	top: 5px;
+	right: 5px;
+	width: 34px;
+	height: 33px;
+	font: bold 20px/1.4 arial;
 	text-align: center;
 	text-decoration: none;
-
 	cursor: pointer;
-	background: #BBB;
-	border: 1px solid #999;
+	color: #666;
+	background: #EEEEEE;
+	border: 1px solid #ddd;
 }
-.modal-close-link:hover {
-	color:#C10C0C;
+.modal-close-link:hover,
+.modal-close-link:active {
+	background: #e0e0e0;
+	border-color:#ccc;
 }
 .modal-content {
 	height:100%;
 	-webkit-overflow-scrolling:touch;
 	max-height:none;
 	overflow: auto;
-
-	margin:0 0 0 16px;
-	padding:8px 16px 8px 0;
-	/*max-height:540px;*/
-	overflow-y:auto;
-	outline: none;
-}
-.modal-dialog.no-footer {
-	padding-bottom: 8px;
-}
-.modal-dialog > .modal-footer {
-	position:absolute;
-	right:0;
-	bottom:0;
-	left:0;
-	background-color:#FFF;
-	-moz-box-shadow:0 -2px 5px rgba(53,53,53,.5);
-	-webkit-box-shadow:0 -2px 5px rgba(53,53,53,.5);
-	box-shadow:0 -2px 5px rgba(53,53,53,.5);
 	margin:0;
-	padding:8px 12px 8px;
-	height:37px;
+	padding:10px;
+	outline: none;
 }
 .modal-error > .modal-header > .modal-title,
 .modal-warning > .modal-header > .modal-title,
@@ -125,28 +118,28 @@
 }
 /* Center modal once it stops getting wider */
 @media screen and (min-width:660px) {
-.modal-dialog {
-	margin:10px auto;
+	.modal-dialog {
+		margin:10px auto;
 
-	/* center by positioning left edge in middle of screen,
-	 	 then shifting with negative left margin*/
-	width:640px;
-	left:50%;
-	right:auto;
-	margin-left:-320px;
-}
-}
-/* Detach modal from top anchor and slide down */
-@media screen and (min-height:660px) {
-.modal-dialog {
-	margin-bottom:1.52%;
-	margin-top:auto;
-}
-}
-/* Sufficient space on top to see large USGS logo */
-@media screen and (min-height:722px) {
-.modal-dialog {
-	margin-bottom:auto;
-	margin-top:72px;
-}
+		/* center by positioning left edge in middle of screen,
+		 	 then shifting with negative left margin*/
+		width:640px;
+		left:50%;
+		right:auto;
+		margin-left:-320px;
+	}
+	}
+	/* Detach modal from top anchor and slide down */
+	@media screen and (min-height:660px) {
+	.modal-dialog {
+		margin-bottom:1.52%;
+		margin-top:auto;
+	}
+	}
+	/* Sufficient space on top to see large USGS logo */
+	@media screen and (min-height:722px) {
+	.modal-dialog {
+		margin-bottom:auto;
+		margin-top:72px;
+	}
 }
