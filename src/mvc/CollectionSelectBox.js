@@ -53,6 +53,9 @@ define([
 		    options = this._options,
 		    collection;
 
+		// call parent initialize
+		View.prototype._initialize.call(this);
+
 		// reuse or create select box
 		if (el.nodeName === 'SELECT') {
 			this._selectBox = el;
@@ -78,6 +81,26 @@ define([
 		if (options.renderNow) {
 			this.render();
 		}
+	};
+
+	CollectionSelectBox.prototype.destroy = function () {
+		var collection = this._collection;
+
+		collection.off('add', this.render, this);
+		collection.off('remove', this.render, this);
+		collection.off('reset', this.render, this);
+		collection.off('select', this._onSelect, this);
+		collection.off('deselect', this._onSelect, this);
+
+		this._selectBox.removeEventListener('change', this._onChange);
+
+		this._options = null;
+		this._collection = null;
+		this._selectBox = null;
+		delete this._onChange;
+
+		// call parent destroy
+		View.prototype.destroy.call(this);
 	};
 
 	/**
