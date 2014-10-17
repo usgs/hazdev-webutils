@@ -102,6 +102,11 @@ define([
 
 			for (i = 0, len = this._listeners[event].length; i < len; i++) {
 				var listener = this._listeners[event][i];
+
+			if (!listener || !listener.callback) {
+				continue;
+			}
+
 				// NOTE: if listener throws exception, this will stop...
 				listener.callback.apply(listener.context, args);
 			}
