@@ -26,6 +26,10 @@ define([
 	 *      function to call when event is triggered.
 	 */
 	Events.prototype.on = function (event, callback, context) {
+		if (!callback || !callback.apply) {
+			throw new Error('Callback parameter is not callable.');
+		}
+
 		if (!this._listeners.hasOwnProperty(event)) {
 			// first listener for event type
 			this._listeners[event] = [];
@@ -95,17 +99,19 @@ define([
 	 *      variable length arguments after event are passed to listeners.
 	 */
 	Events.prototype.trigger = function (event) {
-		var i, len;
+		var listener,
+		    listeners,
+		    args,
+		    i,
+		    len;
 
 		if (this._listeners.hasOwnProperty(event)) {
-			var args = Array.prototype.slice.call(arguments, 1);
 
-			for (i = 0, len = this._listeners[event].length; i < len; i++) {
-				var listener = this._listeners[event][i];
+			args = Array.prototype.slice.call(arguments, 1);
+			listeners = this._listeners[event].slice(0);
 
-			if (!listener || !listener.callback) {
-				continue;
-			}
+			for (i = 0, len = listeners.length; i < len; i++) {
+				listener = listeners[i];
 
 				// NOTE: if listener throws exception, this will stop...
 				listener.callback.apply(listener.context, args);
