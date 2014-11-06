@@ -206,7 +206,7 @@ Util.getWindowSize = function () {
  * @return
  *      true if array a contains b
  */
-contains = function (a, b) {
+Util.contains = function (a, b) {
   var i, len;
 
   for (i = 0, len = a.length; i < len; i++) {

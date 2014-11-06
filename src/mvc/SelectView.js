@@ -113,7 +113,7 @@ var SelectView = function (params) {
 
   _onCollectionSelect = function (selectedItem) {
     var selectedDOM = _selectBox.querySelector(
-        '#' + this._getDOMIdForItem(selectedItem));
+        '#' + _getDOMIdForItem(selectedItem));
 
     if (selectedDOM) {
       selectedDOM.setAttribute('selected', 'selected');

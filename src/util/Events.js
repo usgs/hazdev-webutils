@@ -44,8 +44,8 @@ var Events = function () {
       var listener = null;
 
       // search for callback to remove
-      for (i = this._listeners[evt].length - 1; i >= 0; i--) {
-        listener = this._listeners[evt][i];
+      for (i = _listeners[evt].length - 1; i >= 0; i--) {
+        listener = _listeners[evt][i];
 
         if (listener.callback === callback &&
             (!context || listener.context === context)) {
@@ -132,13 +132,13 @@ var Events = function () {
 // make Events a global event source
 __INSTANCE__ = Events();
 Events.on = function _events_on () {
-  return Events.prototype.on.apply(__INSTANCE__, arguments);
+  return __INSTANCE__.on.apply(__INSTANCE__, arguments);
 };
 Events.off = function _events_off () {
-  return Events.prototype.off.apply(__INSTANCE__, arguments);
+  return __INSTANCE__.off.apply(__INSTANCE__, arguments);
 };
 Events.trigger = function _events_trigger () {
-  return Events.prototype.trigger.apply(__INSTANCE__, arguments);
+  return __INSTANCE__.trigger.apply(__INSTANCE__, arguments);
 };
 
 // intercept window.onhashchange events, or simulate if browser doesn't
