@@ -51,7 +51,7 @@ var DataTable = function (params) {
     var el,
         tools;
 
-    el = this._el;
+    el = _this.el;
     el.innerHTML = '<div class="datatable-tools"></div>' +
         '<div class="datatable-data"></div>';
     el.classList.add('datatable');
@@ -66,18 +66,18 @@ var DataTable = function (params) {
           el: el.querySelector('.datatable-data')
         }));
 
-    _downloadButton = document.createElement('button');
-    _downloadButton.innerHTML = 'Download';
-    _downloadButton.className = 'download';
-    _downloadButton.addEventListener('click', _downloadView.show);
-    tools.appendChild(this._downloadButton);
-
     // download
     _downloadView = new DownloadView({
       collection: _collection,
       help: params.help || 'Copy then paste into a spreadsheet application',
       format: params.formatDownload || _formatDownload
     });
+
+    _downloadButton = document.createElement('button');
+    _downloadButton.innerHTML = 'Download';
+    _downloadButton.className = 'download';
+    _downloadButton.addEventListener('click', _downloadView.show);
+    tools.appendChild(_downloadButton);
 
     // sort
     _sorts = params.sorts;

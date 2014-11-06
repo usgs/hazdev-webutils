@@ -120,15 +120,15 @@ var SortView = function (params) {
    * Handle sort collection select event.
    */
   _onSelect = function () {
-    var selected = this._sortCollection.getSelected(),
+    var selected = _sortCollection.getSelected(),
         sort;
 
     if (selected) {
       sort = selected.sort;
       if (!sort) {
-        sort = this._getSortFunction(selected.sortBy, selected.descending);
+        sort = _getSortFunction(selected.sortBy, selected.descending);
       }
-      this._collection.sort(sort);
+      _collection.sort(sort);
     }
   };
 

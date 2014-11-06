@@ -269,7 +269,7 @@ var ModalView = function (message, params) {
 
     // Set the modal dialog title
     if (_title) {
-      _titleEl.innerHTML = this.options.title;
+      _titleEl.innerHTML = _title;
     }
 
     // Clear any old footer content
