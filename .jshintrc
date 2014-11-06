@@ -6,6 +6,7 @@
 	"latedef": true,
 	"newcap": true,
 	"noarg": true,
+	"newcap": false,
 	"quotmark": "single",
 	"undef": true,
 	"unused": true,
