@@ -17,7 +17,7 @@ Util.isMobile = function () {
 };
 
 Util.supportsDateInput = function () {
-    return supportsDateInput;
+  return supportsDateInput;
 };
 
 /**
