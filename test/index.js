@@ -33,7 +33,9 @@ if (!Function.prototype.bind) {
 
 (function () {
   'use strict';
-  mocha.setup('bdd');
+
+  mocha.ui('bdd');
+  mocha.reporter('html');
 
   // Add each test class here as they are implemented
   require('./spec/mvc/CollectionTest');
