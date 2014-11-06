@@ -7,7 +7,15 @@ module.exports = (function () {
     connect: require('./connect'),
     jshint: require('./jshint'),
     mocha_phantomjs: require('./mocha_phantomjs'),
-    watch: require('./watch')
+    watch: require('./watch'),
+
+    tasks: [
+      'grunt-browserify',
+      'grunt-contrib-connect',
+      'grunt-contrib-jshint',
+      'grunt-mocha-phantomjs',
+      'grunt-contrib-watch'
+    ]
   };
 
   return config;

@@ -2,11 +2,11 @@
 
 module.exports = function (grunt) {
 
-  // Load grunt tasks
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
   var gruntConfig = require('./gruntconfig');
+
+  gruntConfig.tasks.forEach(grunt.loadNpmTasks);
   grunt.initConfig(gruntConfig);
+
 
   grunt.registerTask('test', [
     'browserify',
