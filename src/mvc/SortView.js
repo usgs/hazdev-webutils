@@ -1,110 +1,78 @@
-/* global define */
-define([
-  'mvc/Collection',
-  'mvc/View',
-  'mvc/CollectionSelectBox'
-], function (
-  Collection,
-  View,
-  CollectionSelectBox
-) {
-  'use strict';
+'use strict';
 
-  /**
-   * Construct a SortView.
-   *
-   * Sort objects can specify a custom sort function (sort),
-   * or a value to be sorted (sortBy) and sort order (descending).
-   *
-   * @param options {Object}
-   * @param options.sorts {Array<Object>}
-   *        array of sort objects, with properties:
-   *        - id {String|Number} unique identifier for sort
-   *        - title {String} display name for sort
-   *        And:
-   *        - sort {Function(a, b)} sorting function.
-   *        Or:
-   *        - sortBy {Function(Object)} return value for sorting.
-   *        - descending {Boolean} default false, whether to
-   *          sort ascending (true) or descending (false).
-   * @param options.defaultSort {ID}
-   *        Optional.
-   *        If specified, should match "id" of a sort object.
-   * @see mvc/View
-   */
-  var SortView = function (options) {
-    this._options = options;
-    View.call(this);
-  };
+var Collection = require('./Collection'),
+    CollectionSelectBox = require('./CollectionSelectBox'),
+    View = require('./View');
 
-  // extend View
-  SortView.prototype = Object.create(View.prototype);
+/**
+ * Construct a SortView.
+ *
+ * Sort objects can specify a custom sort function (sort),
+ * or a value to be sorted (sortBy) and sort order (descending).
+ *
+ * @param options {Object}
+ * @param options.sorts {Array<Object>}
+ *        array of sort objects, with properties:
+ *        - id {String|Number} unique identifier for sort
+ *        - title {String} display name for sort
+ *        And:
+ *        - sort {Function(a, b)} sorting function.
+ *        Or:
+ *        - sortBy {Function(Object)} return value for sorting.
+ *        - descending {Boolean} default false, whether to
+ *          sort ascending (true) or descending (false).
+ * @param options.defaultSort {ID}
+ *        Optional.
+ *        If specified, should match "id" of a sort object.
+ * @see mvc/View
+ */
+var SortView = function (params) {
+  var _this,
+      _initialize,
 
+      _collection,
+      _selectView,
+      _sortCollection,
+
+      _getSortFunction,
+      _onSelect,
+      _parentDestroy;
+
+
+  _this = Object.create(View(params));
 
   /**
    * Initialize the SortView.
    */
-  SortView.prototype._initialize = function () {
-    var el = this._el,
-        options = this._options,
-        sortCollection;
+  _initialize = function () {
+    var el = _this.el;
 
-    // call parent initialize
-    View.prototype._initialize.call(this);
+    _collection = params.collection;
 
-    el.innerHTML = '<label>Sort by ' +
-        '<select></select></label>';
+    el.innerHTML = '<label>Sort by <select></select></label>';
     el.classList.add('sortview');
 
-    this._collection = options.collection;
+    _sortCollection = new Collection(params.sorts);
+    _sortCollection.on('select', _onSelect, this);
 
-    sortCollection = new Collection(options.sorts);
-    sortCollection.on('select', this._onSelect, this);
-    this._sortCollection = sortCollection;
     // initial sort order
-    if (options.defaultSort) {
-      sortCollection.select(sortCollection.get(options.defaultSort));
+    if (params.defaultSort) {
+      _sortCollection.select(_sortCollection.get(params.defaultSort));
     } else {
-      sortCollection.select(sortCollection.data()[0]);
+      _sortCollection.select(_sortCollection.data()[0]);
     }
 
-    this._selectView = new CollectionSelectBox({
+    _selectView = new CollectionSelectBox({
       el: el.querySelector('select'),
-      collection: sortCollection,
+      collection: _sortCollection,
       format: function (item) {
         return item.title;
       }
     });
+
+    params = null;
   };
 
-  /**
-   * Destroy the SortView.
-   */
-  SortView.prototype.destroy = function () {
-    this._sortCollection.off('select', this._onSelect, this);
-    this._sortCollection = null;
-    this._collection = null;
-    this._selectView.destroy();
-
-    // call parent destroy
-    View.prototype.destroy.call(this);
-  };
-
-  /**
-   * Handle sort collection select event.
-   */
-  SortView.prototype._onSelect = function () {
-    var selected = this._sortCollection.getSelected(),
-        sort;
-
-    if (selected) {
-      sort = selected.sort;
-      if (!sort) {
-        sort = this._getSortFunction(selected.sortBy, selected.descending);
-      }
-      this._collection.sort(sort);
-    }
-  };
 
   /**
    * Convert a sortBy function to a sort function.
@@ -116,7 +84,7 @@ define([
    *        Whether to sort ascending (false) or descending (true).
    * @return {Function(a, b)} sort function.
    */
-  SortView.prototype._getSortFunction = function (sortBy, descending) {
+  _getSortFunction = function (sortBy, descending) {
     var cache = {};
 
     return function (a, b) {
@@ -148,6 +116,40 @@ define([
     };
   };
 
-  // return constructor
-  return SortView;
-});
+  /**
+   * Handle sort collection select event.
+   */
+  _onSelect = function () {
+    var selected = this._sortCollection.getSelected(),
+        sort;
+
+    if (selected) {
+      sort = selected.sort;
+      if (!sort) {
+        sort = this._getSortFunction(selected.sortBy, selected.descending);
+      }
+      this._collection.sort(sort);
+    }
+  };
+
+
+  /**
+   * Destroy the SortView.
+   */
+  _parentDestroy = _this.destroy || function () {}; // TODO :: Better way?
+  _this.destroy = function () {
+    _sortCollection.off('select', _onSelect, this);
+    _sortCollection = null;
+    _collection = null;
+    _selectView.destroy();
+
+    // call parent destroy
+    _parentDestroy.call(this);
+  };
+
+
+  _initialize();
+  return _this;
+};
+
+module.exports = SortView;

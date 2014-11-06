@@ -1,41 +1,62 @@
-/* global define */
-
+'use strict';
 /**
  * A lightweight view class.
  *
  * Primarily manages an element where a view can render its data.
  */
-define([
-  'util/Events'
-], function (
-  Events
-) {
-  'use strict';
 
-  /** create a new view. */
-  var View = function (options) {
-    // make view source of events
-    Events.call(this);
 
-    // element where this view is rendered
-    this._el = (options && options.hasOwnProperty('el')) ?
-        options.el : document.createElement('div');
+var Events = require('../util/Events'),
+    Util = require('../util/Util');
 
-    this._initialize();
+
+var _DEFAULTS = {
+};
+
+
+/** create a new view. */
+var View = function (params) {
+  var _this,
+      _initialize;
+
+
+  _this = Object.create(Events());
+
+  /**
+   * @constructor
+   *
+   */
+  _initialize = function () {
+    params = Util.extend({}, _DEFAULTS, params);
+
+    // Element where this view is rendered
+    _this.el = (params && params.hasOwnProperty('el')) ?
+        params.el : document.createElement('div');
+
+    params = null;
   };
-  View.prototype = Object.create(Events.prototype);
 
-  View.prototype._initialize = function () {
+  /**
+   * API Method
+   *
+   * Renders the view
+   */
+  _this.render = function () {
   };
 
-  View.prototype.render = function () {
+  /**
+   * API Method
+   *
+   * Cleans up resources allocated by the view. Should be called before
+   * discarding a view.
+   */
+  _this.destroy = function () {
+    _this.el = null;
   };
 
-  /** Undo any initialization. */
-  View.prototype.destroy = function () {
-    this._el = null;
-  };
 
-  // return constructor from closure
-  return View;
-});
+  _initialize();
+  return _this;
+};
+
+module.exports = View;

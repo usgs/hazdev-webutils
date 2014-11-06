@@ -1,38 +1,53 @@
-/* global define */
-
+'use strict';
 /**
  * A Lightweight collection, inspired by backbone.
  *
  * Lazily builds indexes to avoid overhead until needed.
  */
-define([
-  'util/Events'
-], function (
-  Events
-) {
-  'use strict';
 
-  /**
-   * Create a new Collection.
-   *
-   * @param data {Array}
-   *      When omitted a new array is created.
-   */
-  var Collection = function (data) {
-    // add event handling to collection
-    Events.apply(this);
+var Events = require('../util/Events');
 
-    // the wrapped array
-    this._data = data || [];
 
-    // index of object ids in the array, built lazily by getIds
-    this._ids = null;
+/**
+ * Create a new Collection.
+ *
+ * @param data {Array}
+ *      When omitted a new array is created.
+ */
+var Collection = function (data) {
 
-    // currently selected feature
-    this._selected = null;
+  var _this,
+      _initialize,
+
+      _data,
+      _ids,
+      _selected;
+
+
+  _this = Object.create(Events());
+
+  _initialize = function () {
+    _data = data || [];
+    _ids = null;
+    _selected = null;
+
+    data = null;
   };
 
-  Collection.prototype = Object.create(Events.prototype);
+
+  /**
+   * Add objects to the collection.
+   *
+   * Calls wrapped array.push, and clears the id cache.
+   *
+   * @param {Object…}
+   *      a variable number of objects to append to the collection.
+   */
+  _this.add = function () {
+    _data.push.apply(_data, arguments);
+    _ids = null;
+    _this.trigger('add', Array.prototype.slice.call(arguments, 0));
+  };
 
   /**
    * Get the wrapped array.
@@ -40,44 +55,29 @@ define([
    * @return
    *      the wrapped array.
    */
-  Collection.prototype.data = function () {
-    return this._data;
+  _this.data = function () {
+    return _data;
   };
 
   /**
-   * Sorts the data.
+   * Deselect current selection.
    */
-  Collection.prototype.sort = function (method) {
-    var data = this._data;
-    data.sort(method);
-    // "reset" to new sort order
-    this.reset(data);
-  };
-
-  /**
-   * Get a map from ID to INDEX.
-   *
-   * @param force {Boolean}
-   *      rebuild the map even if it exists.
-   */
-  Collection.prototype.getIds = function (force) {
-    var i = 0, len = this._data.length, id;
-
-    if (force || this._ids === null) {
-      // build up ids first time through
-      this._ids = {};
-      for (; i < len; i++) {
-        id = this._data[i].id;
-        if (this._ids.hasOwnProperty(id)) {
-          throw 'model with duplicate id "' + id + '" found in collection';
-        }
-        this._ids[id] = i;
-      }
+  _this.deselect = function () {
+    if (_selected !== null) {
+      var oldSelected = _selected;
+      _selected = null;
+      _this.trigger('deselect', oldSelected);
     }
-
-    return this._ids;
   };
 
+  /**
+   * Free the array and id cache.
+   */
+  _this.destroy = function () {
+    _data = null;
+    _ids = null;
+    _this.deselect();
+  };
 
   /**
    * Get an object in the collection by ID.
@@ -89,29 +89,51 @@ define([
    *      if the collection contains more than one object with the same id,
    *      the last element with that id is returned.
    */
-  Collection.prototype.get = function (id) {
-    var ids = this.getIds();
+  _this.get = function (id) {
+    var ids = _this.getIds();
 
     if (ids.hasOwnProperty(id)) {
       // use cached index
-      return this._data[ids[id]];
+      return _data[ids[id]];
     } else {
       return null;
     }
   };
 
   /**
-   * Add objects to the collection.
+   * Get a map from ID to INDEX.
    *
-   * Calls wrapped array.push, and clears the id cache.
-   *
-   * @param {Object…}
-   *      a variable number of objects to append to the collection.
+   * @param force {Boolean}
+   *      rebuild the map even if it exists.
    */
-  Collection.prototype.add = function () {
-    this._data.push.apply(this._data, arguments);
-    this._ids = null;
-    this.trigger('add', Array.prototype.slice.call(arguments, 0));
+  _this.getIds = function (force) {
+    var i = 0,
+        len = _data.length,
+        id;
+
+    if (force || _ids === null) {
+      // build up ids first time through
+      _ids = {};
+
+      for (; i < len; i++) {
+        id = _data[i].id;
+
+        if (_ids.hasOwnProperty(id)) {
+          throw 'model with duplicate id "' + id + '" found in collection';
+        }
+
+        _ids[id] = i;
+      }
+    }
+
+    return _ids;
+  };
+
+  /**
+   * Get the currently selected object.
+   */
+  _this.getSelected = function () {
+    return _selected;
   };
 
   /**
@@ -123,17 +145,19 @@ define([
    * @param o {Object}
    *      object to remove.
    */
-  Collection.prototype.remove = function (o) {
-    var i, len = arguments.length, indexes = [],
-        ids = this.getIds();
+  _this.remove = function (o) {
+    var i,
+        len = arguments.length,
+        indexes = [],
+        ids = _this.getIds();
 
     // select indexes to be removed
     for (i = 0; i < len; i++) {
       o = arguments[i];
 
       // clear current selection if being removed
-      if (o === this._selected) {
-        this.deselect();
+      if (o === _selected) {
+        _this.deselect();
       }
 
       // add to list to be removed
@@ -148,59 +172,42 @@ define([
     indexes.sort(function(a,b) { return a-b; });
 
     for (i = indexes.length-1; i >= 0; i--) {
-      this._data.splice(indexes[i], 1);
+      _data.splice(indexes[i], 1);
     }
 
     // reset id cache
-    this._ids = null;
+    _ids = null;
 
     // trigger remove event
-    this.trigger('remove', Array.prototype.slice.call(arguments, 0));
+    _this.trigger('remove', Array.prototype.slice.call(arguments, 0));
   };
 
   /**
    * Replace the wrapped array with a new one.
    */
-  Collection.prototype.reset = function (data) {
+  _this.reset = function (data) {
     // check for existing selection
     var selectedId = null;
-    if (this._selected !== null) {
-      selectedId = this._selected.id;
+    if (_selected !== null) {
+      selectedId = _selected.id;
     }
 
     // free array and id cache
-    this.destroy();
+    _this.destroy();
 
     // set new array
-    this._data = data || [];
+    _data = data || [];
 
     // notify listeners
-    this.trigger('reset', data);
+    _this.trigger('reset', data);
 
     // reselect if there was a previous selection
     if (selectedId !== null) {
-      var selected = this.get(selectedId);
+      var selected = _this.get(selectedId);
       if (selected !== null) {
-        this.select(selected, {'reset':true});
+        _this.select(selected, {'reset':true});
       }
     }
-  };
-
-  /**
-   * Free the array and id cache.
-   */
-  Collection.prototype.destroy = function () {
-    this._data = null;
-    this._ids = null;
-    this.deselect();
-  };
-
-
-  /**
-   * Get the currently selected object.
-   */
-  Collection.prototype.getSelected = function () {
-    return this._selected;
   };
 
   /**
@@ -211,51 +218,51 @@ define([
    * @throws exception
    *      if obj not in collection.
    */
-  Collection.prototype.select = function (obj, options) {
-    if (this._selected !== null) {
-      this.deselect();
+  _this.select = function (obj, options) {
+    if (_selected !== null) {
+      _this.deselect();
     }
 
-    if (obj === this.get(obj.id)) {
+    if (obj === _this.get(obj.id)) {
       // make sure it's part of this collection…
-      this._selected = obj;
-      this.trigger('select', this._selected, options);
+      _selected = obj;
+      _this.trigger('select', _selected, options);
     } else {
       throw 'selecting object not in collection';
     }
   };
 
   /**
-   * Deselect current selection.
+   * Utility method to select collection item using its id.
    */
-  Collection.prototype.deselect = function () {
-    if (this._selected !== null) {
-      var oldSelected = this._selected;
-      this._selected = null;
-      this.trigger('deselect', oldSelected);
+  _this.selectById = function (id) {
+    var obj = _this.get(id);
+    if (obj !== null) {
+      _this.select(obj);
+    } else {
+      _this.deselect();
     }
   };
 
   /**
-   * Utility method to select collection item using its id.
+   * Sorts the data.
    */
-  Collection.prototype.selectById = function (id) {
-    var obj = this.get(id);
-    if (obj !== null) {
-      this.select(obj);
-    } else {
-      this.deselect();
-    }
+  _this.sort = function (method) {
+    _data.sort(method);
+
+    // "reset" to new sort order
+    _this.reset(_data);
   };
 
   /**
    * Override toJSON method to serialize only collection data.
    */
-  Collection.prototype.toJSON = function () {
-    var json = this._data.slice(0),
+  _this.toJSON = function () {
+    var json = _data.slice(0),
         item,
         i,
         len;
+
     for (i = 0, len = json.length; i < len; i++) {
       item = json[i];
       if (typeof item === 'object' &&
@@ -264,10 +271,13 @@ define([
         json[i] = item.toJSON();
       }
     }
+
     return json;
   };
 
 
-  // return from constructor
-  return Collection;
-});
+  _initialize();
+  return _this;
+};
+
+module.exports = Collection;

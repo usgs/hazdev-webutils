@@ -1,137 +1,118 @@
-/* global define */
-define([
-  'mvc/View',
-  'util/Util'
-], function (
-  View,
-  Util
-) {
-  'use strict';
+'use strict';
+/**
+ * This class provides a simple select box widget for selecting an item
+ * out of a collection. Best used on short-ish collections.
+ *
+ */
 
-  var SELECT_VIEW_COUNTER = 0;
-  var DEFAULTS = {
+var Util = require('../util/Util'),
+    View = require('./View');
 
-  };
 
-  /**
-   * This class provides a simple select box widget for selecting an item
-   * out of a collection. Best used on short-ish collections.
-   *
-   */
-  var SelectView = function (options) {
-    options = Util.extend({}, DEFAULTS, options || {});
+var _SELECT_VIEW_COUNTER = 0;
+var _DEFAULTS = {
+};
 
-    this._collection = options.collection || null;
-    this._el = options.el || document.createElement('select');
 
-    this._idstub = 'selectview-' + SELECT_VIEW_COUNTER + '-';
-    SELECT_VIEW_COUNTER += 1;
+var SelectView = function (params) {
+  var _this,
+      _initialize,
 
-    View.call(this, options);
-  };
-  SelectView.prototype = Object.create(View.prototype);
+      _collection,
+      _idstub,
+      _selectBox,
 
-  SelectView.prototype.render = function () {
-    var i = null,
-        items = null,
-        numItems = null,
-        selected = null,
-        markup = [];
+      _createItemMarkup,
+      _getDOMIdForItem,
+      _getModelIdForOption,
+      _onCollectionAdd,
+      _onCollectionDeselect,
+      _onCollectionRemove,
+      _onCollectionReset,
+      _onCollectionSelect,
+      _onSelectBoxChange;
 
-    // If no collection available, just clear the options and return
-    if (!this._collection) {
-      this._selectBox.innerHTML = '';
-      return;
-    }
 
-    // Set the select box option items
-    items = this._collection.data();
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = Object.create(View(params));
 
-    if (!items) {
-      this._selectBox.innerHTML = '';
-      return;
-    }
+  _initialize = function () {
 
-    items = items.slice(0);
-    numItems = items.length;
+    _collection = params.collection || null;
+    _this.el = params.el || document.createElement('select');
 
-    for (i = 0; i < numItems; i++) {
-      markup.push(this._createItemMarkup(items[i]));
-    }
+    _idstub = 'selectview-' + _SELECT_VIEW_COUNTER + '-';
+    _SELECT_VIEW_COUNTER += 1;
 
-    this._selectBox.innerHTML = markup.join('');
 
-    // Now select the currently selected item (if one is selected)
-    selected = this._collection.getSelected();
-    if (selected) {
-      this._onCollectionSelect(selected);
-    }
-  };
-
-  SelectView.prototype._initialize = function () {
-    // Make a private DOM element. If this._el is already a select DOM element,
+    // Make a private DOM element. If _this.el is already a select DOM element,
     // then just use that, otherwise, create a new element and append it to
-    // this._el
-    if (this._el.nodeName === 'SELECT') {
-      this._selectBox = this._el;
+    // _this.el
+    if (_this.el.nodeName === 'SELECT') {
+      _selectBox = _this.el;
     } else {
-      this._selectBox = this._el.appendChild(document.createElement('select'));
+      _selectBox = _this.el.appendChild(document.createElement('select'));
     }
-
-    Util.addClass(this._selectBox, 'view-selectview');
+    _selectBox.classList.add('view-selectview');
 
     // Bind to events on the collection
-    if (this._collection) {
-      this._collection.on('add', this._onCollectionAdd, this);
-      this._collection.on('remove', this._onCollectionRemove, this);
-      this._collection.on('reset', this._onCollectionReset, this);
-      this._collection.on('select', this._onCollectionSelect, this);
-      this._collection.on('deselect', this._onCollectionDeselect, this);
+    if (_collection) {
+      _collection.on('add', _onCollectionAdd, _this);
+      _collection.on('remove', _onCollectionRemove, _this);
+      _collection.on('reset', _onCollectionReset, _this);
+      _collection.on('select', _onCollectionSelect, _this);
+      _collection.on('deselect', _onCollectionDeselect, _this);
     }
 
-    // Bind to events on this._selectBox
-    Util.addEvent(this._selectBox, 'change', (function (selectView) {
-      return function (evt) {
-        selectView._onSelectBoxChange(evt);
-      };
-    })(this));
+    // Bind to events on _selectBox
+    _selectBox.addEventListener('change', _onSelectBoxChange);
 
-    this.render();
+    _this.render();
+    params = null;
   };
 
-  SelectView.prototype._createItemMarkup = function (item) {
+
+  _createItemMarkup = function (item) {
     return [
     '<option ',
-        'id="', this._getDOMIdForItem(item), '" ',
+        'id="', _getDOMIdForItem(item), '" ',
         'value="', item.get('value'), '">',
       item.get('display'),
     '</option>'
     ].join('');
   };
 
-  SelectView.prototype._getDOMIdForItem = function (item) {
-    return this._idstub + item.get('id');
+  _getDOMIdForItem = function (item) {
+    return _idstub + item.get('id');
   };
 
-  SelectView.prototype._getModelIdForOption = function (element) {
-    return element.id.replace(this._idstub, '');
+  _getModelIdForOption = function (element) {
+    return element.id.replace(_idstub, '');
   };
 
-
-  SelectView.prototype._onCollectionAdd = function () {
-    this.render();
+  _onCollectionAdd = function () {
+    _this.render();
   };
 
-  SelectView.prototype._onCollectionRemove = function () {
-    this.render();
+  _onCollectionDeselect = function (oldSelected) {
+    var selectedDOM = _selectBox.querySelector(
+        '#' + _getDOMIdForItem(oldSelected));
+
+    if (selectedDOM) {
+      selectedDOM.removeAttribute('selected');
+    }
   };
 
-  SelectView.prototype._onCollectionReset = function () {
-    this.render();
+  _onCollectionRemove = function () {
+    _this.render();
   };
 
-  SelectView.prototype._onCollectionSelect = function (selectedItem) {
-    var selectedDOM = this._selectBox.querySelector(
+  _onCollectionReset = function () {
+    _this.render();
+  };
+
+  _onCollectionSelect = function (selectedItem) {
+    var selectedDOM = _selectBox.querySelector(
         '#' + this._getDOMIdForItem(selectedItem));
 
     if (selectedDOM) {
@@ -139,22 +120,55 @@ define([
     }
   };
 
-  SelectView.prototype._onCollectionDeselect = function (oldSelected) {
-    var selectedDOM = this._selectBox.querySelector(
-        '#' + this._getDOMIdForItem(oldSelected));
+  _onSelectBoxChange = function () {
+    var selectedIndex = _selectBox.selectedIndex,
+        selectedDOM = _selectBox.childNodes[selectedIndex],
+        selectedId = _getModelIdForOption(selectedDOM);
 
-    if (selectedDOM) {
-      selectedDOM.removeAttribute('selected');
+    _collection.select(_collection.get(selectedId));
+  };
+
+
+  _this.render = function () {
+    var i = null,
+        items = null,
+        numItems = null,
+        selected = null,
+        markup = [];
+
+    // If no collection available, just clear the options and return
+    if (!_collection) {
+      _selectBox.innerHTML = '';
+      return;
+    }
+
+    // Set the select box option items
+    items = _collection.data();
+
+    if (!items) {
+      _selectBox.innerHTML = '';
+      return;
+    }
+
+    items = items.slice(0);
+    numItems = items.length;
+
+    for (i = 0; i < numItems; i++) {
+      markup.push(_createItemMarkup(items[i]));
+    }
+
+    _selectBox.innerHTML = markup.join('');
+
+    // Now select the currently selected item (if one is selected)
+    selected = _collection.getSelected();
+    if (selected) {
+      _onCollectionSelect(selected);
     }
   };
 
-  SelectView.prototype._onSelectBoxChange = function () {
-    var selectedIndex = this._selectBox.selectedIndex,
-        selectedDOM = this._selectBox.childNodes[selectedIndex],
-        selectedId = this._getModelIdForOption(selectedDOM);
 
-    this._collection.select(this._collection.get(selectedId));
-  };
+  _initialize();
+  return _this;
+};
 
-  return SelectView;
-});
+module.exports = SelectView;

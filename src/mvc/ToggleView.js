@@ -1,99 +1,129 @@
-/* global define */
-
+'use strict';
 /**
  * This class creates a simple toggle view. The toggle view has a toggle
  * control and toggle-able content. Clicking the toggle control will show/hide
  * the toggle-able content.
  *
  */
-define([
-  'mvc/View',
-  'util/Util'
-], function (
-  View,
-  Util
-) {
-  'use strict';
 
-  var CSS_EXPANDED_CLASS = 'toggle-expanded';
+var Util = require('../util/Util'),
+    View = require('./View');
 
-  var DEFAULTS = {
-    expanded: false,
 
-    header: null,
+var _CSS_EXPANDED_CLASS = 'toggle-expanded';
 
-    control: 'Click to Toggle',
-    controlClasses: [],
+var _DEFAULTS = {
+  expanded: false,
 
-    content: 'Default Toggle Content',
-    contentClasses: []
-  };
+  header: null,
 
-  var ToggleView = function (options) {
-    // Extend options with defaults
-    this._options = Util.extend({}, DEFAULTS, options);
+  control: 'Click to Toggle',
+  controlClasses: [],
 
-    // Call parent constructor
-    View.call(this, this._options);
+  content: 'Default Toggle Content',
+  contentClasses: []
+};
 
-    this._createViewSkeleton();
-    Util.addClass(this._el, 'toggle');
-    if (this._options.expanded) {
-      Util.addClass(this._el, CSS_EXPANDED_CLASS);
+var ToggleView = function (params) {
+  var _this,
+      _initialize,
+
+      _content,
+      _control,
+      _contentClasses,
+      _controlClasses,
+      _contentElement,
+      _controlElement,
+      _createViewSkeleton,
+      _header,
+      _headerElement;
+
+
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = Object.create(View(params));
+
+
+  _initialize = function () {
+    _controlClasses = params.controlClasses;
+    _contentClasses = params.contentClasses;
+
+    _createViewSkeleton();
+
+    _this.el.classList.add('toggle');
+
+    if (params.expanded) {
+      _this.el.classList.add(_CSS_EXPANDED_CLASS);
     }
 
-    this.setHeader(this._options.header, true);
-    this.setControl(this._options.control, true);
-    this.setContent(this._options.content, true);
-    this.render();
-  };
+    _this.setHeader(params.header, true);
+    _this.setControl(params.control, true);
+    _this.setContent(params.content, true);
 
-  ToggleView.prototype = Object.create(View.prototype);
+    _this.render();
 
-  ToggleView.prototype._createViewSkeleton = function () {
-    var i = 0, len = 0,
-        controlClasses = this._options.controlClasses,
-        contentClasses = this._options.contentClasses;
-
-    this._headerElement =
-        this._el.appendChild(document.createElement('header'));
-    Util.addClass(this._headerElement, 'toggle-header');
-
-    this._controlElement =
-        this._headerElement.appendChild(document.createElement('button'));
-    Util.addClass(this._controlElement, 'toggle-control');
-
-    for (i = 0, len = controlClasses.length; i < len; i++) {
-      Util.addClass(this._controlElement, controlClasses[i]);
-    }
-
-    this._contentElement =
-        this._el.appendChild(document.createElement('div'));
-    Util.addClass(this._contentElement, 'toggle-content');
-
-    for (i = 0, len = contentClasses.length; i < len; i++) {
-      Util.addClass(this._contentElement, contentClasses[i]);
-    }
-
-    Util.addEvent(this._controlElement, 'click', (function (tv) {
-      return function () {
-        if (Util.hasClass(tv._el, CSS_EXPANDED_CLASS)) {
-          Util.removeClass(tv._el, CSS_EXPANDED_CLASS);
-        } else {
-          Util.addClass(tv._el, CSS_EXPANDED_CLASS);
-        }
-      };
-    })(this));
+    params = null;
   };
 
 
+  _createViewSkeleton = function () {
+    var i = 0,
+        len = 0;
+
+    _headerElement = _this.el.appendChild(document.createElement('header'));
+    _headerElement.classList.add('toggle-header');
+
+    _controlElement = _headerElement.appendChild(
+        document.createElement('button'));
+    _controlElement.classList.add('toggle-control');
+
+    for (i = 0, len = _controlClasses.length; i < len; i++) {
+      _controlElement.classList.add(_controlClasses[i]);
+    }
+
+    _contentElement = _this.el.appendChild(document.createElement('div'));
+    _contentElement.classList.add('toggle-content');
+
+    for (i = 0, len = _contentClasses.length; i < len; i++) {
+      _contentElement.classList.add(_contentClasses[i]);
+    }
+
+    _this._controlElement.addEventListener('click', function () {
+      _this.el.classList.toggle(_CSS_EXPANDED_CLASS);
+    });
+  };
 
 
-  ToggleView.prototype.setHeader = function (header, deferRender) {
-    this._header = header;
+  _this.render = function () {
+    Util.empty(this._headerElement);
+
+    _controlElement.innerHTML = _control;
+    _headerElement.appendChild(_controlElement);
+
+    if (_header instanceof Node) {
+      _headerElement.appendChild(_header);
+    }
+
+    if (_content instanceof Node) {
+      Util.empty(_contentElement);
+      _contentElement.appendChild(_content);
+    } else {
+      _contentElement.innerHTML = _content;
+    }
+
+    return _this;
+  };
+
+  /**
+   * @param content {String|DOMElement}
+   *      Content to show/hide in the view
+   * @param deferRender {Boolean} Optional.
+   *      Do not render after setting content. Default false.
+   */
+  _this.setContent = function (content, deferRender) {
+    _content = content;
 
     if (!deferRender) {
-      this.render();
+      _this.render();
     }
   };
 
@@ -103,47 +133,25 @@ define([
    * @param deferRender {Boolean} Optional.
    *      Do not render after setting content. Default false.
    */
-  ToggleView.prototype.setControl = function (control, deferRender) {
-    this._control = control;
+  _this.setControl = function (control, deferRender) {
+    _control = control;
 
     if (!deferRender) {
-      this.render();
+      _this.render();
     }
   };
 
-  /**
-   * @param content {String|DOMElement}
-   *      Content to show/hide in the view
-   * @param deferRender {Boolean} Optional.
-   *      Do not render after setting content. Default false.
-   */
-  ToggleView.prototype.setContent = function (content, deferRender) {
-    this._content = content;
+  _this.setHeader = function (header, deferRender) {
+    _header = header;
 
     if (!deferRender) {
-      this.render();
+      _this.render();
     }
   };
 
-  ToggleView.prototype.render = function () {
-    Util.empty(this._headerElement);
 
-    this._controlElement.innerHTML = this._control;
-    this._headerElement.appendChild(this._controlElement);
+  _initialize();
+  return _this;
+};
 
-    if (this._header instanceof Node) {
-      this._headerElement.appendChild(this._header);
-    }
-
-    if (this._content instanceof Node) {
-      Util.empty(this._contentELement);
-      this._contentElement.appendChild(this._content);
-    } else {
-      this._contentElement.innerHTML = this._content;
-    }
-
-    return this;
-  };
-
-  return ToggleView;
-});
+module.exports = ToggleView;

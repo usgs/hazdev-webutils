@@ -1,17 +1,11 @@
-/* global define */
-define([
-  'util/Util',
-  'mvc/View',
-  'mvc/ModalView'
-], function (
-  Util,
-  View,
-  ModalView
-) {
-  'use strict';
+'use strict';
+
+var ModalView = require('./ModalView'),
+    Util = require('../util/Util'),
+    View = require('./View');
 
 
-  var DEFAULTS = {
+  var _DEFAULTS = {
     // title of modal dialog.
     title: 'Download',
     // markup to describe download content.
@@ -23,81 +17,88 @@ define([
   };
 
 
-  /**
-   * Create a DownloadView.
-   *
-   * @param options {Object}
-   * @param options.title {String}
-   *        Default 'Download'.
-   *        Modal dialog title.
-   * @param options.format {Function(Collection)}
-   *        Default JSON.stringify.
-   *        function to format collection for download.
-   * @see mvc/View
-   */
-  var DownloadView = function (options) {
-    this._options = Util.extend({}, DEFAULTS, options);
-    View.call(this, options);
-  };
+/**
+ * Create a DownloadView.
+ *
+ * @param options {Object}
+ * @param options.title {String}
+ *        Default 'Download'.
+ *        Modal dialog title.
+ * @param options.format {Function(Collection)}
+ *        Default JSON.stringify.
+ *        function to format collection for download.
+ * @see mvc/View
+ */
+var DownloadView = function (params) {
+  var _this,
+      _initialize,
 
-  DownloadView.prototype = Object.create(View.prototype);
+      _collection,
+      _format,
+      _modal,
+      _textarea,
+      _title;
 
+
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = Object.create(View(params));
 
   /**
    * Initialize the download view.
    */
-  DownloadView.prototype._initialize = function () {
-    var el = this._el,
-        options = this._options;
+  _initialize = function () {
+    var el = _this.el;
 
-    View.prototype._initialize.call(this);
+    _collection = params.collection;
+    _format = params.format;
+    _title = params.title;
 
-    this.show = this.show.bind(this);
     el.className = 'download-view';
-    el.innerHTML = '<div class="help">' + options.help + '</div>' +
+    el.innerHTML = '<div class="help">' + params.help + '</div>' +
         '<textarea class="download" readonly="readonly"></textarea>';
-    this._textarea = el.querySelector('.download');
+    _textarea = el.querySelector('.download');
+
+    params = null;
   };
 
   /**
    * Destroy the download view.
    */
-  DownloadView.prototype.destroy = function () {
-    if (this._modal) {
+  _this.destroy = function () {
+    if (_modal) {
       // TODO: hide first?
-      this._modal.destroy();
-      this._modal = null;
-    }
-    this._textarea = null;
-    this._options = null;
-    delete this.show;
-    View.prototype.destroy.call(this);
-  };
-
-  /**
-   * Show the download view, calls render before showing modal.
-   */
-  DownloadView.prototype.show = function () {
-    if (!this._modal) {
-      this._modal = new ModalView(this._el, {
-        title: this._options.title
-      });
+      _modal.destroy();
+      _modal = null;
     }
 
-    this.render();
-    this._modal.show();
-    this._textarea.select();
+    _textarea = null;
+    _this.el = null;
   };
 
   /**
    * Format collection for download.
    */
-  DownloadView.prototype.render = function () {
-    var options = this._options;
-
-    this._textarea.value = options.format(options.collection);
+  _this.render = function () {
+    _textarea.value = _format(_collection);
   };
 
-  // return constructor.
-  return DownloadView;
-});
+  /**
+   * Show the download view, calls render before showing modal.
+   */
+  _this.show = function () {
+    if (!_modal) {
+      _modal = new ModalView(_this.el, {
+        title: _title
+      });
+    }
+
+    _this.render();
+    _modal.show();
+    _textarea.select();
+  };
+
+  _initialize();
+  return _this;
+};
+
+module.exports = DownloadView;
