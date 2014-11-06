@@ -18,15 +18,37 @@ module.exports = function (grunt) {
     browserify: {
       options: {
         browserifyOptions: {
+          debug: true,
           paths: [
             process.cwd() + '/<%= app.src %>'
           ]
         }
       },
-      tests: {
+      testIndex: {
         files: {
           '<%= app.build %>/<%= app.test %>/index.js': [
             '<%= app.test %>/main.js'
+          ]
+        }
+      },
+      testDowloadView: {
+        files: {
+          '<%= app.build %>/<%= app.test %>/DownloadViewUITest.js': [
+            '<%= app.test %>/DownloadViewUITest.js'
+          ]
+        }
+      },
+      testModalView: {
+        files: {
+          '<%= app.build %>/<%= app.test %>/ModalViewUITest.js': [
+            '<%= app.test %>/ModalViewUITest.js'
+          ]
+        }
+      },
+      testSelectView: {
+        files: {
+          '<%= app.build %>/<%= app.test %>/SelectViewUITest.js': [
+            '<%= app.test %>/SelectViewUITest.js'
           ]
         }
       }
@@ -38,15 +60,14 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          base: '<%= app.test %>',
-          port: 8000,
-          middleware: function (connect, options) {
-            return [
-              connect.static(appConfig.build + '/' + appConfig.test),
-              connect.static(options.base[0]),
-              connect.static('node_modules')
-            ];
-          }
+          base: [
+            '<%= app.build %>/<%= app.test %>',
+            '<%= app.build %>/<%= app.src %>',
+            '<%= app.test %>',
+            '<%= app.src %>',
+            'node_modules'
+          ],
+          port: 8000
         }
       }
     },
@@ -73,11 +94,11 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: ['<%= app.src %>/**/*.js'],
-        tasks: ['jshint:scripts', 'browserify:tests', 'mocha_phantomjs']
+        tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
       },
       tests: {
         files: ['<%= app.test %>/*.html', '<%= app.test %>/**/*.js'],
-        tasks: [ 'jshint:tests', 'browserify:tests', 'mocha_phantomjs']
+        tasks: [ 'jshint:tests', 'browserify', 'mocha_phantomjs']
       },
       gruntfile: {
         files: ['Gruntfile.js'],
@@ -92,7 +113,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'browserify:tests',
+    'browserify',
     'connect:dev',
     'mocha_phantomjs'
   ]);
