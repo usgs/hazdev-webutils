@@ -6,49 +6,49 @@
 //     https://developer.mozilla.org
 //         /en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 if (!Function.prototype.bind) {
-	Function.prototype.bind = function (oThis) {
-	'use strict';
-		if (typeof this !== 'function') {
-			// closest thing possible to the ECMAScript 5 internal IsCallable
-			throw new TypeError('object to be bound is not callable');
-		}
+  Function.prototype.bind = function (oThis) {
+  'use strict';
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5 internal IsCallable
+      throw new TypeError('object to be bound is not callable');
+    }
 
-		var aArgs = Array.prototype.slice.call(arguments, 1),
-		    fToBind = this,
-		    FNOP = function () {},
-		    fBound;
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        FNOP = function () {},
+        fBound;
 
-		fBound = function () {
-			return fToBind.apply(
-					(this instanceof FNOP && oThis ? this : oThis),
-					aArgs.concat(Array.prototype.slice.call(arguments)));
-		};
+    fBound = function () {
+      return fToBind.apply(
+          (this instanceof FNOP && oThis ? this : oThis),
+          aArgs.concat(Array.prototype.slice.call(arguments)));
+    };
 
-		FNOP.prototype = this.prototype;
-		fBound.prototype = new FNOP();
+    FNOP.prototype = this.prototype;
+    fBound.prototype = new FNOP();
 
-		return fBound;
-	};
+    return fBound;
+  };
 }
 
 (function () {
-	'use strict';
-	mocha.setup('bdd');
+  'use strict';
+  mocha.setup('bdd');
 
-	// Add each test class here as they are implemented
-	require('./spec/mvc/CollectionTest');
-	require('./spec/mvc/ModelTest');
-	require('./spec/mvc/SelectViewTest');
-	require('./spec/mvc/CollectionTableTest');
-	require('./spec/mvc/CollectionSelectBoxTest');
+  // Add each test class here as they are implemented
+  require('./spec/mvc/CollectionTest');
+  require('./spec/mvc/ModelTest');
+  require('./spec/mvc/SelectViewTest');
+  require('./spec/mvc/CollectionTableTest');
+  require('./spec/mvc/CollectionSelectBoxTest');
 
-	require('./spec/util/EventsTest');
-	require('./spec/util/UtilTest');
-	require('./spec/util/XhrTest');
+  require('./spec/util/EventsTest');
+  require('./spec/util/UtilTest');
+  require('./spec/util/XhrTest');
 
-	if (window.mochaPhantomJS) {
-			window.mochaPhantomJS.run();
-	} else {
-		mocha.run();
-	}
+  if (window.mochaPhantomJS) {
+      window.mochaPhantomJS.run();
+  } else {
+    mocha.run();
+  }
 })(this);

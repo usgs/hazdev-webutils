@@ -2,65 +2,65 @@
 'use strict';
 
 var Collection = require('mvc/Collection'),
-		expect = require('chai').expect,
-		Model = require('mvc/Model'),
-		SelectView = require('mvc/SelectView'),
-		sinon = require('sinon');
+    expect = require('chai').expect,
+    Model = require('mvc/Model'),
+    SelectView = require('mvc/SelectView'),
+    sinon = require('sinon');
 
 
 describe('SelectView test suite.', function () {
-	describe('Constructor', function () {
-		it('Can be defined.', function () {
-			/* jshint -W030 */
-			expect(SelectView).not.to.be.undefined;
-			/* jshint +W030 */
-		});
-	});
+  describe('Constructor', function () {
+    it('Can be defined.', function () {
+      /* jshint -W030 */
+      expect(SelectView).not.to.be.undefined;
+      /* jshint +W030 */
+    });
+  });
 
-	describe('render', function () {
-		it('is called when collection events trigger', function () {
-			var c = null,
-			    v = null,
-			    m = null,
-			    spy;
+  describe('render', function () {
+    it('is called when collection events trigger', function () {
+      var c = null,
+          v = null,
+          m = null,
+          spy;
 
-			c = Collection();
-			v = SelectView({collection: c});
-			m = Model({display: 'Item 1', value: '1', id: 1});
+      c = Collection();
+      v = SelectView({collection: c});
+      m = Model({display: 'Item 1', value: '1', id: 1});
 
-			spy = sinon.spy(v, 'render');
+      spy = sinon.spy(v, 'render');
 
-			c.add(m);
-			expect(spy.callCount).to.equal(1);
+      c.add(m);
+      expect(spy.callCount).to.equal(1);
 
-			c.remove(m);
-			expect(spy.callCount).to.equal(2);
+      c.remove(m);
+      expect(spy.callCount).to.equal(2);
 
-			c.reset();
-			expect(spy.callCount).to.equal(3);
+      c.reset();
+      expect(spy.callCount).to.equal(3);
 
-			v.render.restore();
-		});
+      v.render.restore();
+    });
 
-		it('keeps the selected item selected', function () {
-			var c = Collection(),
-			    v = SelectView({collection: c}),
-			    sb = v.el,
-			    m1 = Model({id: 1, value: '1', display: 'Item 1'}),
-			    m2 = Model({id: 2, value: '2', display: 'Item 2'}),
-			    m3 = Model({id: 3, value: '3', display: 'Item 3'}),
-			    m4 = Model({id: 4, value: '4', display: 'Item 4'});
+    it('keeps the selected item selected', function () {
+      var c = Collection(),
+          v = SelectView({collection: c}),
+          sb = v.el,
+          m1 = Model({id: 1, value: '1', display: 'Item 1'}),
+          m2 = Model({id: 2, value: '2', display: 'Item 2'}),
+          m3 = Model({id: 3, value: '3', display: 'Item 3'}),
+          m4 = Model({id: 4, value: '4', display: 'Item 4'});
 
-			c.add(m1);
-			c.add(m2);
-			c.select(m2);
+      c.add(m1);
+      c.add(m2);
+      c.select(m2);
 
-			expect(sb.selectedIndex).to.equal(1);
+      expect(sb.selectedIndex).to.equal(1);
 
-			c.add(m3);
-			c.add(m4);
+      c.add(m3);
+      c.add(m4);
 
-			expect(sb.selectedIndex).to.equal(1);
-		});
-	});
+      expect(sb.selectedIndex).to.equal(1);
+    });
+  });
 });

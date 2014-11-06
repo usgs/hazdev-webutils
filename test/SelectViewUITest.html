@@ -3,87 +3,87 @@
 <head>
 </head>
 <body>
-	<h1>Select View UI Test</h1>
+  <h1>Select View UI Test</h1>
 
-	<p class="instructions">
-		Below are two select views that are bound to the same collection. By
-		selecting an item in either select box, the select items in both box select
-		boxes should update.
-	</p>
-	<select id="selectBox1"></select>
-	<select id="selectBox2"></select>
+  <p class="instructions">
+    Below are two select views that are bound to the same collection. By
+    selecting an item in either select box, the select items in both box select
+    boxes should update.
+  </p>
+  <select id="selectBox1"></select>
+  <select id="selectBox2"></select>
 
-	<p class="instructions">
-		Use the buttons below to add, remove, or clear items to/from the underlying
-		collection. You should see the results of your action reflected in both
-		select boxes above.
-	</p>
+  <p class="instructions">
+    Use the buttons below to add, remove, or clear items to/from the underlying
+    collection. You should see the results of your action reflected in both
+    select boxes above.
+  </p>
 
-	<button id="addItem">Add New Item</button>
-	<button id="removeItem">Remove First Item</button>
-	<button id="resetItems">Clear All Items</button>
+  <button id="addItem">Add New Item</button>
+  <button id="removeItem">Remove First Item</button>
+  <button id="resetItems">Clear All Items</button>
 
-	<script src="requirejs/require.js"></script>
-	<script>
-	require.config({
+  <script src="requirejs/require.js"></script>
+  <script>
+  require.config({
 
-	});
+  });
 
-	require([
-		'mvc/SelectView',
-		'mvc/Collection',
-		'mvc/Model',
+  require([
+    'mvc/SelectView',
+    'mvc/Collection',
+    'mvc/Model',
 
-		'util/Util'
-	], function (
-		SelectView,
-		Collection,
-		Model,
+    'util/Util'
+  ], function (
+    SelectView,
+    Collection,
+    Model,
 
-		Util
-	) {
-		var c = new Collection(),
-		    box1 = document.querySelector('#selectBox1'),
-		    box2 = document.querySelector('#selectBox2'),
-		    v1 = new SelectView({collection: c, el: box1}),
-		    v2 = new SelectView({collection: c, el: box2}),
-		    modelId = 0;
+    Util
+  ) {
+    var c = new Collection(),
+        box1 = document.querySelector('#selectBox1'),
+        box2 = document.querySelector('#selectBox2'),
+        v1 = new SelectView({collection: c, el: box1}),
+        v2 = new SelectView({collection: c, el: box2}),
+        modelId = 0;
 
-		var addModel = function () {
-			var m = new Model({id: modelId, value: '' + modelId,
-					display: 'Custom Model ' + modelId});
+    var addModel = function () {
+      var m = new Model({id: modelId, value: '' + modelId,
+          display: 'Custom Model ' + modelId});
 
-			c.add(m);
+      c.add(m);
 
-			modelId += 1;
-		};
+      modelId += 1;
+    };
 
-		var removeModel = function () {
-			var data = c.data();
-			if (!data || data.length <= 0) {
-				alert('No more items to remove!');
-				return;
-			}
+    var removeModel = function () {
+      var data = c.data();
+      if (!data || data.length <= 0) {
+        alert('No more items to remove!');
+        return;
+      }
 
-			c.remove(data[0]);
-		};
+      c.remove(data[0]);
+    };
 
-		var resetCollection = function () {
-			c.reset();
-		};
+    var resetCollection = function () {
+      c.reset();
+    };
 
-		// Bind event listeners to buttons
-		Util.addEvent(document.querySelector('#addItem'), 'click', addModel);
-		Util.addEvent(document.querySelector('#removeItem'), 'click', removeModel);
-		Util.addEvent(document.querySelector('#resetItems'), 'click',
-				resetCollection);
+    // Bind event listeners to buttons
+    Util.addEvent(document.querySelector('#addItem'), 'click', addModel);
+    Util.addEvent(document.querySelector('#removeItem'), 'click', removeModel);
+    Util.addEvent(document.querySelector('#resetItems'), 'click',
+        resetCollection);
 
-		// Preload some models
-		addModel();
-		addModel();
-		addModel();
-		addModel();
-	});
-	</script>
+    // Preload some models
+    addModel();
+    addModel();
+    addModel();
+    addModel();
+  });
+  </script>
 </body>
 </html>
