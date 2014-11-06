@@ -1,3 +1,5 @@
+/* global mocha */
+
 // PhantomJS is missing native bind support,
 //     https://github.com/ariya/phantomjs/issues/10522
 // Polyfill from:
@@ -5,7 +7,7 @@
 //         /en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
 if (!Function.prototype.bind) {
 	Function.prototype.bind = function (oThis) {
-		'use strict';
+	'use strict';
 		if (typeof this !== 'function') {
 			// closest thing possible to the ECMAScript 5 internal IsCallable
 			throw new TypeError('object to be bound is not callable');
@@ -29,51 +31,24 @@ if (!Function.prototype.bind) {
 	};
 }
 
-
-require.config({
-	baseUrl: '..',
-	paths: {
-		mocha: 'mocha/mocha',
-		chai: 'chai/chai',
-		sinon: 'sinon/pkg/sinon'
-	},
-	shim: {
-		mocha: {
-			exports: 'mocha'
-		},
-		chai: {
-			deps: ['mocha'],
-			exports: 'chai'
-		},
-		sinon: {
-			exports: 'sinon'
-		}
-	}
-});
-
-require([
-	'mocha',
-], function (mocha) {
+(function () {
 	'use strict';
-
 	mocha.setup('bdd');
 
 	// Add each test class here as they are implemented
-	require([
-		'spec/mvc/CollectionTest',
-		'spec/mvc/ModelTest',
-		'spec/mvc/SelectViewTest',
-		'spec/mvc/CollectionTableTest',
-		'spec/mvc/CollectionSelectBoxTest',
+	require('./spec/mvc/CollectionTest');
+	require('./spec/mvc/ModelTest');
+	require('./spec/mvc/SelectViewTest');
+	require('./spec/mvc/CollectionTableTest');
+	require('./spec/mvc/CollectionSelectBoxTest');
 
-		'spec/util/EventsTest',
-		'spec/util/UtilTest',
-		'spec/util/XhrTest'
-	], function () {
-		if (window.mochaPhantomJS) {
+	require('./spec/util/EventsTest');
+	require('./spec/util/UtilTest');
+	require('./spec/util/XhrTest');
+
+	if (window.mochaPhantomJS) {
 			window.mochaPhantomJS.run();
-		} else {
-			mocha.run();
-		}
-	});
-});
+	} else {
+		mocha.run();
+	}
+})(this);
