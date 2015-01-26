@@ -5,7 +5,7 @@ var config = require('./config');
 var browserify = {
   options: {
     browserifyOptions: {
-      // debug: true,
+      debug: true,
       paths: [
         process.cwd() + '/' + config.src
       ]
