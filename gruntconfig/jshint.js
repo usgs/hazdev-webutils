@@ -2,7 +2,7 @@
 
 var config = require('./config');
 
-module.exports = {
+var jshint = {
   options: {
     jshintrc: '.jshintrc'
   },
@@ -10,3 +10,5 @@ module.exports = {
   scripts: [config.src + '/**/*.js'],
   tests: [config.test + '/**/*.js']
 };
+
+module.exports = jshint;

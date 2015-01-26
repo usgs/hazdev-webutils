@@ -1,7 +1,9 @@
 'use strict';
 
-module.exports = {
+var config = {
   src: 'src',
   test: 'test',
   build: '.build'
 };
+
+module.exports = config;

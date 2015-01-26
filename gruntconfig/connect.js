@@ -2,7 +2,7 @@
 
 var config = require('./config');
 
-module.exports = {
+var connect = {
   options: {
     hostname: '*'
   },
@@ -19,3 +19,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = connect;

@@ -2,7 +2,7 @@
 
 var config = require('./config');
 
-module.exports = {
+var watch = {
   scripts: {
     files: [config.src + '/**/*.js'],
     tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
@@ -16,3 +16,5 @@ module.exports = {
     tasks: ['jshint:gruntfile']
   }
 };
+
+module.exports = watch;

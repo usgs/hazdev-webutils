@@ -2,7 +2,7 @@
 
 var config = require('./connect').dev.options;
 
-module.exports = {
+var mocha_phantomjs = {
   all: {
     options: {
       urls: [
@@ -11,3 +11,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = mocha_phantomjs;
