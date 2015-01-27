@@ -10,10 +10,7 @@ var connect = {
     options: {
       base: [
         config.build + '/' + config.test,
-        config.build + '/' + config.src,
-        config.test,
-        config.src,
-        'node_modules'
+        config.build + '/' + config.src
       ],
       port: 8000
     }
