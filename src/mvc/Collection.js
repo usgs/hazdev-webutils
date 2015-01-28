@@ -77,6 +77,7 @@ var Collection = function (data) {
     _data = null;
     _ids = null;
     _this.deselect();
+    _this.off();
   };
 
   /**
