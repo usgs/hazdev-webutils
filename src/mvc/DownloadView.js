@@ -5,16 +5,16 @@ var ModalView = require('./ModalView'),
     View = require('./View');
 
 
-  var _DEFAULTS = {
-    // title of modal dialog.
-    title: 'Download',
-    // markup to describe download content.
-    help: '',
-    // callback function to format collection for download.
-    format: function (collection) {
-      return JSON.stringify(collection);
-    }
-  };
+var _DEFAULTS = {
+  // title of modal dialog.
+  title: 'Download',
+  // markup to describe download content.
+  help: '',
+  // callback function to format collection for download.
+  format: function (collection) {
+    return JSON.stringify(collection);
+  }
+};
 
 
 /**
@@ -64,16 +64,17 @@ var DownloadView = function (params) {
   /**
    * Destroy the download view.
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
     if (_modal) {
       // TODO: hide first?
       _modal.destroy();
       _modal = null;
     }
 
+    _collection = null;
+    _format = null;
     _textarea = null;
-    _this.el = null;
-  };
+  }, _this.destroy);
 
   /**
    * Format collection for download.
