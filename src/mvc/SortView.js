@@ -2,6 +2,7 @@
 
 var Collection = require('./Collection'),
     CollectionSelectBox = require('./CollectionSelectBox'),
+    Util = require('../util/Util'),
     View = require('./View');
 
 /**
@@ -35,8 +36,7 @@ var SortView = function (params) {
       _sortCollection,
 
       _getSortFunction,
-      _onSelect,
-      _parentDestroy;
+      _onSelect;
 
 
   _this = Object.create(View(params));
@@ -136,16 +136,12 @@ var SortView = function (params) {
   /**
    * Destroy the SortView.
    */
-  _parentDestroy = _this.destroy || function () {}; // TODO :: Better way?
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
     _sortCollection.off('select', _onSelect, this);
     _sortCollection = null;
     _collection = null;
     _selectView.destroy();
-
-    // call parent destroy
-    _parentDestroy.call(this);
-  };
+  }, _this.destroy);
 
 
   _initialize();
