@@ -13,18 +13,36 @@ var browserify = {
   }
 };
 
-// bundles
+// example bundles
 [
-  'index',
   'DownloadViewUITest',
   'ModalViewUITest' ,
   'SelectViewUITest'
 ].forEach(function (bundle) {
-  var targetFile = config.build + '/' + config.test + '/' + bundle + '.js';
-  var sourceFile = config.test + '/' + bundle + '.js';
+  browserify[bundle] = {
+    src: config.example + '/' + bundle + '.js',
+    dest: config.build + '/' + config.example + '/' + bundle + '.js'
+  };
+});
 
-  browserify[bundle] = {files: {}};
-  browserify[bundle].files[targetFile] = [sourceFile];
+// source bundles
+[
+  'bundle',
+].forEach(function (bundle) {
+  browserify[bundle] = {
+    src: config.src + '/' + bundle + '.js',
+    dest: config.build + '/' + config.src + '/' + bundle + '.js'
+  };
+});
+
+// test bundles
+[
+  'index',
+].forEach(function (bundle) {
+  browserify[bundle] = {
+    src: config.test + '/' + bundle + '.js',
+    dest: config.build + '/' + config.test + '/' + bundle + '.js'
+  };
 });
 
 
