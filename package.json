@@ -32,22 +32,20 @@
   "license": "Public Domain",
   "dependencies": {},
   "devDependencies": {
-    "chai": "^1.9.2",
-    "connect-livereload": "^0.5.0",
-    "gateway": "^1.0.0",
+    "chai": "^1.10.0",
     "grunt": "^0.4.5",
-    "grunt-browserify": "^3.2.0",
+    "grunt-browserify": "^3.3.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compass": "^1.0.1",
-    "grunt-contrib-connect": "^0.8.0",
+    "grunt-contrib-connect": "^0.9.0",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "^0.11.0",
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-phantomjs": "^0.6.0",
-    "mocha": "^2.0.1",
-    "sinon": "^1.11.1"
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2"
   },
   "engines": {
     "node": ">=0.1.0"
