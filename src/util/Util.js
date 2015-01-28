@@ -1,10 +1,8 @@
 'use strict';
 
 // do these checks once, instead of once per call
-var supportsClassList = false,
-  supportsAddEventListener = false,
-  supportsDateInput = false,
-  isMobile = false;
+var isMobile = false,
+    supportsDateInput = false;
 
 
 // static object with utility methods
@@ -240,8 +238,6 @@ Util.isArray = function (a) {
   var str = navigator.userAgent||navigator.vendor||window.opera;
 
   isMobile = str.match(/(Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone)/i);
-  supportsClassList = ('classList' in testEl);
-  supportsAddEventListener = ('addEventListener' in testEl);
   testInput.setAttribute('type', 'date');
   supportsDateInput = (testInput.type !== 'text');
 
