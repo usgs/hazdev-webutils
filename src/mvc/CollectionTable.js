@@ -130,7 +130,7 @@ var CollectionTable = function (params) {
   /**
    * Undo initialization and free references.
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
 
     _collection.off('add', _this.render);
     _collection.off('remove', _this.render);
@@ -143,9 +143,7 @@ var CollectionTable = function (params) {
       _this.el.removeEventListener('click', _onClick);
     }
     _clickToSelect = null;
-
-    _this.el = null;
-  };
+  }, _this.destroy);
 
   /**
    * Render the view.

@@ -119,7 +119,7 @@ var CollectionSelectBox = function (params) {
   /**
    * Destroy CollectionSelectBox.
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
     _collection.off('add', _this.render);
     _collection.off('remove', _this.render);
     _collection.off('reset', _this.render);
@@ -130,8 +130,7 @@ var CollectionSelectBox = function (params) {
 
     _collection = null;
     _selectBox = null;
-    _this.el = null;
-  };
+  }, _this.destroy);
 
   /**
    * Update select box items.
