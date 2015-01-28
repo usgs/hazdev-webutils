@@ -12,6 +12,7 @@ var connect = {
         config.build + '/' + config.example,
         config.build + '/' + config.src
       ],
+      open: 'http://localhost:8000/index.html',
       port: 8000
     }
   },
@@ -29,6 +30,8 @@ var connect = {
       base: [
         config.dist
       ],
+      keepalive: true,
+      open: 'http://localhost:8002/',
       port: 8002
     }
   }
