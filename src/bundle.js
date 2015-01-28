@@ -11,7 +11,6 @@ var bundle = {
     Model: require('./mvc/Model'),
     SelectView: require('./mvc/SelectView'),
     SortView: require('./mvc/SortView'),
-    ToggleView: require('./mvc/ToggleView'),
     View: require('./mvc/View')
   },
 
