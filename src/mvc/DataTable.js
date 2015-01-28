@@ -60,6 +60,17 @@ var DataTable = function (params) {
     _collection = params.collection;
     _columns = params.columns;
 
+    // sort
+    _sorts = params.sorts;
+    if (_sorts) {
+      _sortView = new SortView({
+        collection: _collection,
+        sorts: _sorts,
+        defaultSort: params.defaultSort
+      });
+      tools.appendChild(_sortView.el);
+    }
+
     // data
     _collectionTable = new CollectionTable(
         Util.extend({}, params, {
@@ -79,16 +90,6 @@ var DataTable = function (params) {
     _downloadButton.addEventListener('click', _downloadView.show);
     tools.appendChild(_downloadButton);
 
-    // sort
-    _sorts = params.sorts;
-    if (_sorts) {
-      _sortView = new SortView({
-        collection: _collection,
-        sorts: _sorts,
-        defaultSort: params.defaultSort
-      });
-      tools.appendChild(_sortView.el);
-    }
 
     params = null;
   };
@@ -138,7 +139,7 @@ var DataTable = function (params) {
   /**
    * Destroy the DataTable.
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
     if (_sortView) {
       _sortView.destroy();
       _sortView = null;
@@ -152,9 +153,7 @@ var DataTable = function (params) {
 
     _collectionTable.destroy();
     _collectionTable = null;
-
-    _this.el = null;
-  };
+  }, _this.destroy);
 
 
   _initialize();
