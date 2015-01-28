@@ -4,12 +4,19 @@ var config = require('./config');
 
 var watch = {
   scripts: {
-    files: [config.src + '/**/*.js'],
+    files: [
+      config.example + '/**/*.js',
+      config.src + '/**/*.js',
+      config.test + '/**/*.js'
+    ],
     tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
   },
-  tests: {
-    files: [config.test + '/*.html', config.test + '/**/*.js'],
-    tasks: [ 'jshint:tests', 'browserify', 'mocha_phantomjs']
+  html: {
+    files: [
+      config.example + '/**/*.html',
+      config.test + '/**/*.html'
+    ],
+    tasks: [ 'copy:example', 'copy:test']
   },
   gruntfile: {
     files: ['Gruntfile.js'],
