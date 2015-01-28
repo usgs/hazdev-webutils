@@ -52,7 +52,6 @@ var View = function (params) {
    */
   _this.destroy = function () {
     _this.el = null;
-    _this.off();
   };
 
 
