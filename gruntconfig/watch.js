@@ -18,6 +18,14 @@ var watch = {
     ],
     tasks: [ 'copy:example', 'copy:test']
   },
+  reload: {
+    files: [
+      config.build + '/**/*'
+    ],
+    options: {
+      livereload: true
+    }
+  },
   gruntfile: {
     files: ['Gruntfile.js'],
     tasks: ['jshint:gruntfile']
