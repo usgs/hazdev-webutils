@@ -9,10 +9,27 @@ var connect = {
   dev: {
     options: {
       base: [
-        config.build + '/' + config.test,
+        config.build + '/' + config.example,
         config.build + '/' + config.src
       ],
       port: 8000
+    }
+  },
+  test: {
+    options: {
+      base: [
+        config.build + '/' + config.test,
+        config.build + '/' + config.src
+      ],
+      port: 8001
+    }
+  },
+  dist: {
+    options: {
+      base: [
+        config.dist
+      ],
+      port: 8002
     }
   }
 };
