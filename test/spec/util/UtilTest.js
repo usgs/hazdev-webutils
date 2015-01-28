@@ -72,6 +72,19 @@ describe('Unit tests for the "Util" class', function () {
     // TODO :: Test more complex object extension
   });
 
+  describe('compose()', function () {
+    var a = function (val) { return val + 1; },
+        b = function (val) { return val + 2; },
+        c = function (val) { return val - 3; };
+
+    it('returns expected results', function () {
+      var fn = Util.compose(a, b, c);
+      expect(fn(0)).to.equal(0);
+    });
+
+    // TODO :: Test more interesting functions
+  });
+
   describe('contains()', function () {
     var testArray = [
       'hello', 'world', null, 42, 9.2, base, 'goodbye'

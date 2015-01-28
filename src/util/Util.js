@@ -193,6 +193,40 @@ Util.getWindowSize = function () {
 };
 
 /**
+ * Creates a function that is a composition of other functions.
+ *
+ * For example:
+ *      a(b(c(x))) === compose(c, b, a)(x);
+ *
+ * Each function should accept as an argument, the result of the previous
+ * function call in the chain. It is allowable for all functions to have no
+ * return value as well.
+ *
+ * @param ... {Function} A variable set of functions to call, in order.
+ *
+ * @return {Function} The composition of the functions provided as arguments.
+ */
+Util.compose = function () {
+  var fns = arguments;
+
+  return function (result) {
+    var i,
+        fn,
+        len;
+
+    for (i = 0, len = fns.length; i < len; i++) {
+      fn = fns[i];
+
+      if (fn && fn.call) {
+        result = fn.call(this, result);
+      }
+    }
+
+    return result;
+  };
+};
+
+/**
  * Checks the elements of a looking for b. b is assumed to be found if for
  * some object in a (a[i]), a[i] === b. Note strict equality.
  *
