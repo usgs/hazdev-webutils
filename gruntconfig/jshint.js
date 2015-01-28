@@ -7,8 +7,11 @@ var jshint = {
     jshintrc: '.jshintrc'
   },
   gruntfile: ['Gruntfile.js'],
-  scripts: [config.src + '/**/*.js'],
-  tests: [config.test + '/**/*.js']
+  scripts: [
+    config.example + '/**/*.js',
+    config.src + '/**/*.js',
+    config.test + '/**/*.js'
+  ]
 };
 
 module.exports = jshint;
