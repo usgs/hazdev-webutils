@@ -11,6 +11,7 @@ var _DEFAULT_JSONP_OPTIONS = {
   url: null,
   success: null,
   error: null,
+  done: null,
   data: null,
   callbackName: null,
   callbackParameter: 'callback'
@@ -21,6 +22,7 @@ var _DEFAULT_AJAX_OPTIONS = {
   url: null,
   success: null,
   error: null,
+  done: null,
   method: 'GET',
   headers: null,
   data: null,
@@ -47,6 +49,8 @@ var ajax,
  *      called with data loaded by script
  * @param options.error {Function} optional
  *      called when script fails to load
+ * @param options.done {Function}
+ *        called when ajax is complete, after success or error.
  * @param options.method {String}
  *      request method, default is 'GET'
  * @param options.headers {Object}
@@ -110,6 +114,9 @@ ajax = function (options) {
           options.error(xhr.status, xhr);
         }
       }
+      if (options.done !== null) {
+        options.done(xhr);
+      }
     }
   };
 
@@ -146,6 +153,8 @@ getCallbackName = function () {
  *      called with data loaded by script
  * @param options.error {Function} optional
  *      called when script fails to load
+ * @param options.done {Function} optional
+ *        called when jsonp is complete, after success or error.
  * @param options.data {Object} optional
  *      request parameters to add to url
  *
@@ -156,9 +165,6 @@ getCallbackName = function () {
 jsonp = function (options) {
   var data,
       callback,
-      onLoad,
-      onError,
-      script,
       url;
 
   options = Util.extend({}, _DEFAULT_JSONP_OPTIONS, options);
@@ -176,9 +182,14 @@ jsonp = function (options) {
   };
 
   Util.loadScript(url, {
+    error: options.error,
     done: function () {
       window[callback] = null;
       delete window[callback];
+
+      if (options.done !== null) {
+        options.done();
+      }
     }
   });
 };
