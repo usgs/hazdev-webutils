@@ -265,6 +265,77 @@ Util.isArray = function (a) {
 };
 
 
+/**
+ * Load a script asynchronously.
+ *
+ * @param url {String}
+ *        script to load.
+ * @param options {Object}
+ *        additional options.
+ * @param options.success {Function} optional.
+ *        called after script loads successfully.
+ * @param options.error {Function} optional.
+ *        called after script fails to load.
+ * @param options.done {Function} optional
+ *        called after loadScript is complete,
+ *        after calling success or error.
+ */
+Util.loadScript = function (url, options) {
+  // load secondary script
+  var cleanup,
+      done,
+      onError,
+      onLoad,
+      script;
+
+  options = Util.extend({}, {
+    success: null,
+    error: null,
+    done: null
+  }, options);
+
+  cleanup = function () {
+    script.removeEventListener('load', onLoad);
+    script.removeEventListener('error', onError);
+    script.parentNode.removeChild(script);
+    cleanup = null;
+    onLoad = null;
+    onError = null;
+    script = null;
+  };
+
+  done = function () {
+    if (options.done !== null) {
+      options.done();
+    }
+    options = null;
+  };
+
+  onError = function () {
+    cleanup();
+    if (options.error !== null) {
+      options.error.apply(null, arguments);
+    }
+    done();
+  };
+
+  onLoad = function () {
+    cleanup();
+    if (options.success !== null) {
+      options.success.apply(null, arguments);
+    }
+    done();
+  };
+
+  script = document.createElement('script');
+  script.addEventListener('load', onLoad);
+  script.addEventListener('error', onError);
+  script.src = url;
+  script.async = true;
+  document.querySelector('script').parentNode.appendChild(script);
+};
+
+
 // Do these checks once and cache the results
 (function() {
   var testEl = document.createElement('div');

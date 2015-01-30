@@ -170,46 +170,17 @@ jsonp = function (options) {
   data[options.callbackParameter] = callback;
   url += (url.indexOf('?') === -1 ? '?' : '&') + urlEncode(data);
 
-  // create script element for jsonp request
-  script = document.createElement('script');
-  script.src = url;
-  script.async = true;
-
   // setup global callback called by script
   window[callback] = function () {
     options.success.apply(null, arguments);
   };
 
-  // called after successful load, or by error handler
-  onLoad = function () {
-    // remove event handlers
-    script.removeEventListener('load', onLoad);
-    script.removeEventListener('error', onError);
-    onLoad = null;
-    onError = null;
-    // remove script element
-    script.parentNode.removeChild(script);
-    script = null;
-    // remove global callback
-    window[callback] = null;
-    delete window[callback];
-  };
-
-  // called after error loading script
-  onError = function () {
-    onLoad();
-    // call error callback
-    if (options.error !== null) {
-      options.error.apply(null, arguments);
+  Util.loadScript(url, {
+    done: function () {
+      window[callback] = null;
+      delete window[callback];
     }
-  };
-
-  // attach script event handlers
-  script.addEventListener('load', onLoad);
-  script.addEventListener('error', onError);
-
-  // add script to start request
-  document.getElementsByTagName('script')[0].parentNode.appendChild(script);
+  });
 };
 
 restrictOrigin = function (url) {
