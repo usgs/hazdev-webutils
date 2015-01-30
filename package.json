@@ -32,6 +32,8 @@
   "license": "Public Domain",
   "dependencies": {
     "browserify": "^8.1.1",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-htmlmin": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",

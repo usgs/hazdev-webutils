@@ -8,8 +8,8 @@ var cssmin = {
   }
 };
 
-cssmin.dist.files[config.dist + '/index.css'] = [
-  config.build + '/' + config.src + '/bundle.css'
+cssmin.dist.files[config.dist + '/hazdev-webutils.css'] = [
+  config.build + '/' + config.src + '/hazdev-webutils.css'
 ];
 
 module.exports = cssmin;

@@ -41,11 +41,13 @@ module.exports = function (grunt) {
   grunt.registerTask('build', taskList([
     'dev',
     'cssmin',
-    'uglify'
+    'uglify',
+    'htmlmin'
   ]));
 
   // default task useful during development
   grunt.registerTask('default', taskList([
+    'clean',
     'dev',
     'connect:dev',
     'test',
@@ -56,6 +58,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dev', taskList([
     'browserify',
     'compass',
+    'concat',
     'copy'
   ]));
 
