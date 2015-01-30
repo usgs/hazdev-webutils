@@ -8,8 +8,18 @@ var uglify = {
   }
 };
 
-uglify.dist.files[config.dist + '/index.js'] = [
-  config.build + '/' + config.src + '/bundle.js'
-];
+// main bundle
+uglify.dist.files[config.dist + '/hazdev-webutils.js'] =
+    config.build + '/' + config.src + '/hazdev-webutils.js';
+
+// examples
+[
+  'DownloadViewUITest.js',
+  'ModalViewUITest.js',
+  'SelectViewUITest.js'
+].forEach(function (path) {
+  uglify.dist.files[config.dist + '/' + path] =
+    config.build + '/' + config.example + '/' + path;
+});
 
 module.exports = uglify;

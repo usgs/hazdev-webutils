@@ -30,7 +30,9 @@
   },
   "main": "dist/index.js",
   "license": "Public Domain",
-  "dependencies": {},
+  "dependencies": {
+    "browserify": "^8.1.1",
+  },
   "devDependencies": {
     "chai": "^1.10.0",
     "grunt": "^0.4.5",
