@@ -52,7 +52,7 @@ browserify['bundle'] = {
   dest: config.build + '/' + config.src + '/hazdev-webutils.js',
   options: {
     alias: EXTERNALS.map(function (path) {
-      return './' + config.src + '/' + path + ':' + path;
+      return './' + config.src + '/' + path + '.js:' + path;
     })
   }
 };
