@@ -2,17 +2,6 @@
 
 var config = require('./config');
 
-var browserify = {
-  options: {
-    browserifyOptions: {
-      debug: true,
-      paths: [
-        process.cwd() + '/' + config.src
-      ]
-    }
-  }
-};
-
 
 var EXTERNALS = [
   'mvc/Collection',
@@ -31,6 +20,36 @@ var EXTERNALS = [
 ];
 
 
+var browserify = {
+  options: {
+    browserifyOptions: {
+      debug: true,
+      paths: [
+        process.cwd() + '/' + config.src
+      ]
+    }
+  },
+
+  // source bundle
+  source : {
+    src: [],
+    dest: config.build + '/' + config.src + '/hazdev-webutils.js',
+    options: {
+      alias: EXTERNALS.map(function (path) {
+        return './' + config.src + '/' + path + '.js:' + path;
+      })
+    }
+  },
+
+  // test bundle
+  test: {
+    src: config.test + '/index.js',
+    dest: config.build + '/' + config.test + '/index.js'
+  }
+
+};
+
+
 // example bundles
 [
   'DownloadViewUITest',
@@ -45,23 +64,6 @@ var EXTERNALS = [
     }
   };
 });
-
-// source bundles
-browserify.bundle = {
-  src: [],
-  dest: config.build + '/' + config.src + '/hazdev-webutils.js',
-  options: {
-    alias: EXTERNALS.map(function (path) {
-      return './' + config.src + '/' + path + '.js:' + path;
-    })
-  }
-};
-
-// test bundles
-browserify.test = {
-  src: config.test + '/index.js',
-  dest: config.build + '/' + config.test + '/index.js'
-};
 
 
 module.exports = browserify;
