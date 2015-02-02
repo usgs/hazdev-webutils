@@ -4,12 +4,12 @@ var config = {
   browserify: require('./browserify'),
   clean: require('./clean'),
   compass: require('./compass'),
-  concat: require('./concat'),
   connect: require('./connect'),
   copy: require('./copy'),
   cssmin: require('./cssmin'),
   htmlmin: require('./htmlmin'),
   jshint: require('./jshint'),
+  replace: require('./replace'),
   uglify: require('./uglify'),
   watch: require('./watch'),
   mocha_phantomjs: require('./mocha_phantomjs'),
@@ -18,7 +18,6 @@ var config = {
     'grunt-browserify',
     'grunt-contrib-clean',
     'grunt-contrib-compass',
-    'grunt-contrib-concat',
     'grunt-contrib-connect',
     'grunt-contrib-copy',
     'grunt-contrib-cssmin',
@@ -26,7 +25,8 @@ var config = {
     'grunt-contrib-jshint',
     'grunt-contrib-uglify',
     'grunt-contrib-watch',
-    'grunt-mocha-phantomjs'
+    'grunt-mocha-phantomjs',
+    'grunt-replace'
   ]
 };
 

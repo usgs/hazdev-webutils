@@ -5,8 +5,9 @@ var config = require('./config');
 var htmlmin = {
   dist: {
     options: {
-      removeComments: true,
-      collapseWhitespace: true
+      collapseWhitespace: true,
+      minifyCSS: true,
+      removeComments: true
     },    
     files: [{
       expand: true,

@@ -42,7 +42,8 @@ module.exports = function (grunt) {
     'dev',
     'cssmin',
     'uglify',
-    'htmlmin'
+    'htmlmin',
+    'replace'
   ]));
 
   // default task useful during development
@@ -58,7 +59,6 @@ module.exports = function (grunt) {
   grunt.registerTask('dev', taskList([
     'browserify',
     'compass',
-    'concat',
     'copy'
   ]));
 
