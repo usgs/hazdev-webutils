@@ -47,7 +47,7 @@ var EXTERNALS = [
 });
 
 // source bundles
-browserify['bundle'] = {
+browserify.bundle = {
   src: [],
   dest: config.build + '/' + config.src + '/hazdev-webutils.js',
   options: {
@@ -57,16 +57,11 @@ browserify['bundle'] = {
   }
 };
 
-
 // test bundles
-[
-  'index',
-].forEach(function (bundle) {
-  browserify[bundle] = {
-    src: config.test + '/' + bundle + '.js',
-    dest: config.build + '/' + config.test + '/' + bundle + '.js'
-  };
-});
+browserify.test = {
+  src: config.test + '/index.js',
+  dest: config.build + '/' + config.test + '/index.js'
+};
 
 
 module.exports = browserify;
