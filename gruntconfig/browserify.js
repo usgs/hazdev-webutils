@@ -3,7 +3,7 @@
 var config = require('./config');
 
 
-var EXTERNALS = [
+var EXPORTS = [
   'mvc/Collection',
   'mvc/CollectionSelectBox',
   'mvc/CollectionTable',
@@ -35,7 +35,7 @@ var browserify = {
     src: [],
     dest: config.build + '/' + config.src + '/hazdev-webutils.js',
     options: {
-      alias: EXTERNALS.map(function (path) {
+      alias: EXPORTS.map(function (path) {
         return './' + config.src + '/' + path + '.js:' + path;
       })
     }
@@ -60,7 +60,7 @@ var browserify = {
     src: config.example + '/' + bundle + '.js',
     dest: config.build + '/' + config.example + '/' + bundle + '.js',
     options: {
-      external: EXTERNALS
+      external: EXPORTS
     }
   };
 });
