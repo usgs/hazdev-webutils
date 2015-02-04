@@ -43,8 +43,11 @@ var browserify = {
 
   // test bundle
   test: {
-    src: config.test + '/index.js',
-    dest: config.build + '/' + config.test + '/index.js'
+    src: config.test + '/test.js',
+    dest: config.build + '/' + config.test + '/test.js',
+    options: {
+      exclude: EXPORTS
+    }
   }
 
 };
