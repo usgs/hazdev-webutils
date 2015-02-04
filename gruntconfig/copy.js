@@ -3,12 +3,6 @@
 var config = require('./config');
 
 var copy = {
-  example: {
-    expand: true,
-    cwd: config.example,
-    src: ['**/*.html'],
-    dest: config.build + '/' + config.example
-  },
   test: {
     expand: true,
     cwd: config.test,

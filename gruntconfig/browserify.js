@@ -50,20 +50,4 @@ var browserify = {
 };
 
 
-// example bundles
-[
-  'DownloadViewUITest',
-  'ModalViewUITest' ,
-  'SelectViewUITest'
-].forEach(function (bundle) {
-  browserify[bundle] = {
-    src: config.example + '/' + bundle + '.js',
-    dest: config.build + '/' + config.example + '/' + bundle + '.js',
-    options: {
-      external: EXPORTS
-    }
-  };
-});
-
-
 module.exports = browserify;

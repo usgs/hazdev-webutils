@@ -41,9 +41,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', taskList([
     'dev',
     'cssmin',
-    'uglify',
-    'htmlmin',
-    'replace'
+    'uglify'
   ]));
 
   // default task useful during development

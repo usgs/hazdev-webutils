@@ -9,7 +9,7 @@ var cssmin = {
 };
 
 cssmin.dist.files[config.dist + '/hazdev-webutils.css'] = [
-  config.build + '/' + config.src + '/**/*.css'
+  config.build + '/' + config.src + '/hazdev-webutils.css'
 ];
 
 module.exports = cssmin;
