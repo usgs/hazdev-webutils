@@ -1,10 +1,9 @@
-/* global describe, it, before, after */
+/* global chai, sinon, describe, it, before, after */
 'use strict';
 
 var Collection = require('mvc/Collection'),
     CollectionTable = require('mvc/CollectionTable'),
-    expect = require('chai').expect,
-    sinon = require('sinon');
+    expect = chai.expect;
 
 
 describe('Unit tests for the "CollectionTable" class', function () {

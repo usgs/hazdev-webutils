@@ -1,9 +1,8 @@
-/* global describe, it, before, after */
+/* global chai, sinon, describe, it, before, after */
 'use strict';
 
-var expect = require('chai').expect,
-    sinon = require('sinon'),
-    Xhr = require('util/Xhr');
+var Xhr = require('util/Xhr'),
+    expect = chai.expect;
 
 
 describe('Xhr test suite.', function () {

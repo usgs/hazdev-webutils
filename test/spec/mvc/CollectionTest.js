@@ -1,10 +1,9 @@
-/* global describe, it */
+/* global chai, describe, it */
 'use strict';
 
-
 var Collection = require('mvc/Collection'),
-    expect = require('chai').expect,
-    Model = require('mvc/Model');
+    Model = require('mvc/Model'),
+    expect = chai.expect;
 
 
 /**

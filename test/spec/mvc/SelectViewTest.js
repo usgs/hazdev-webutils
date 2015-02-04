@@ -1,11 +1,10 @@
-/* global describe, it */
+/* global chai, sinon, describe, it */
 'use strict';
 
 var Collection = require('mvc/Collection'),
-    expect = require('chai').expect,
     Model = require('mvc/Model'),
     SelectView = require('mvc/SelectView'),
-    sinon = require('sinon');
+    expect = chai.expect;
 
 
 describe('SelectView test suite.', function () {

@@ -1,8 +1,9 @@
-/* global describe, it */
+/* global chai, describe, it */
 'use strict';
 
-var expect = require('chai').expect,
-    Model = require('mvc/Model');
+var Model = require('mvc/Model'),
+    expect = chai.expect;
+
 
 /**
  * Constructor for utility callback class.
