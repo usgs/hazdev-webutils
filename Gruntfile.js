@@ -46,7 +46,6 @@ module.exports = function (grunt) {
 
   // default task useful during development
   grunt.registerTask('default', taskList([
-    'clean',
     'dev',
     'connect:dev',
     'test',
@@ -55,6 +54,7 @@ module.exports = function (grunt) {
 
   // builds development version of library
   grunt.registerTask('dev', taskList([
+    'clean',
     'browserify',
     'compass',
     'copy'
