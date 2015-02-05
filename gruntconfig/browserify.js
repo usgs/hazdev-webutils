@@ -43,27 +43,14 @@ var browserify = {
 
   // test bundle
   test: {
-    src: config.test + '/index.js',
-    dest: config.build + '/' + config.test + '/index.js'
-  }
-
-};
-
-
-// example bundles
-[
-  'DownloadViewUITest',
-  'ModalViewUITest' ,
-  'SelectViewUITest'
-].forEach(function (bundle) {
-  browserify[bundle] = {
-    src: config.example + '/' + bundle + '.js',
-    dest: config.build + '/' + config.example + '/' + bundle + '.js',
+    src: config.test + '/test.js',
+    dest: config.build + '/' + config.test + '/test.js',
     options: {
       external: EXPORTS
     }
-  };
-});
+  }
+
+};
 
 
 module.exports = browserify;

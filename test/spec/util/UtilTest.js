@@ -1,8 +1,9 @@
-/* global describe, it */
+/* global chai, describe, it */
 'use strict';
 
-var expect = require('chai').expect,
-    Util = require('util/Util');
+var Util = require('util/Util'),
+    expect = chai.expect;
+
 
 describe('Unit tests for the "Util" class', function () {
   var base = { // Some base properties

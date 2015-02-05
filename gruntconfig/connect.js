@@ -9,30 +9,33 @@ var connect = {
   dev: {
     options: {
       base: [
-        config.build + '/' + config.example,
-        config.build + '/' + config.src
+        config.build + '/' + config.src,
+        config.example
       ],
       livereload: true,
-      open: 'http://localhost:8000/index.html',
+      open: 'http://localhost:8000/example.html',
       port: 8000
     }
   },
   test: {
     options: {
       base: [
+        config.build + '/' + config.src,
         config.build + '/' + config.test,
-        config.build + '/' + config.src
+        'node_modules'
       ],
+      open: 'http://localhost:8001/test.html',
       port: 8001
     }
   },
   dist: {
     options: {
       base: [
-        config.dist
+        config.dist,
+        config.example
       ],
       keepalive: true,
-      open: 'http://localhost:8002/',
+      open: 'http://localhost:8002/example.html',
       port: 8002
     }
   }

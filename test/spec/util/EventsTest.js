@@ -1,10 +1,8 @@
-/* global describe, it, afterEach */
+/* global chai, sinon, describe, it, afterEach */
 'use strict';
 
-
-var expect = require('chai').expect,
-    sinon = require('sinon'),
-    Events = require('util/Events');
+var Events = require('util/Events'),
+    expect = chai.expect;
 
 
 describe('Unit tests for the "Events" class', function () {

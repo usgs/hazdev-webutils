@@ -4,12 +4,9 @@ var config = require('./config');
 
 var cssmin = {
   dist: {
-    files: {}
+    src: config.build + '/' + config.src + '/hazdev-webutils.css',
+    dest: config.dist + '/hazdev-webutils.css'
   }
 };
-
-cssmin.dist.files[config.dist + '/hazdev-webutils.css'] = [
-  config.build + '/' + config.src + '/**/*.css'
-];
 
 module.exports = cssmin;

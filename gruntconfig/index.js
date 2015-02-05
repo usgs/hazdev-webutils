@@ -7,9 +7,7 @@ var config = {
   connect: require('./connect'),
   copy: require('./copy'),
   cssmin: require('./cssmin'),
-  htmlmin: require('./htmlmin'),
   jshint: require('./jshint'),
-  replace: require('./replace'),
   uglify: require('./uglify'),
   watch: require('./watch'),
   mocha_phantomjs: require('./mocha_phantomjs'),
@@ -21,12 +19,10 @@ var config = {
     'grunt-contrib-connect',
     'grunt-contrib-copy',
     'grunt-contrib-cssmin',
-    'grunt-contrib-htmlmin',
     'grunt-contrib-jshint',
     'grunt-contrib-uglify',
     'grunt-contrib-watch',
-    'grunt-mocha-phantomjs',
-    'grunt-replace'
+    'grunt-mocha-phantomjs'
   ]
 };
 

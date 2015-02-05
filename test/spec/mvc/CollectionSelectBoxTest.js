@@ -1,10 +1,9 @@
-/* global describe, it, before */
+/* global chai, sinon, describe, it, before */
 'use strict';
 
 var Collection = require('mvc/Collection'),
     CollectionSelectBox = require('mvc/CollectionSelectBox'),
-    expect = require('chai').expect,
-    sinon = require('sinon');
+    expect = chai.expect;
 
 
 var getChangeEvent = function () {

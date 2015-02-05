@@ -20,14 +20,15 @@ var watch = {
   },
   reload: {
     files: [
-      config.build + '/**/*'
+      config.build + '/**/*',
+      config.example + '/**/*'
     ],
     options: {
       livereload: true
     }
   },
   gruntfile: {
-    files: ['Gruntfile.js'],
+    files: ['Gruntfile.js', 'gruntconfig/**/*.js'],
     tasks: ['jshint:gruntfile']
   }
 };
