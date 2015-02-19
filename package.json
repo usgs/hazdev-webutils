@@ -30,8 +30,7 @@
   },
   "main": "dist/index.js",
   "license": "Public Domain",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^1.10.0",
     "grunt": "^0.4.5",

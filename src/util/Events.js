@@ -2,6 +2,12 @@
 
 var __INSTANCE__ = null;
 
+
+var __is_string = function (obj) {
+  return (typeof obj === 'string' || obj instanceof String);
+};
+
+
 var Events = function () {
   var _this,
       _initialize,
@@ -80,7 +86,8 @@ var Events = function () {
    *      context for "this" when callback is called
    */
   _this.on = function (event, callback, context) {
-    if (!callback || !callback.apply) {
+    if (!((callback || !callback.apply) ||
+        (context && __is_string(callback) && context[callback].apply))) {
       throw new Error('Callback parameter is not callable.');
     }
 
@@ -120,7 +127,11 @@ var Events = function () {
         listener = listeners[i];
 
         // NOTE: if listener throws exception, this will stop...
-        listener.callback.apply(listener.context, args);
+        if (__is_string(listener.callback)) {
+          listener.context[listener.callback].apply(listener.context, args);
+        } else {
+          listener.callback.apply(listener.context, args);
+        }
       }
     }
   };
