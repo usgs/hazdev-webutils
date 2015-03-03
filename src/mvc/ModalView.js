@@ -324,7 +324,7 @@ var ModalView = function (message, params) {
     // Mask already has a dialog in it, add to dialog stack and continue
     while (_MASK.firstChild) {
       oldChild = _MASK.firstChild;
-      if (oldChild.modal instanceof ModalView) {
+      if (oldChild.modal) {
         _DIALOG_STACK.push(oldChild.modal);
       }
       _MASK.removeChild(oldChild);
