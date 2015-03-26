@@ -20,7 +20,7 @@ var View = function (params) {
       _initialize;
 
 
-  _this = Object.create(Events());
+  _this = Events();
 
   /**
    * @constructor

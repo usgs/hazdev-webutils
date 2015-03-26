@@ -73,7 +73,7 @@ var ModalView = function (message, params) {
 
 
   params = Util.extend({}, _DEFAULTS, params);
-  _this = Object.create(View(params));
+  _this = View(params);
 
   _initialize = function () {
 

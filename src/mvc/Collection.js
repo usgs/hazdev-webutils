@@ -24,7 +24,7 @@ var Collection = function (data) {
       _selected;
 
 
-  _this = Object.create(Events());
+  _this = Events();
 
   _initialize = function () {
     _data = data || [];
