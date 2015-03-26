@@ -199,9 +199,9 @@ var ModalView = function (message, params) {
 
     if (_buttons && _buttons.length) {
       while (_footer.childNodes.length > 0) {
-        button = this._footer.firstChild;
+        button = _footer.firstChild;
         button.removeEventListener('click', _buttonCallback);
-        this._footer.removeChild(button);
+        _footer.removeChild(button);
       }
     }
 
