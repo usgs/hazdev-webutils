@@ -41,7 +41,7 @@ var DownloadView = function (params) {
 
 
   params = Util.extend({}, _DEFAULTS, params);
-  _this = Object.create(View(params));
+  _this = View(params);
 
   /**
    * Initialize the download view.

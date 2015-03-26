@@ -15,7 +15,7 @@ var Events = function () {
       _listeners;
 
 
-  _this = Object.create({});
+  _this = {};
 
   _initialize = function () {
     // map of listeners by event type

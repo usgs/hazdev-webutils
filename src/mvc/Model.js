@@ -16,7 +16,7 @@ var Model = function (data) {
       _model;
 
 
-  _this = Object.create(Events());
+  _this = Events();
 
   _initialize = function () {
     _model = Util.extend({}, data);

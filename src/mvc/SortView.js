@@ -39,7 +39,7 @@ var SortView = function (params) {
       _onSelect;
 
 
-  _this = Object.create(View(params));
+  _this = View(params);
 
   /**
    * Initialize the SortView.

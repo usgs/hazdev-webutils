@@ -42,7 +42,7 @@ var DataTable = function (params) {
       _formatDownload;
 
 
-  _this = Object.create(View(params));
+  _this = View(params);
 
   /**
    * Initialize the DataTable.
