@@ -222,31 +222,37 @@ var ModalView = function (message, params) {
     var nextFocus;
 
     if (clearAll === true) {
+      // Remove any/all dialogs attached to _MASK
+      Util.empty(_MASK);
+
       // Clear stack of previous dialogs to return user to normal application.
       _DIALOG_STACK.splice(0, _DIALOG_STACK.length);
     }
 
-    // Hide this dialog
-    Util.empty(_MASK);
+    if (this.el.parentNode === _MASK) {
+      // This modal is currently visible
+      this.el.parentNode.removeChild(this.el);
 
-    // Check if any other dialogs exist in stack, pop first dialog and show it
-    if (_DIALOG_STACK.length > 0) {
-      _DIALOG_STACK.pop().show();
-    } else if (_MASK_VISIBLE) {
-      _MASK.parentNode.removeChild(_MASK);
-      document.body.classList.remove('backgroundScrollDisable');
-      _MASK_VISIBLE = false;
-      window.removeEventListener('keydown', _onKeyDown);
-    }
-
-    if (_FOCUS_STACK.length > 0) {
-      nextFocus = _FOCUS_STACK.pop();
-      if (nextFocus instanceof Node) {
-        nextFocus.focus();
+      // Check if any other dialogs exist in stack, if so, show it
+      if (_DIALOG_STACK.length > 0) {
+        _DIALOG_STACK.pop().show();
+      } else if (_MASK_VISIBLE) {
+        _MASK.parentNode.removeChild(_MASK);
+        document.body.classList.remove('backgroundScrollDisable');
+        _MASK_VISIBLE = false;
+        window.removeEventListener('keydown', _onKeyDown);
       }
+
+      if (_FOCUS_STACK.length > 0) {
+        nextFocus = _FOCUS_STACK.pop();
+        if (nextFocus instanceof Node) {
+          nextFocus.focus();
+        }
+      }
+
+      _this.trigger('hide', this);
     }
 
-    _this.trigger('hide', this);
     return _this;
   };
 
