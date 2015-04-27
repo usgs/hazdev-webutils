@@ -25,7 +25,6 @@ var __INITIALIZED__ = false,
     _DIALOG_STACK = null,
     _FOCUS_STACK = null,
     _MASK = null,
-    _MASK_VISIBLE = null,
     _DEFAULTS = {
       closable: true, // Should modal box include little "X' in corner
       title: document.title + ' Says...'
@@ -42,7 +41,6 @@ var _static_initialize = function () {
   _MASK = document.createElement('div');
   _MASK.classList.add('modal');
 
-  _MASK_VISIBLE = false;
   __INITIALIZED__ = true;
 };
 
@@ -227,6 +225,9 @@ var ModalView = function (message, params) {
 
       // Clear stack of previous dialogs to return user to normal application.
       _DIALOG_STACK.splice(0, _DIALOG_STACK.length);
+
+      // Clear all but last focus element
+      _FOCUS_STACK.splice(1, _FOCUS_STACK.length);
     }
 
     if (this.el.parentNode === _MASK) {
@@ -236,21 +237,24 @@ var ModalView = function (message, params) {
       // Check if any other dialogs exist in stack, if so, show it
       if (_DIALOG_STACK.length > 0) {
         _DIALOG_STACK.pop().show();
-      } else if (_MASK_VISIBLE) {
-        _MASK.parentNode.removeChild(_MASK);
-        document.body.classList.remove('backgroundScrollDisable');
-        _MASK_VISIBLE = false;
-        window.removeEventListener('keydown', _onKeyDown);
-      }
-
-      if (_FOCUS_STACK.length > 0) {
-        nextFocus = _FOCUS_STACK.pop();
-        if (nextFocus instanceof Node) {
-          nextFocus.focus();
-        }
       }
 
       _this.trigger('hide', this);
+    }
+
+    if (!_MASK.firstChild && _MASK.parentNode) {
+      // No more dialogs, remove the _MASK
+      _MASK.parentNode.removeChild(_MASK);
+
+      document.body.classList.remove('backgroundScrollDisable');
+      window.removeEventListener('keydown', _onKeyDown);
+    }
+
+    if (_FOCUS_STACK.length > 0) {
+      nextFocus = _FOCUS_STACK.pop();
+      if (nextFocus instanceof Node) {
+        nextFocus.focus();
+      }
     }
 
     return _this;
@@ -327,6 +331,9 @@ var ModalView = function (message, params) {
   _this.show = function () {
     var oldChild = null;
 
+    // For accessibility, focus the top of this new dialog
+    _FOCUS_STACK.push(document.activeElement || false);
+
     // Mask already has a dialog in it, add to dialog stack and continue
     while (_MASK.firstChild) {
       oldChild = _MASK.firstChild;
@@ -340,15 +347,11 @@ var ModalView = function (message, params) {
     _MASK.appendChild(_this.el);
 
     // Show the mask if not yet visible
-    if (!_MASK_VISIBLE) {
+    if (!_MASK.parentNode) {
       document.body.appendChild(_MASK);
       document.body.classList.add('backgroundScrollDisable');
-      _MASK_VISIBLE = true;
       window.addEventListener('keydown', _onKeyDown);
     }
-
-    // For accessibility, focus the top of this new dialog
-    _FOCUS_STACK.push(document.activeElement || false);
 
     if (_title) {
       _titleEl.focus();
