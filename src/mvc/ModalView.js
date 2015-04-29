@@ -44,10 +44,28 @@ var _static_initialize = function () {
   __INITIALIZED__ = true;
 };
 
+// Note: "this" is a reference to the buttom DOM element and has all the
+//       proper attributes set on it such that the implementation below is
+//       correct. It does *not* need to use _this (also it's a static method).
 var _buttonCallback = function (evt) {
   if (this.info && this.info.callback &&
       typeof this.info.callback === 'function') {
     this.info.callback(evt, this.modal||{});
+  }
+};
+
+/**
+ * Pulls the next element off the focus stack and attempts to set the
+ * focus to it.
+ *
+ */
+var _focusNext = function () {
+  var node;
+
+  node = _FOCUS_STACK.pop();
+
+  if (node && node instanceof Node && node.focus) {
+    node.focus();
   }
 };
 
@@ -217,7 +235,9 @@ var ModalView = function (message, params) {
   };
 
   _this.hide = function (clearAll) {
-    var nextFocus;
+    var isVisible;
+
+    isVisible = (_this.el.parentNode === _MASK);
 
     if (clearAll === true) {
       // Remove any/all dialogs attached to _MASK
@@ -228,18 +248,23 @@ var ModalView = function (message, params) {
 
       // Clear all but last focus element
       _FOCUS_STACK.splice(1, _FOCUS_STACK.length);
-    }
 
-    if (this.el.parentNode === _MASK) {
+      _focusNext();
+
+      if (isVisible) { // Or rather, was visible
+        _this.trigger('hide', _this);
+      }
+    } else if (isVisible) {
       // This modal is currently visible
-      this.el.parentNode.removeChild(this.el);
+      _this.el.parentNode.removeChild(_this.el);
 
       // Check if any other dialogs exist in stack, if so, show it
       if (_DIALOG_STACK.length > 0) {
         _DIALOG_STACK.pop().show();
       }
 
-      _this.trigger('hide', this);
+      _focusNext();
+      _this.trigger('hide', _this);
     }
 
     if (!_MASK.firstChild && _MASK.parentNode) {
@@ -248,13 +273,6 @@ var ModalView = function (message, params) {
 
       document.body.classList.remove('backgroundScrollDisable');
       window.removeEventListener('keydown', _onKeyDown);
-    }
-
-    if (_FOCUS_STACK.length > 0) {
-      nextFocus = _FOCUS_STACK.pop();
-      if (nextFocus instanceof Node) {
-        nextFocus.focus();
-      }
     }
 
     return _this;
