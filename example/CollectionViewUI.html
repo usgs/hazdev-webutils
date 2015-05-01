@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Collection View Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+  <style>
+    * {
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+    }
+    ul {
+      list-style:none;
+      margin:.5em 0 0 0;
+      padding:0;
+    }
+    li {
+      margin-bottom:.5em;
+      padding: 4px;
+      cursor: pointer;
+    }
+    li:last-child {
+      margin-bottom:0;
+    }
+    .selected {
+      background-color: #f0f0f0;
+    }
+  </style>
+  <link rel="stylesheet" href="hazdev-webutils.css" />
+</head>
+<body>
+  <h2>Collection View Example</h2>
+  <button class="collection-add">Add Model</button>
+  <button class="collection-remove">Remove First Model</button>
+  <button class="collection-reset">Reset to Defaults</button>
+
+  <ul class="collection-view"></ul>
+
+  <script src="hazdev-webutils.js"></script>
+  <script src="CollectionViewUI.js"></script>
+</body>
+</html>
