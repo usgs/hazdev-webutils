@@ -8,9 +8,12 @@ var Collection = require('mvc/Collection'),
     Util = require('util/Util');
 
 
-var ID_SEQUENCE = 0;
+var ID_SEQUENCE,
+    MODELS;
 
-var models = [
+ID_SEQUENCE = 0;
+
+MODELS = [
   Model({
     id: ID_SEQUENCE++,
     key1: 'value 1',
@@ -27,6 +30,7 @@ var models = [
     key2: 'value 2'
   })
 ];
+
 
 var ExampleView = function (params) {
   var _this,
@@ -62,21 +66,17 @@ var ExampleView = function (params) {
   return _this;
 };
 
-var collection = Collection(models.slice(0));
-
-var container = document.querySelector('.collection-view');
-
-var view = CollectionView({
-  el: container,
-  collection: collection,
-  factory: ExampleView
-});
 
 var btnAdd,
     btnRemove,
-    btnReset;
+    btnReset,
+    collection,
+    container,
+    format,
+    view;
 
-var _format = function (size) {
+
+format = function (size) {
   var i,
       suffixes;
 
@@ -90,10 +90,19 @@ var _format = function (size) {
 };
 
 
-
 btnAdd = document.querySelector('.collection-add');
 btnRemove = document.querySelector('.collection-remove');
 btnReset = document.querySelector('.collection-reset');
+
+collection = Collection(MODELS.slice(0));
+container = document.querySelector('.collection-view');
+
+view = CollectionView({
+  el: container,
+  collection: collection,
+  factory: ExampleView
+});
+
 
 container.addEventListener('click', function (evt) {
   var element = evt.target,
@@ -113,7 +122,7 @@ container.addEventListener('click', function (evt) {
 btnAdd.addEventListener('click', function () {
   var model = Model({
     id: ID_SEQUENCE++,
-    heap: _format(window.performance.valueOf().memory.usedJSHeapSize),
+    heap: format(window.performance.valueOf().memory.usedJSHeapSize),
     stamp: (new Date()).toUTCString()
   });
 
@@ -130,5 +139,5 @@ btnRemove.addEventListener('click', function () {
 });
 
 btnReset.addEventListener('click', function () {
-  collection.reset(models.slice(0));
+  collection.reset(MODELS.slice(0));
 });
