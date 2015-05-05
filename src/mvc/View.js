@@ -44,7 +44,7 @@ var View = function (params) {
       _destroyModel = true;
     }
 
-    _this.model.on('render', _this.render);
+    _this.model.on('change', 'render', _this);
   };
 
 
@@ -65,7 +65,7 @@ var View = function (params) {
    * discarding a view.
    */
   _this.destroy = function () {
-    _this.model.off('render', _this.render);
+    _this.model.off('change', 'render', _this);
 
     if (_destroyModel) {
       _this.model.destroy();

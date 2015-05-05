@@ -70,11 +70,14 @@ var CollectionView = function (options) {
 
     views = models.map(function (model) {
       var view = _factory({
+        collection: _collection,
         el: parent.appendChild(document.createElement('li')),
         model: model
       });
 
-      view.id = model.id;
+      if (typeof view.id === 'undefined' || view.id === null) {
+        view.id = model.id;
+      }
 
       return view;
     });
