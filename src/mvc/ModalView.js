@@ -25,7 +25,6 @@ var __INITIALIZED__ = false,
     _DIALOG_STACK = null,
     _FOCUS_STACK = null,
     _MASK = null,
-    _MASK_VISIBLE = null,
     _DEFAULTS = {
       closable: true, // Should modal box include little "X' in corner
       title: document.title + ' Says...'
@@ -42,14 +41,31 @@ var _static_initialize = function () {
   _MASK = document.createElement('div');
   _MASK.classList.add('modal');
 
-  _MASK_VISIBLE = false;
   __INITIALIZED__ = true;
 };
 
+// Note: "this" is a reference to the buttom DOM element and has all the
+//       proper attributes set on it such that the implementation below is
+//       correct. It does *not* need to use _this (also it's a static method).
 var _buttonCallback = function (evt) {
   if (this.info && this.info.callback &&
       typeof this.info.callback === 'function') {
     this.info.callback(evt, this.modal||{});
+  }
+};
+
+/**
+ * Pulls the next element off the focus stack and attempts to set the
+ * focus to it.
+ *
+ */
+var _focusNext = function () {
+  var node;
+
+  node = _FOCUS_STACK.pop();
+
+  if (node && node instanceof Node && node.focus) {
+    node.focus();
   }
 };
 
@@ -219,34 +235,46 @@ var ModalView = function (message, params) {
   };
 
   _this.hide = function (clearAll) {
-    var nextFocus;
+    var isVisible;
+
+    isVisible = (_this.el.parentNode === _MASK);
 
     if (clearAll === true) {
+      // Remove any/all dialogs attached to _MASK
+      Util.empty(_MASK);
+
       // Clear stack of previous dialogs to return user to normal application.
       _DIALOG_STACK.splice(0, _DIALOG_STACK.length);
+
+      // Clear all but last focus element
+      _FOCUS_STACK.splice(1, _FOCUS_STACK.length);
+
+      _focusNext();
+
+      if (isVisible) { // Or rather, was visible
+        _this.trigger('hide', _this);
+      }
+    } else if (isVisible) {
+      // This modal is currently visible
+      _this.el.parentNode.removeChild(_this.el);
+
+      // Check if any other dialogs exist in stack, if so, show it
+      if (_DIALOG_STACK.length > 0) {
+        _DIALOG_STACK.pop().show();
+      }
+
+      _focusNext();
+      _this.trigger('hide', _this);
     }
 
-    // Hide this dialog
-    Util.empty(_MASK);
-
-    // Check if any other dialogs exist in stack, pop first dialog and show it
-    if (_DIALOG_STACK.length > 0) {
-      _DIALOG_STACK.pop().show();
-    } else if (_MASK_VISIBLE) {
+    if (!_MASK.firstChild && _MASK.parentNode) {
+      // No more dialogs, remove the _MASK
       _MASK.parentNode.removeChild(_MASK);
+
       document.body.classList.remove('backgroundScrollDisable');
-      _MASK_VISIBLE = false;
       window.removeEventListener('keydown', _onKeyDown);
     }
 
-    if (_FOCUS_STACK.length > 0) {
-      nextFocus = _FOCUS_STACK.pop();
-      if (nextFocus instanceof Node) {
-        nextFocus.focus();
-      }
-    }
-
-    _this.trigger('hide', this);
     return _this;
   };
 
@@ -321,6 +349,9 @@ var ModalView = function (message, params) {
   _this.show = function () {
     var oldChild = null;
 
+    // For accessibility, focus the top of this new dialog
+    _FOCUS_STACK.push(document.activeElement || false);
+
     // Mask already has a dialog in it, add to dialog stack and continue
     while (_MASK.firstChild) {
       oldChild = _MASK.firstChild;
@@ -334,15 +365,11 @@ var ModalView = function (message, params) {
     _MASK.appendChild(_this.el);
 
     // Show the mask if not yet visible
-    if (!_MASK_VISIBLE) {
+    if (!_MASK.parentNode) {
       document.body.appendChild(_MASK);
       document.body.classList.add('backgroundScrollDisable');
-      _MASK_VISIBLE = true;
       window.addEventListener('keydown', _onKeyDown);
     }
-
-    // For accessibility, focus the top of this new dialog
-    _FOCUS_STACK.push(document.activeElement || false);
 
     if (_title) {
       _titleEl.focus();
