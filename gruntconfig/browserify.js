@@ -15,6 +15,7 @@ var EXPORTS = [
   'mvc/SortView',
   'mvc/View',
   'util/Events',
+  'util/Message',
   'util/Util',
   'util/Xhr'
 ];
