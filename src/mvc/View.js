@@ -73,6 +73,7 @@ var View = function (params) {
 
     _destroyModel = null;
 
+    _this.model = null;
     _this.el = null;
   };
 
