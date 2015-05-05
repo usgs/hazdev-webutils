@@ -27,6 +27,7 @@ var __INITIALIZED__ = false,
     _MASK = null,
     _DEFAULTS = {
       closable: true, // Should modal box include little "X' in corner
+      destroyOnHide: false,
       title: document.title + ' Says...'
     };
 
@@ -78,6 +79,7 @@ var ModalView = function (message, params) {
       _closable,
       _closeButton,
       _content,
+      _destroyOnHide,
       _footer,
       _message,
       _title,
@@ -96,6 +98,7 @@ var ModalView = function (message, params) {
     _buttons = params.buttons;
     _classes = params.classes;
     _closable = params.closable;
+    _destroyOnHide = params.destroyOnHide;
     _message = message;
     _title = params.title;
 
@@ -231,6 +234,7 @@ var ModalView = function (message, params) {
     _footer = null;
     _titleEl = null;
     _content = null;
+    _destroyOnHide = null;
     _this.el = null;
   };
 
@@ -253,6 +257,10 @@ var ModalView = function (message, params) {
 
       if (isVisible) { // Or rather, was visible
         _this.trigger('hide', _this);
+
+        if (_destroyOnHide) {
+          _this.destroy();
+        }
       }
     } else if (isVisible) {
       // This modal is currently visible
@@ -265,6 +273,10 @@ var ModalView = function (message, params) {
 
       _focusNext();
       _this.trigger('hide', _this);
+
+      if (_destroyOnHide) {
+        _this.destroy();
+      }
     }
 
     if (!_MASK.firstChild && _MASK.parentNode) {
