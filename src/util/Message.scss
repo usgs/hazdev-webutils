@@ -1,0 +1,39 @@
+.webutils-message {
+  opacity: 0.99999;
+  position: relative;
+  transition: opacity 250ms ease;
+
+  &.invisible {
+    opacity: 0;
+  }
+
+  &.webutils-message-closeable {
+    padding-right: 2em;
+
+    > .webutils-message-close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1.5em;
+      opacity: .75;
+      position: absolute;
+      right: .5em;
+      top: .25em;
+      transition: opacity 250ms ease;
+
+      /* Undo some template styles */
+      height: auto;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
+      text-shadow: none;
+      border-radius: 0;
+      box-shadow: none;
+
+      &:hover {
+        opacity: .99;
+      }
+    }
+  }
+}

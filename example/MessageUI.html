@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Message UI Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+  <link rel="stylesheet" href="hazdev-webutils.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+
+    label[for] {
+      color: #333;
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 50em;
+      height: 10em;
+    }
+
+    .alert-create {
+      margin-top: 1em;
+    }
+
+    .alert-outputs {
+      clear: left;
+      margin-top: 1em;
+    }
+
+    .alert-outputs > div {
+      margin-bottom: 1em;
+    }
+
+    /* Stolen from hazdev-template */
+    .alert {
+      display:block;
+      padding: 0.75em 1em;
+      border-radius: 4px;
+      text-shadow: 0 1px 1px #fff;
+
+      background: #f8f8f8;
+      color: #555;
+      border: 1px solid #d8d8d8;
+    }
+
+    .info {
+      color: #2d7091;
+      background-color: #ebf7fd;
+      border-color: rgba(45,112,145,.3);
+    }
+
+    .success {
+      color: #659f13;
+      background-color: #f2fae3;
+      border-color: rgba(101,159,19,.3);
+    }
+
+    .warning {
+      color: #e28327;
+      background-color: #fffceb;
+      border-color: rgba(226,131,39,.3);
+    }
+
+    .error {
+      color: #d85030;
+      background-color: #fff1f0;
+      border-color: rgba(216,80,48,.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Message UI Example</h1>
+
+  <div class="alert-inputs">
+    <label for="alert-message">Enter a Message</label>
+    <textarea id="alert-message">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+      sagittis justo ac lacus elementum, vel fringilla nibh bibendum.
+      Pellentesque tellus felis, pulvinar eget consectetur eget, tristique
+      ut ligula. Phasellus consequat varius ligula, eget lacinia nulla
+      rutrum quis. Donec tristique mollis efficitur. Phasellus facilisis
+      tincidunt ex. Aliquam tincidunt elementum odio sed bibendum. Sed et
+      maximus sapien, ac accumsan erat. In venenatis tellus non porttitor
+      sagittis. Pellentesque sit amet viverra metus, vitae luctus ipsum.
+      Praesent tincidunt augue et lorem vestibulum lobortis. Integer
+      euismod dapibus nisl, sed consectetur metus vulputate vel.
+      Vivamus condimentum fringilla ex vitae maximus.
+    </textarea>
+
+    <label for="alert-type">Message Type</label>
+    <select id="alert-type">
+      <option value="">Default</option>
+      <option value="info">Info</option>
+      <option value="warning">Warning</option>
+      <option value="error">Error</option>
+    </select>
+
+    <label>
+      <input id="alert-insert-before" type="checkbox"/>
+      Insert this message at top of messages
+    </label>
+
+    <label>
+      <input id="alert-autoclose" type="checkbox"/>
+      Auto-close message after 3 seconds
+    </label>
+
+    <button class="alert-create">Create Message</button>
+  </div>
+
+  <div class="alert-outputs"></div>
+
+  <script src="hazdev-webutils.js"></script>
+  <script src="MessageUI.js"></script>
+</body>
+</html>
