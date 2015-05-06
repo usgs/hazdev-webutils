@@ -22,7 +22,7 @@ var watch = {
       config.example + '/**/*.html',
       config.test + '/**/*.html'
     ],
-    tasks: [ 'copy:example', 'copy:test']
+    tasks: ['copy:test']
   },
   reload: {
     files: [
