@@ -42,6 +42,7 @@ describe('SelectView test suite.', function () {
     });
 
     it('keeps the selected item selected', function () {
+      // this test does not actually work selected index never changes
       var c = Collection(),
           v = SelectView({collection: c}),
           sb = v.el,
@@ -60,6 +61,25 @@ describe('SelectView test suite.', function () {
       c.add(m4);
 
       expect(sb.selectedIndex).to.equal(1);
+    });
+
+    it('has Please select value when includeBlankOption is true', function () {
+      // this test does not actually work selected index never changes
+      var c,
+          v,
+          sb,
+          m1;
+
+      m1 = Model({id: 1, value: '1', display: 'Item 1'});
+      c = Collection([m1]);
+      v = SelectView({
+        collection: c,
+        includeBlankOption: true
+      });
+      sb = v.el;
+
+      expect(sb.selectedIndex).to.equal(0);
+
     });
   });
 });
