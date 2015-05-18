@@ -107,6 +107,17 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
       // value is zero based index into collection
       expect(el.value).to.equal('1');
     });
-  });
 
+    it('has "Please select" value when includeBlankOption is true', function () {
+      selectBox = CollectionSelectBox({
+        el: el,
+        collection: collection,
+        includeBlankOption: true
+      });
+
+      collection.deselect();
+
+      expect(el.value).to.equal('-1');
+    });
+  });
 });
