@@ -11,6 +11,11 @@ var Util = require('../util/Util'),
 
 var _SELECT_VIEW_COUNTER = 0;
 var _DEFAULTS = {
+  includeBlankOption: false,
+  blankOption: {
+    value: '-1',
+    text: 'Please select&hellip;'
+  }
 };
 
 
@@ -18,10 +23,13 @@ var SelectView = function (params) {
   var _this,
       _initialize,
 
+      _blankOption,
       _collection,
       _idstub,
+      _includeBlankOption,
       _selectBox,
 
+      _createBlankOption,
       _createItemMarkup,
       _getDOMIdForItem,
       _getModelIdForOption,
@@ -36,9 +44,12 @@ var SelectView = function (params) {
   params = Util.extend({}, _DEFAULTS, params);
   _this = View(params);
 
+
   _initialize = function () {
 
     _collection = params.collection || null;
+    _blankOption = params.blankOption;
+    _includeBlankOption = params.includeBlankOption;
     _this.el = params.el || document.createElement('select');
 
     _idstub = 'selectview-' + _SELECT_VIEW_COUNTER + '-';
@@ -82,6 +93,15 @@ var SelectView = function (params) {
     ].join('');
   };
 
+  _createBlankOption = function () {
+    return [
+    '<option ',
+        'value="', _blankOption.value, '">',
+      _blankOption.text,
+    '</option>'
+    ].join('');
+  };
+
   _getDOMIdForItem = function (item) {
     return _idstub + item.get('id');
   };
@@ -101,6 +121,14 @@ var SelectView = function (params) {
     if (selectedDOM) {
       selectedDOM.removeAttribute('selected');
     }
+
+    if (_includeBlankOption) {
+      selectedDOM = _selectBox.querySelector('[value="' + _blankOption.value + '"]');
+      if (selectedDOM) {
+        selectedDOM.setAttribute('selected', 'selected');
+      }
+    }
+
   };
 
   _onCollectionRemove = function () {
@@ -124,8 +152,11 @@ var SelectView = function (params) {
     var selectedIndex = _selectBox.selectedIndex,
         selectedDOM = _selectBox.childNodes[selectedIndex],
         selectedId = _getModelIdForOption(selectedDOM);
-
-    _collection.select(_collection.get(selectedId));
+    if (_includeBlankOption && _selectBox.value === _blankOption.value) {
+      _collection.deselect();
+    } else {
+      _collection.select(_collection.get(selectedId));
+    }
   };
 
 
@@ -152,6 +183,10 @@ var SelectView = function (params) {
 
     items = items.slice(0);
     numItems = items.length;
+
+    if (_includeBlankOption === true) {
+      markup.push(_createBlankOption());
+    }
 
     for (i = 0; i < numItems; i++) {
       markup.push(_createItemMarkup(items[i]));

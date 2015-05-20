@@ -7,6 +7,11 @@ var Util = require('../util/Util'),
 var _DEFAULTS = {
   // classname added to select box
   className: 'collection-selectbox',
+  includeBlankOption: false,
+  blankOption: {
+    value: '-1',
+    text: 'Please select&hellip;'
+  },
 
   // callback to format each collection item
   format: function (item) {
@@ -37,10 +42,13 @@ var CollectionSelectBox = function (params) {
   var _this,
       _initialize,
 
+      _blankOption,
       _collection,
       _format,
+      _includeBlankOption,
       _selectBox,
 
+      _createBlankOption,
       _onChange,
       _onSelect;
 
@@ -56,6 +64,8 @@ var CollectionSelectBox = function (params) {
     var el = _this.el;
 
     _collection = params.collection;
+    _blankOption = params.blankOption;
+    _includeBlankOption = params.includeBlankOption;
     _format = params.format;
 
     // reuse or create select box
@@ -92,7 +102,8 @@ var CollectionSelectBox = function (params) {
     var value = _selectBox.value,
         selected;
 
-    if (value === '') {
+    if (_includeBlankOption && value === _blankOption.value) {
+
       _collection.deselect();
     } else {
       selected = _collection.data()[parseInt(value, 10)];
@@ -110,11 +121,19 @@ var CollectionSelectBox = function (params) {
     if (selected) {
       ids = _collection.getIds();
       _selectBox.value = ids[selected.id];
-    } else {
-      _selectBox.value = '';
+    } else if (_includeBlankOption) {
+      _selectBox.value = _blankOption.value;
     }
   };
 
+  _createBlankOption = function () {
+    return [
+    '<option ',
+        'value="', _blankOption.value, '">',
+      _blankOption.text,
+    '</option>'
+    ].join('');
+  };
 
   /**
    * Destroy CollectionSelectBox.
@@ -141,6 +160,10 @@ var CollectionSelectBox = function (params) {
         i,
         len,
         markup = [];
+
+    if (_includeBlankOption === true) {
+      markup.push(_createBlankOption());
+    }
 
     for (i = 0, len = data.length; i < len; i++) {
       markup.push('<option value="' + i + '"' +
