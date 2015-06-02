@@ -99,15 +99,12 @@ var CollectionSelectBox = function (params) {
    * Handle selectbox change events.
    */
   _onChange = function () {
-    var value = _selectBox.value,
-        selected;
+    var value = _selectBox.value;
 
     if (_includeBlankOption && value === _blankOption.value) {
-
       _collection.deselect();
     } else {
-      selected = _collection.data()[parseInt(value, 10)];
-      _collection.select(selected);
+      _collection.selectById(parseInt(value, 10));
     }
   };
 
@@ -115,12 +112,10 @@ var CollectionSelectBox = function (params) {
    * Handle collection select events.
    */
   _onSelect = function () {
-    var selected = _collection.getSelected(),
-        ids;
+    var selected = _collection.getSelected();
 
     if (selected) {
-      ids = _collection.getIds();
-      _selectBox.value = ids[selected.id];
+      _selectBox.value = selected.id;
     } else if (_includeBlankOption) {
       _selectBox.value = _blankOption.value;
     }
@@ -166,7 +161,7 @@ var CollectionSelectBox = function (params) {
     }
 
     for (i = 0, len = data.length; i < len; i++) {
-      markup.push('<option value="' + i + '"' +
+      markup.push('<option value="' + data[i].id + '"' +
           (selected === data[i] ? ' selected="selected"' : '') +
           '>' + _format(data[i]) + '</option>');
     }
