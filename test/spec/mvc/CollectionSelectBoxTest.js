@@ -81,7 +81,7 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
       collection.deselect();
       selectBox.el.value = '2';
       selectBox.el.dispatchEvent(getChangeEvent());
-      expect(collection.getSelected().id).to.equal(3);
+      expect(collection.getSelected().id).to.equal(2);
     });
   });
 
@@ -105,7 +105,7 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
       collection.select(collection.get(1));
       collection.select(collection.get(2));
       // value is zero based index into collection
-      expect(el.value).to.equal('1');
+      expect(el.value).to.equal('2');
     });
 
     it('has "Please select" value when includeBlankOption is true', function () {
