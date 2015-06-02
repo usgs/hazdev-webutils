@@ -104,7 +104,7 @@ var CollectionSelectBox = function (params) {
     if (_includeBlankOption && value === _blankOption.value) {
       _collection.deselect();
     } else {
-      _collection.selectById(parseInt(value, 10));
+      _collection.selectById(value);
     }
   };
 
