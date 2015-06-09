@@ -1,6 +1,8 @@
 'use strict';
 
-var Collection = require('./Collection');
+var Collection = require('./Collection'),
+
+    Events = require('../util/Events');
 
 
 /** create a new view based on a collection of models. */
@@ -10,7 +12,7 @@ var SelectedCollectionView = function (params) {
 
       _destroyCollection;
 
-  _this = {};
+  _this = Events();
 
   /**
    * @constructor
