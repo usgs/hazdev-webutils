@@ -44,6 +44,7 @@ if (!Function.prototype.bind) {
   require('./spec/mvc/CollectionTableTest');
   require('./spec/mvc/CollectionSelectBoxTest');
   require('./spec/mvc/CollectionViewTest');
+  require('./spec/mvc/SelectedCollectionViewTest');
 
   require('./spec/util/EventsTest');
   require('./spec/util/UtilTest');
