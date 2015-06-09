@@ -18,7 +18,7 @@ var SelectedCollectionView = function (params) {
     params = params || {};
 
     // Element where this view is rendered
-    _this.el = (params && params.hasOwnProperty('el')) ?
+    _this.el = (params.hasOwnProperty('el')) ?
         params.el : document.createElement('div');
 
     _this.collection = params.collection;
