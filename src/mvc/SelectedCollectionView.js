@@ -1,10 +1,7 @@
 'use strict';
 
-var Collection = require('./Collection'),
+var Collection = require('./Collection');
 
-    Util = require('../util/Util');
-
-var _DEFAULTS = {};
 
 /** create a new view based on a collection of models. */
 var SelectedCollectionView = function (params) {
@@ -18,7 +15,7 @@ var SelectedCollectionView = function (params) {
    *
    */
   _initialize = function (params) {
-    params = Util.extend({}, _DEFAULTS, params);
+    params = params || {};
 
     // Element where this view is rendered
     _this.el = (params && params.hasOwnProperty('el')) ?
