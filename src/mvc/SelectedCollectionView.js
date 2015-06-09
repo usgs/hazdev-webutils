@@ -45,7 +45,7 @@ var SelectedCollectionView = function (params) {
    */
   _this.destroy = function () {
     // undo event bindings
-    if (_this.collection.getSelected()) {
+    if (_this.model) {
       _this.onCollectionDeselect();
     }
     _this.collection.off('deselect', 'onCollectionDeselect', _this);
