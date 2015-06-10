@@ -223,7 +223,7 @@ var Collection = function (data) {
       _this.deselect();
     }
 
-    if (obj === _this.get(obj.id)) {
+    if (obj === null || obj === _this.get(obj.id)) {
       // make sure it's part of this collection…
       _selected = obj;
       _this.trigger('select', _selected, options);
