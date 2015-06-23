@@ -219,6 +219,16 @@ var Collection = function (data) {
    *      if obj not in collection.
    */
   _this.select = function (obj, options) {
+    // no selection
+    if (obj === null) {
+      _this.deselect();
+      return;
+    }
+    // already selected
+    if (obj === _selected) {
+      return;
+    }
+    // deselect previous selection
     if (_selected !== null) {
       _this.deselect();
     }
