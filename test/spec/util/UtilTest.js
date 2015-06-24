@@ -73,6 +73,57 @@ describe('Unit tests for the "Util" class', function () {
     // TODO :: Test more complex object extension
   });
 
+  describe('deepCompare()', function () {
+    it('detects simple differences', function () {
+      var result = Util.deepCompare({'a': 1, 'b': 2}, {'a': 2});
+      expect(result.a).to.equal(2);
+    });
+
+    it('detects nested differences', function () {
+      var result = Util.deepCompare(
+          {
+            'a': {
+              'b': {
+                'c': 5
+              }
+            }
+          },
+          {
+            'a': {
+              'b': 'abc'
+            }
+          });
+      expect(result.a.b).to.equal('abc');
+    });
+  });
+
+  describe('deepExtend()', function () {
+    it('extends simple differences', function () {
+      var result = Util.deepExtend({'a': 1, 'b': 2}, {'a': 2});
+      expect(result.a).to.equal(2);
+      expect(result.b).to.equal(2);
+    });
+
+    it('extends nested differences', function () {
+      var result = Util.deepExtend(
+          {
+            'a': {
+              'b': {
+                'c': 5
+              },
+              'd': 3
+            }
+          },
+          {
+            'a': {
+              'b': 'abc'
+            }
+          });
+      expect(result.a.b).to.equal('abc');
+      expect(result.a.d).to.equal(3);
+    });
+  });
+
   describe('compose()', function () {
     var a = function (val) { return val + 1; },
         b = function (val) { return val + 2; },
