@@ -121,15 +121,10 @@ var Model = function (data) {
   _this.update = function (data, options) {
     // detect changes
     var changed,
-        anyChanged = false,
-        c;
+        anyChanged;
 
     changed = Util.deepCompare(_model, data);
-    // check for any changes
-    for (c in changed) {
-      anyChanged = true;
-      break;
-    }
+    anyChanged = !Util.isObjectEmpty(changed);
 
     // persist changes
     _model = Util.deepExtend(_model, data);
@@ -156,38 +151,28 @@ var Model = function (data) {
        * @param prefix {String}
        *        default ''.
        *        used to create dot-notation properties that were changed.
-       * @return {Boolean}
-       *         whether any changes were triggered.
        */
       var triggerChanges = function (changes, prefix) {
-        var anyChanged,
-            name,
+        var name,
             key,
             value;
-        anyChanged = false;
         prefix = prefix || '';
         for (key in changes) {
           value = changes[key];
           name = prefix + key;
           if (value !== null && typeof value === 'object') {
             // trigger nested changes
-            if (!triggerChanges(value, name + '.')) {
-              // no nested changes... don't fire change below
-              continue;
-            }
+            triggerChanges(value, name + '.');
           }
           // always trigger change for given key
           _this.trigger('change:' + name, value);
-          anyChanged = true;
         }
-        return anyChanged;
       };
 
       // trigger events based on changes
-      if (triggerChanges(changed)) {
-        // generic event for any change
-        _this.trigger('change', changed);
-      }
+      triggerChanges(changed);
+      // generic event for any change
+      _this.trigger('change', changed);
     }
   };
 
