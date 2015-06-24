@@ -49,6 +49,8 @@ Util.extend = function (dst) {
 /**
  * Compare differences between two objects.
  *
+ * Specifically, search for values in o1 that differ from the same value in o2.
+ *
  * @param o1 {Object}
  *      reference object.
  * @param o2 {Object}
@@ -59,6 +61,7 @@ Util.extend = function (dst) {
  */
 Util.deepCompare = function (o1, o2) {
   var changes,
+      nestedChanges,
       prop,
       v1, v2;
 
@@ -75,7 +78,10 @@ Util.deepCompare = function (o1, o2) {
         if (v1 !== null && typeof v1 === 'object' &&
             v2 !== null && typeof v2 === 'object') {
           // if dst and src are objects, recurse
-          changes[prop] = Util.deepCompare(v1, v2);
+          nestedChanges = Util.deepCompare(v1, v2);
+          if (!Util.isObjectEmpty(nestedChanges)) {
+            changes[prop] = nestedChanges;
+          }
         } else {
           changes[prop] = v2;
         }
@@ -85,6 +91,27 @@ Util.deepCompare = function (o1, o2) {
 
   // return differences
   return changes;
+};
+
+/**
+ * Check if an object is empty.
+ *
+ * @param o {Object}
+ *        object to check.
+ * @return {Boolean}
+ *         true if object has no properties, false otherwise.
+ */
+Util.isObjectEmpty = function (o) {
+  var empty,
+      key;
+
+  empty = true;
+  for (key in o) {
+    empty = false;
+    break;
+  }
+
+  return empty;
 };
 
 /**

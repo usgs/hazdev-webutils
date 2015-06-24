@@ -95,6 +95,22 @@ describe('Unit tests for the "Util" class', function () {
           });
       expect(result.a.b).to.equal('abc');
     });
+
+    it('ignores nested similarities', function () {
+      var result = Util.deepCompare(
+        {
+          'a': {
+            'b': 1
+          }
+        },
+        {
+          'a': {
+            'b': 1
+          }
+        }
+      );
+      expect(Util.isObjectEmpty(result)).to.equal(true);
+    });
   });
 
   describe('deepExtend()', function () {
