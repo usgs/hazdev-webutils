@@ -67,7 +67,7 @@ var SelectedCollectionView = function (params) {
   _this.onCollectionDeselect = function () {
     _this.model.off('change', 'render', _this);
     _this.model = null;
-    _this.render();
+    _this.render({model: _this.model});
   };
 
   /**
@@ -76,10 +76,10 @@ var SelectedCollectionView = function (params) {
   _this.onCollectionSelect = function () {
     _this.model = _this.collection.getSelected();
     _this.model.on('change', 'render', _this);
-    _this.render();
+    _this.render({model: _this.model});
   };
 
-  /** 
+  /**
    * render the selected model in the view
    */
   _this.render = function () {};
