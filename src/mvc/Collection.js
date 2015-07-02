@@ -193,7 +193,8 @@ var Collection = function (data) {
     }
 
     // free array and id cache
-    _this.destroy();
+    _data = null;
+    _ids = null;
 
     // set new array
     _data = data || [];
@@ -201,11 +202,15 @@ var Collection = function (data) {
     // notify listeners
     _this.trigger('reset', data);
 
-    // reselect if there was a previous selection
-    if (selectedId !== null) {
+    // reselect if there was a previous selection, otherwise deselect (silently)
+    if (selectedId === null) {
+      _selected = null;
+    } else {
       var selected = _this.get(selectedId);
       if (selected !== null) {
         _this.select(selected, {'reset':true});
+      } else {
+        _selected = null;
       }
     }
   };
