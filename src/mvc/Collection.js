@@ -38,15 +38,44 @@ var Collection = function (data) {
   /**
    * Add objects to the collection.
    *
-   * Calls wrapped array.push, and clears the id cache.
+   * Calls addAll().
    *
    * @param {Object…}
    *      a variable number of objects to append to the collection.
+   * @deprecated use allAll() instead.
    */
   _this.add = function () {
-    _data.push.apply(_data, arguments);
+    _this.addAll(Array.prototype.slice.call(arguments, 0));
+  };
+
+  /**
+   * Add objects to the collection.
+   *
+   * @param toadd {Array<Object>}
+   *        objects to add.
+   * @param options {Object}
+   *        options are passed to listeners.
+   * @param options.silent {Boolean}
+   *        default true.
+   *        do not notify listeners.
+   */
+  _this.addAll = function (toadd, options) {
+    var change;
+
+    _data.push.apply(_data, toadd);
     _ids = null;
-    _this.trigger('add', Array.prototype.slice.call(arguments, 0));
+
+    options = options || {};
+    if (options.silent !== true) {
+      // trigger events
+      change = {
+        type: 'add',
+        added: toadd,
+        options: options
+      };
+      _this.trigger('change:add', change);
+      _this.trigger('change');
+    }
   };
 
   /**

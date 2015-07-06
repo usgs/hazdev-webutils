@@ -59,16 +59,16 @@ describe('Unit tests for the "Collection" class', function () {
 
 
   describe('add()', function () {
-    it('triggers "add" event when called', function () {
+    it('triggers "change:add" event when called', function () {
       var model = Model({'id': 'test'}),
           collection = Collection(),
           listener = new TestClass();
 
-      collection.on('add', listener.callback, listener);
+      collection.on('change:add', listener.callback, listener);
       collection.add(model);
 
       expect(listener.callbackCount).to.equal(1);
-      expect(listener.callbackData).to.deep.equal([model]);
+      expect(listener.callbackData.added).to.deep.equal([model]);
     });
 
     it('supports a variable number of arguments', function () {
