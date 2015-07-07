@@ -9,6 +9,55 @@ var Events = require('../util/Events'),
     Util = require('../util/Util');
 
 
+var __compare,
+    __index,
+    __intersect,
+    __remove;
+
+
+/**
+ * Find differences between arrays.
+ *
+ * @param before {Array<Object>}
+ *        array of objects.
+ * @param after {Array<Object>}
+ *        array of objects.
+ * @return {Object}
+ *         object with comparison.
+ *         keys are "added", "removed", "same".
+ *         values are {Array<Object>}.
+ */
+__compare = function (before, after) {
+  var added,
+      afterIndex,
+      beforeIndex,
+      id,
+      removed,
+      same;
+  beforeIndex = __index(before);
+  afterIndex = __index(after);
+  same = __intersect(before, after);
+  // remove same from before/after indexes, leafing added/removed
+  for (id in same) {
+    delete beforeIndex[id];
+    delete afterIndex[id];
+  }
+  removed = [];
+  for (id in beforeIndex) {
+    removed.push(before[beforeIndex[id]]);
+  }
+  added = [];
+  for (id in afterIndex) {
+    added.push(after[afterIndex[id]]);
+  }
+  // return comparison
+  return {
+    added: added,
+    removed: removed,
+    same: same
+  };
+};
+
 /**
  * Create an index from object ids to array indexes.
  *
@@ -20,7 +69,7 @@ var Events = require('../util/Events'),
  * @throws Error
  *         if a duplicate id is found.
  */
-var __index = function (array) {
+__index = function (array) {
   var i,
       len,
       id,
@@ -50,7 +99,7 @@ var __index = function (array) {
  * @return {Array<Object>}
  *         array containing objects that appear in array1 and array2.
  */
-var __intersect = function (array1, array2) {
+__intersect = function (array1, array2) {
   var id,
       index1,
       index2,
@@ -99,7 +148,7 @@ var __intersect = function (array1, array2) {
  * @throws Error
  *         if any object toremove is not found.
  */
-var __remove = function (array, toremove, options) {
+__remove = function (array, toremove, options) {
   var i,
       index,
       indexes,
@@ -588,5 +637,13 @@ var Collection = function (data) {
   _initialize();
   return _this;
 };
+
+
+// export global functions
+Collection.compare = __compare;
+Collection.index = __index;
+Collection.intersect = __intersect;
+Collection.remove = __remove;
+
 
 module.exports = Collection;
