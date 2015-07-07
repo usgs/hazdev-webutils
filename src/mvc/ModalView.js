@@ -87,7 +87,8 @@ var ModalView = function (message, params) {
 
       _createButton,
       _createViewSkeleton,
-      _onKeyDown;
+      _onKeyDown,
+      _onModalClick;
 
 
   params = Util.extend({}, _DEFAULTS, params);
@@ -208,6 +209,12 @@ var ModalView = function (message, params) {
   };
 
 
+  _onModalClick = function (event) {
+    if (event.target.className === 'modal') {
+      _this.hide();
+    }
+  };
+
   /**
    * Remove event listeners and free references.
    *
@@ -215,6 +222,8 @@ var ModalView = function (message, params) {
    */
   _this.destroy = function () {
     var button;
+
+    _MASK.removeEventListener('click', _this.hide);
 
     if (_buttons && _buttons.length) {
       while (_footer.childNodes.length > 0) {
@@ -236,6 +245,7 @@ var ModalView = function (message, params) {
     _content = null;
     _destroyOnHide = null;
     _this.el = null;
+    _onModalClick = null;
   };
 
   _this.hide = function (clearAll) {
@@ -282,6 +292,7 @@ var ModalView = function (message, params) {
     if (!_MASK.firstChild && _MASK.parentNode) {
       // No more dialogs, remove the _MASK
       _MASK.parentNode.removeChild(_MASK);
+      _MASK.removeEventListener('click', _onModalClick);
 
       document.body.classList.remove('backgroundScrollDisable');
       window.removeEventListener('keydown', _onKeyDown);
@@ -375,6 +386,7 @@ var ModalView = function (message, params) {
 
     // Add this dialog to the mask
     _MASK.appendChild(_this.el);
+    _MASK.addEventListener('click', _onModalClick);
 
     // Show the mask if not yet visible
     if (!_MASK.parentNode) {
@@ -382,6 +394,7 @@ var ModalView = function (message, params) {
       document.body.classList.add('backgroundScrollDisable');
       window.addEventListener('keydown', _onKeyDown);
     }
+
 
     if (_title) {
       _titleEl.focus();
