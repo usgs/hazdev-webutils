@@ -29,33 +29,16 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
       });
     });
 
-    it('binds to reset', function () {
+    it('binds to change', function () {
       /* jshint -W030 */
-      expect(bindSpy.calledWith('reset', selectBox.render)).to.be.true;
+      expect(bindSpy.calledWith('change', selectBox.render)).to.be.true;
       /* jshint +W030 */
     });
 
-    it('binds to add', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('add', selectBox.render)).to.be.true;
-      /* jshint +W030 */
-    });
 
-    it('binds to remove', function () {
+    it('binds to change:select', function () {
       /* jshint -W030 */
-      expect(bindSpy.calledWith('remove', selectBox.render)).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to select', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('select')).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to deselect', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('deselect')).to.be.true;
+      expect(bindSpy.calledWith('change:select')).to.be.true;
       /* jshint +W030 */
     });
 
@@ -78,10 +61,10 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
     });
 
     it('selects collection item', function () {
-      collection.deselect();
+      collection.select(null);
       selectBox.el.value = '2';
       selectBox.el.dispatchEvent(getChangeEvent());
-      expect(collection.getSelected().id).to.equal(2);
+      expect(collection.getSelected()[0].id).to.equal(2);
     });
   });
 
@@ -115,7 +98,7 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
         includeBlankOption: true
       });
 
-      collection.deselect();
+      collection.select(null);
 
       expect(el.value).to.equal('-1');
     });
