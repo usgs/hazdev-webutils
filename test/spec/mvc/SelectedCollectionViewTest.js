@@ -35,13 +35,7 @@ describe('Unit tests for the "SelectedCollectionView" class', function () {
 
     it('binds to select', function () {
       /* jshint -W030 */
-      expect(bindSpyCollection.calledWith('select')).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to deselect', function () {
-      /* jshint -W030 */
-      expect(bindSpyCollection.calledWith('deselect')).to.be.true;
+      expect(bindSpyCollection.calledWith('change:select')).to.be.true;
       /* jshint +W030 */
     });
 
