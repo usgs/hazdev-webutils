@@ -9,76 +9,76 @@
   overflow-y:auto;
   font-size:.95em;
 }
+
 .modal-dialog {
-  position:fixed;
+  position:relative;
   top:0;
   right:0;
   bottom:0;
   left:0;
-  margin:10px;
+  margin:16px;
   max-width:640px;
   max-height:640px;
   width:auto;
   height:auto;
   background-color:#FFF;
-  padding: 43px 0;
+  padding: 0;
   overflow: hidden;
+  border-radius:2px;
+
+  display: flex;
+  flex-direction: column;
+
+  > .modal-content,
+  > .modal-footer {
+    padding: 16px;
+  }
+
+  > .modal-header {
+    border-bottom: 1px solid #ddd;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+
+    > h1, h2, h3, h4, h5 {
+      margin: 16px 0;
+    }
+
+    > .modal-title {
+      padding: 0 16px;
+    }
+
+    > .modal-close-link {
+      display: flex;
+      align-items: center;
+      padding: 0 1em;
+
+      font: bold 20px/1.4 arial;
+      cursor: pointer;
+      color: #666;
+      background: #EEEEEE;
+      border-left: 1px solid #ddd;
+
+      &:hover,
+      &:active {
+        background: #e0e0e0;
+        border-color:#ccc;
+      }
+    }
+  }
+
+  > .modal-content {
+    height: auto;
+  }
+
+  > .modal-footer {
+    border-top: 1px solid #ddd;
+    justify-content: flex-end;
+  }
 }
 
-.modal-dialog > .modal-header,
-.modal-dialog > .modal-footer {
-  box-sizing:border-box;
-  position: absolute;
-  left:0;
-  right:0;
-  height:43px;
-  z-index:10;
-  margin:0;
-  padding:10px;
-  color:#333;
-  -webkit-box-shadow:0 0 7px rgba(0,0,0,0.6);
-  -moz-box-shadow:0 0 7px rgba(0,0,0,.6);
-  box-shadow:0 0 7px rgba(0,0,0,.6);
-}
-.modal-dialog.no-header {
-  padding-top: 8px;
-}
 
-.modal-dialog.no-footer {
-  padding-bottom:8px;
-}
-.modal-dialog > .modal-header {
-  top:0;
-  padding-right:36px; /* Space on right for close link [X]*/
-}
-.modal-dialog > .modal-footer {
-  bottom:0;
-}
-.modal-title {
-  margin:0;
-  padding:0;
-  outline:none;
-}
-.modal-close-link {
-  display: block;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 34px;
-  height: 33px;
-  font: bold 20px/1.4 arial;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  color: #666;
-  background: #EEEEEE;
-  border: 1px solid #ddd;
-}
-.modal-close-link:hover,
-.modal-close-link:active {
-  background: #e0e0e0;
-  border-color:#ccc;
-}
+
 .modal-content {
   height:100%;
   -webkit-overflow-scrolling:touch;
@@ -132,8 +132,8 @@
   /* Detach modal from top anchor and slide down */
   @media screen and (min-height:660px) {
   .modal-dialog {
-    margin-bottom:1.52%;
-    margin-top:auto;
+    margin-bottom:2%;
+    margin-top:2%;
   }
   }
   /* Sufficient space on top to see large USGS logo */
