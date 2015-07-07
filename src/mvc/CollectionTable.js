@@ -1,6 +1,7 @@
 'use strict';
 
-var Util = require('../util/Util'),
+var Collection = require('./Collection'),
+    Util = require('../util/Util'),
     View = require('./View');
 
 
@@ -23,6 +24,8 @@ var _DEFAULTS = {
     //}
   ],
   emptyMarkup: 'No data to display',
+  // allow multiple items to be selected
+  multiSelect: false,
   // whether to render after initialization
   renderNow: true
 };
@@ -46,6 +49,9 @@ var _DEFAULTS = {
  * @param params.clickToSelect {Boolean}
  *        Default false.  Whether clicking on table rows should select
  *        the corresponding collection item.
+ * @param params.multiSelect {Boolean}
+ *        Default false.  Whether to select multiple items.
+ *        Only works with clickToSelect.
  * @see mvc/View
  */
 var CollectionTable = function (params) {
@@ -57,6 +63,7 @@ var CollectionTable = function (params) {
       _collection,
       _columns,
       _emptyMarkup,
+      _multiSelect,
 
       _onClick,
       _onSelect;
@@ -65,19 +72,17 @@ var CollectionTable = function (params) {
   params = Util.extend({}, _DEFAULTS, params);
   _this = View(params);
 
-  _initialize = function () {
+  _initialize = function (params) {
     _className = params.className;
     _clickToSelect = params.clickToSelect;
     _collection = params.collection;
     _columns = params.columns;
     _emptyMarkup = params.emptyMarkup;
+    _multiSelect = params.multiSelect;
 
     // respond to collection events
-    _collection.on('add', _this.render);
-    _collection.on('remove', _this.render);
-    _collection.on('reset', _this.render);
-    _collection.on('select', _onSelect);
-    _collection.on('deselect', _onSelect);
+    _collection.on('change', _this.render);
+    _collection.on('change:select', _onSelect);
 
     // add click handler
     if (_clickToSelect) {
@@ -96,33 +101,58 @@ var CollectionTable = function (params) {
    */
   _onClick = function (e) {
     var target = e.target,
-        row = Util.getParentNode(target, 'TR', _this.el);
+        row = Util.getParentNode(target, 'TR', _this.el),
+        id;
 
     if (row !== null) {
       if (row.parentNode.nodeName.toUpperCase() === 'TBODY') {
-        _collection.selectById(row.getAttribute('data-id'));
+        id = row.getAttribute('data-id');
+        if (_multiSelect) {
+          try {
+            _collection.addToSelection({id: id});
+          } catch (e) {
+            _collection.removeFromSelection({id: id});
+          }
+        } else {
+          _collection.selectById(row.getAttribute('data-id'));
+        }
       }
     }
   };
 
   /**
-   * Handle collection select and deselect events.
+   * Handle collection select events.
    */
   _onSelect = function () {
-    var el = _this.el,
+    var el,
+        els,
+        i,
+        id,
+        index,
+        len,
         selected;
-
-    // remove previous selection
-    selected = el.querySelector('.selected');
-    if (selected) {
-      selected.classList.remove('selected');
-    }
-
-    // set new selection
+    // get collection selection
     selected = _collection.getSelected();
-    if (selected) {
-      selected = el.querySelector('[data-id="' + selected.id + '"]');
-      selected.classList.add('selected');
+    index = Collection.index(selected);
+    // deselect removed items
+    el = _this.el;
+    els = el.querySelectorAll('.selected');
+    len = els.length;
+    for (i = 0; i < len; i++) {
+      el = els[i];
+      id = el.getAttribute('data-id');
+      if (id in index) {
+        // still selected, don't need to select below
+        delete index[id];
+        continue;
+      }
+      // not selected anymore, remove class
+      el.classList.remove('selected');
+    }
+    // select remaining items
+    el = _this.el;
+    for (id in index) {
+      el.querySelector('[data-id="' + id + '"]').classList.add('selected');
     }
   };
 
@@ -132,11 +162,8 @@ var CollectionTable = function (params) {
    */
   _this.destroy = Util.compose(function () {
 
-    _collection.off('add', _this.render);
-    _collection.off('remove', _this.render);
-    _collection.off('reset', _this.render);
-    _collection.off('select', _onSelect);
-    _collection.off('deselect', _onSelect);
+    _collection.off('change:select', _onSelect);
+    _collection.off('change', _this.render);
     _collection = null;
 
     if (_clickToSelect) {
@@ -147,8 +174,11 @@ var CollectionTable = function (params) {
 
   /**
    * Render the view.
+   *
+   * @param change {Object}
+   *        change event.
    */
-  _this.render = function () {
+  _this.render = function (change) {
     var c,
         cLen,
         column,
@@ -158,6 +188,11 @@ var CollectionTable = function (params) {
         iLen,
         item,
         markup;
+
+    if (change && change.type === 'select') {
+      // already handled by _onSelect
+      return;
+    }
 
     data = _collection.data();
     markup = [];
@@ -189,10 +224,14 @@ var CollectionTable = function (params) {
     markup.push('</tbody></table>');
 
     _this.el.innerHTML = markup.join('');
+
+    // update selection
+    _onSelect();
   };
 
 
-  _initialize();
+  _initialize(params);
+  params = null;
   return _this;
 };
 
