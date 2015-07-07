@@ -7,23 +7,18 @@
   background-color:rgba(0,0,0,0.75);
   z-index:9999;
   overflow-y:auto;
-  font-size:.95em;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .modal-dialog {
-  position:relative;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
   margin:16px;
   max-width:640px;
-  max-height:640px;
+  max-height:95%;
   width:auto;
   height:auto;
   background-color:#FFF;
-  padding: 0;
-  overflow: hidden;
   border-radius:2px;
 
   display: flex;
@@ -39,6 +34,7 @@
     justify-content: space-between;
     display: flex;
     flex-direction: row;
+    flex: none;
 
     > h1, h2, h3, h4, h5 {
       margin: 16px 0;
@@ -58,6 +54,7 @@
       color: #666;
       background: #EEEEEE;
       border-left: 1px solid #ddd;
+      border-radius: 0 2px 0 0;
 
       &:hover,
       &:active {
@@ -69,11 +66,13 @@
 
   > .modal-content {
     height: auto;
+    overflow: auto;
   }
 
   > .modal-footer {
     border-top: 1px solid #ddd;
     justify-content: flex-end;
+    flex: none;
   }
 }
 
@@ -115,31 +114,4 @@
 }
 .backgroundScrollDisable {
   overflow:hidden;
-}
-/* Center modal once it stops getting wider */
-@media screen and (min-width:660px) {
-  .modal-dialog {
-    margin:10px auto;
-
-    /* center by positioning left edge in middle of screen,
-        then shifting with negative left margin*/
-    width:640px;
-    left:50%;
-    right:auto;
-    margin-left:-320px;
-  }
-  }
-  /* Detach modal from top anchor and slide down */
-  @media screen and (min-height:660px) {
-  .modal-dialog {
-    margin-bottom:2%;
-    margin-top:2%;
-  }
-  }
-  /* Sufficient space on top to see large USGS logo */
-  @media screen and (min-height:722px) {
-  .modal-dialog {
-    margin-bottom:auto;
-    margin-top:72px;
-  }
 }
