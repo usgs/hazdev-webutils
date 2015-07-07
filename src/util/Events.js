@@ -27,11 +27,23 @@ var Events = function () {
     _stopped = false;
   };
 
+  /**
+   * Destroy the events object.
+   *
+   * Triggers 'destroy' event.
+   *
+   * @param options {Object}
+   *        options passed to listeners.
+   * @param options.silent {Boolean}
+   *        when true, do not trigger listeners.
+   */
   _this.destroy = function (options) {
-    _this.trigger('destroy', {
-      type: 'destroy',
-      options: options
-    });
+    if (options && options.silent !== true) {
+      _this.trigger('destroy', {
+        type: 'destroy',
+        options: options
+      });
+    }
     _listeners = null;
     _this = null;
   };
