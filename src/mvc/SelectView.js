@@ -5,7 +5,8 @@
  *
  */
 
-var Util = require('../util/Util'),
+var Collection = require('./Collection'),
+    Util = require('../util/Util'),
     View = require('./View');
 
 
@@ -52,10 +53,6 @@ var SelectView = function (params) {
     _includeBlankOption = params.includeBlankOption;
     _this.el = params.el || document.createElement('select');
 
-    _idstub = 'selectview-' + _SELECT_VIEW_COUNTER + '-';
-    _SELECT_VIEW_COUNTER += 1;
-
-
     // Make a private DOM element. If _this.el is already a select DOM element,
     // then just use that, otherwise, create a new element and append it to
     // _this.el
@@ -68,11 +65,8 @@ var SelectView = function (params) {
 
     // Bind to events on the collection
     if (_collection) {
-      _collection.on('add', _onCollectionAdd, _this);
-      _collection.on('remove', _onCollectionRemove, _this);
-      _collection.on('reset', _onCollectionReset, _this);
-      _collection.on('select', _onCollectionSelect, _this);
-      _collection.on('deselect', _onCollectionDeselect, _this);
+      _collection.on('change', 'render', _this);
+      _collection.on('change:select', _onCollectionSelect, _this);
     }
 
     // Bind to events on _selectBox
@@ -85,9 +79,10 @@ var SelectView = function (params) {
 
   _createItemMarkup = function (item) {
     return [
-    '<option ',
-        'id="', _getDOMIdForItem(item), '" ',
-        'value="', item.get('value'), '">',
+    '<option',
+        ' data-id="', item.id, '"',
+        ' value="', item.get('value'), '"',
+        '>',
       item.get('display'),
     '</option>'
     ].join('');
@@ -95,67 +90,53 @@ var SelectView = function (params) {
 
   _createBlankOption = function () {
     return [
-    '<option ',
-        'value="', _blankOption.value, '">',
+    '<option',
+        ' data-id="blank"',
+        ' value="', _blankOption.value, '"',
+        '>',
       _blankOption.text,
     '</option>'
     ].join('');
   };
 
-  _getDOMIdForItem = function (item) {
-    return _idstub + item.get('id');
-  };
+  _onCollectionSelect = function () {
+    var el,
+        i,
+        id,
+        index,
+        len,
+        selected;
 
-  _getModelIdForOption = function (element) {
-    return element.id.replace(_idstub, '');
-  };
-
-  _onCollectionAdd = function () {
-    _this.render();
-  };
-
-  _onCollectionDeselect = function (oldSelected) {
-    var selectedDOM = _selectBox.querySelector(
-        '#' + _getDOMIdForItem(oldSelected));
-
-    if (selectedDOM) {
-      selectedDOM.removeAttribute('selected');
-    }
-
-    if (_includeBlankOption) {
-      selectedDOM = _selectBox.querySelector('[value="' + _blankOption.value + '"]');
-      if (selectedDOM) {
-        selectedDOM.setAttribute('selected', 'selected');
+    selected = _collection.getSelected();
+    index = Collection.index(selected);
+    // deselect old selection
+    selected = _selectBox.querySelectorAll(':checked');
+    len = selected.length;
+    for (i = 0; i < len; i++) {
+      el = selected[i];
+      id = el.getAttribute('data-id');
+      if (id in index) {
+        // still selected, don't select below
+        delete index[id];
+      } else {
+        el.selected = false;
       }
     }
-
-  };
-
-  _onCollectionRemove = function () {
-    _this.render();
-  };
-
-  _onCollectionReset = function () {
-    _this.render();
-  };
-
-  _onCollectionSelect = function (selectedItem) {
-    var selectedDOM = _selectBox.querySelector(
-        '#' + _getDOMIdForItem(selectedItem));
-
-    if (selectedDOM) {
-      selectedDOM.setAttribute('selected', 'selected');
+    // add new selection
+    for (id in index) {
+      el = _selectBox.querySelector('[data-id="' + id + '"]');
+      el.selected = true;
     }
   };
 
   _onSelectBoxChange = function () {
     var selectedIndex = _selectBox.selectedIndex,
         selectedDOM = _selectBox.childNodes[selectedIndex],
-        selectedId = _getModelIdForOption(selectedDOM);
+        selectedId = selectedDOM.getAttribute('data-id');
     if (_includeBlankOption && _selectBox.value === _blankOption.value) {
-      _collection.deselect();
+      _collection.select(null);
     } else {
-      _collection.select(_collection.get(selectedId));
+      _collection.selectById(selectedId);
     }
   };
 
