@@ -477,7 +477,7 @@ var Collection = function (data) {
     _selected = [];
     _ids = null;
     // restore any selection
-    _this.addToSelection(oldSelected);
+    _this.addToSelection(__intersect(oldSelected, _data));
 
     // notify listeners
     options = options || {};
