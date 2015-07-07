@@ -174,7 +174,7 @@ var ModalView = function (message, params) {
         _closeButton = header.appendChild(document.createElement('span'));
         _closeButton.classList.add('modal-close-link');
         _closeButton.setAttribute('title', 'Cancel');
-        _closeButton.innerHTML = 'x';
+        _closeButton.innerHTML = '&times;';
         _closeButton.addEventListener('click', _this.hide);
       }
     }  else {
