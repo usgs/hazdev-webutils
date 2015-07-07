@@ -62,7 +62,6 @@ var SelectedCollectionView = function (params) {
    */
   _this.onCollectionSelect = function () {
     var len,
-        model,
         selected;
     selected = _this.collection.getSelected();
     len = selected.length;
