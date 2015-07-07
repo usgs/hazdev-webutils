@@ -278,7 +278,7 @@ var Collection = function (data) {
 
     options = options || {};
     ids = _this.getIds();
-    selected = Array.prototype.slice(0);
+    selected = _selected.slice(0);
     selected_ids = __index(selected);
     // verify objects being selected
     len = toadd.length;
@@ -438,7 +438,7 @@ var Collection = function (data) {
         selected_ids;
 
     ids = _this.getIds();
-    selected = _selected.splice(0);
+    selected = _selected.slice(0);
     selected_ids = __index(selected);
     // verify objects being deselected
     len = toremove.length;

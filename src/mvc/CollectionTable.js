@@ -109,9 +109,9 @@ var CollectionTable = function (params) {
         id = row.getAttribute('data-id');
         if (_multiSelect) {
           try {
-            _collection.addToSelection({id: id});
+            _collection.addToSelection([{id: id}]);
           } catch (e) {
-            _collection.removeFromSelection({id: id});
+            _collection.removeFromSelection([{id: id}]);
           }
         } else {
           _collection.selectById(row.getAttribute('data-id'));
