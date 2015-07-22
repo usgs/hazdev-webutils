@@ -50,6 +50,7 @@
       border-left: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 0 2px 0 0;
       user-select: none;
+      flex: 0 0 auto;
 
       &:hover,
       &:active {
@@ -86,6 +87,8 @@
   > .modal-title:before {
     line-height: 0;
     padding-right: 16px;
+    font-size: 1.3em;
+    flex: 0 0 auto;
   }
 }
 
@@ -96,7 +99,6 @@
   > .modal-title:before {
     /* Success - checkmark */
     content: '\2714';
-    font-size: 1.2em;
   }
 }
 
@@ -107,7 +109,6 @@
   > .modal-title:before {
     /* Error - saltire */
     content: '\2A02';
-    font-size: 1.5em;
   }
 }
 
@@ -118,7 +119,6 @@
   > .modal-title:before {
     /* Warning - caution */
     content: '\26A0';
-    font-size: 1.5em;
   }
 }
 
