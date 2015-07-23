@@ -40,7 +40,6 @@ module.exports = function (grunt) {
   // creates distributable version of library
   grunt.registerTask('build', taskList([
     'dev',
-    'cssmin',
     'uglify'
   ]));
 
@@ -57,12 +56,14 @@ module.exports = function (grunt) {
     'clean',
     'browserify',
     'compass',
+    'postcss:build',
     'copy'
   ]));
 
   // starts distribution server and preview
   grunt.registerTask('dist', taskList([
     'build',
+    'postcss:dist',
     'connect:dist'
   ]));
 
