@@ -21,62 +21,62 @@
   border-radius:2px;
   display: flex;
   flex-direction: column;
+}
 
-  > .modal-header {
-    border-radius: 2px 2px 0 0;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-    flex: none;
-    z-index: 1;
-    color: #444;
+.modal-header {
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  flex: none;
+  z-index: 1;
+  color: #444;
+}
 
-    > .modal-title {
-      margin: 16px 0;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      outline: 0;
-    }
+.modal-title {
+  margin: 16px 0;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  outline: 0;
+}
 
-    > .modal-close-link {
-      display: flex;
-      align-items: center;
-      padding: 0 1em;
-      font-size: 22px;
-      cursor: pointer;
-      background: rgba(0,0,0,0.05);
-      border-left: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 0 2px 0 0;
-      user-select: none;
-      flex: 0 0 auto;
+.modal-close-link {
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+  font-size: 22px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.05);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0 2px 0 0;
+  user-select: none;
+  flex: 0 0 auto;
 
-      &:hover,
-      &:active {
-        background: rgba(0,0,0,0.1);
-      }
-    }
+  &:hover,
+  &:active {
+    background: rgba(0,0,0,0.1);
   }
+}
 
-  > .modal-content {
-    height: auto;
-    overflow: auto;
-    border-radius: 2px;
-    padding: 0 16px 16px;
-    -webkit-overflow-scrolling:touch;
-    max-height:none;
-    outline: none;
-  }
+.modal-content {
+  height: auto;
+  overflow: auto;
+  border-radius: 2px;
+  padding: 0 16px 16px;
+  -webkit-overflow-scrolling:touch;
+  max-height:none;
+  outline: none;
+}
 
-  > .modal-footer {
-    border-radius: 0 0 2px 2px;
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-    justify-content: flex-end;
-    flex: none;
-    z-index: 1;
-    padding: 16px;
-  }
+.modal-footer {
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+  justify-content: flex-end;
+  flex: none;
+  z-index: 1;
+  padding: 16px;
 }
 
 .modal-error > .modal-header,
