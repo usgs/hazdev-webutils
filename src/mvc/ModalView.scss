@@ -52,7 +52,7 @@
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0 2px 0 0;
   user-select: none;
-  flex: 0 0 auto;
+  flex: none;
 
   &:hover,
   &:active {
@@ -73,8 +73,9 @@
 .modal-footer {
   border-radius: 0 0 2px 2px;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-  justify-content: flex-end;
+  display: flex;
   flex: none;
+  align-items: center;
   z-index: 1;
   padding: 16px;
 }
@@ -88,7 +89,7 @@
     line-height: 0;
     padding-right: 16px;
     font-size: 1.3em;
-    flex: 0 0 auto;
+    flex: none;
   }
 }
 
