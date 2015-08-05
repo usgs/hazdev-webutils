@@ -62,7 +62,8 @@ var FileView = function (params) {
       _bindEventListeners,
       _createViewSkeleton,
       _formatFileSize,
-      _onDeleteClick;
+      _onDeleteClick,
+      _unbindEventListeners;
 
 
   _this = View(params);
@@ -125,9 +126,24 @@ var FileView = function (params) {
     _this.destroy();
   };
 
+  _unbindEventListeners = function () {
+    _delete.removeEventListener('click', _onDeleteClick);
+  };
+
 
   _this.destroy = Util.compose(function () {
+    _unbindEventListeners();
+
+    _collection = null;
+    _delete = null;
+    _fileName = null;
+    _fileSize = null;
+
+    _bindEventListeners = null;
     _createViewSkeleton = null;
+    _formatFileSize = null;
+    _onDeleteClick = null;
+    _unbindEventListeners = null;
 
     _initialize = null;
     _this = null;
@@ -185,7 +201,8 @@ var FileInputView = function (params) {
       _onReadError,
       _onReadSuccess,
       _onUploadClick,
-      _showError;
+      _showError,
+      _unbindEventListeners;
 
 
   // Inherit from parent class
@@ -391,9 +408,52 @@ var FileInputView = function (params) {
     });
   };
 
+  _unbindEventListeners = function () {
+    _dropzone.removeEventListener('dragleave', _onDragLeave);
+    _dropzone.removeEventListener('dragover', _onDragOver);
+    _dropzone.removeEventListener('drop', _onDrop);
+
+    _browseButton.removeEventListener('click', _onBrowseClick);
+    _fileInput.removeEventListener('change', _onDrop);
+  };
+
 
   _this.destroy = Util.compose(function () {
-    // TODO
+    _unbindEventListeners();
+
+    _collectionView.destroy();
+    _collection.destroy();
+    _io.destroy();
+    _modal.destroy();
+
+    _browseButton = null;
+    _cancelCallback = null;
+    _collection = null;
+    _collectionView = null;
+    _dropzone = null;
+    _fileInput = null;
+    _filesContainer = null;
+    _io = null;
+    _messageContainer = null;
+    _modal = null;
+    _uploadCallback = null;
+
+    _bindEventListeners = null;
+    _createViewSkeleton = null;
+    _handleFile = null;
+    _onBrowseClick = null;
+    _onCancelClick = null;
+    _onDragLeave = null;
+    _onDragOver = null;
+    _onDrop = null;
+    _onReadError = null;
+    _onReadSuccess = null;
+    _onUploadClick = null;
+    _showError = null;
+    _unbindEventListeners = null;
+
+    _initialize = null;
+    _this = null;
   }, _this.destroy);
 
   _this.hide = function () {

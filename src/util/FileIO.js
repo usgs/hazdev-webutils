@@ -4,11 +4,9 @@
 var Util = require('util/Util');
 
 
-var _MAX_FILE_SIZE = 209715200; // 200MB
-
 // Default values to be used by constructor
 var _DEFAULTS = {
-   // ... some defaults ...
+   maxFileSize: 209715200 // 200MB
 };
 
 
@@ -22,7 +20,7 @@ var FileIO = function (params) {
   var _this,
       _initialize,
 
-      _reader,
+      _maxFileSize,
 
       _getReadMethod;
 
@@ -40,6 +38,8 @@ var FileIO = function (params) {
   _initialize = function (params) {
     // Enumerate each property expected to be given in params method
     params = Util.extend({}, _DEFAULTS, params);
+
+    _maxFileSize = params.maxFileSize;
   };
 
   _getReadMethod = function (params) {
@@ -68,7 +68,9 @@ var FileIO = function (params) {
 
 
   _this.destroy = function () {
-    _reader = null;
+    _maxFileSize = null;
+
+    _getReadMethod = null;
 
     _initialize = null;
     _this = null;
@@ -99,7 +101,7 @@ var FileIO = function (params) {
       throw new Error('Parameters are required for reading.');
     }
 
-    if (params.file.size > _MAX_FILE_SIZE) {
+    if (params.file.size > _maxFileSize) {
       throw new Error('File size is too large.');
     }
 
