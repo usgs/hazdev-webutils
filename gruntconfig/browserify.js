@@ -10,6 +10,7 @@ var EXPORTS = [
   'mvc/CollectionView',
   'mvc/DataTable',
   'mvc/DownloadView',
+  'mvc/FileInputView',
   'mvc/ModalView',
   'mvc/Model',
   'mvc/SelectView',
