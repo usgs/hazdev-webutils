@@ -38,15 +38,17 @@ if (!Function.prototype.bind) {
   mocha.reporter('html');
 
   // Add each test class here as they are implemented
-  require('./spec/mvc/CollectionTest');
-  require('./spec/mvc/ModelTest');
-  require('./spec/mvc/SelectViewTest');
-  require('./spec/mvc/CollectionTableTest');
   require('./spec/mvc/CollectionSelectBoxTest');
+  require('./spec/mvc/CollectionTableTest');
+  require('./spec/mvc/CollectionTest');
   require('./spec/mvc/CollectionViewTest');
+  require('./spec/mvc/FileInputViewTest');
+  require('./spec/mvc/ModelTest');
   require('./spec/mvc/SelectedCollectionViewTest');
+  require('./spec/mvc/SelectViewTest');
 
   require('./spec/util/EventsTest');
+  require('./spec/util/FileIOTest');
   require('./spec/util/UtilTest');
   require('./spec/util/XhrTest');
 
