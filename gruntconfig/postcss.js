@@ -1,7 +1,8 @@
 'use strict';
 
 var autoprefixer = require('autoprefixer-core'),
-    cssnano = require('cssnano');
+    cssnano = require('cssnano'),
+    precss = require('precss');
 
 var config = require('./config');
 
@@ -10,10 +11,11 @@ var postcss = {
   build: {
     options: {
       processors: [
+        precss(),
         autoprefixer({'browsers': 'last 2 versions'}), // vendor prefix as needed
       ]
     },
-    src: config.build + '/' + config.src + '/hazdev-webutils.css',
+    src: config.src + '/hazdev-webutils.scss',
     dest: config.build + '/' + config.src + '/hazdev-webutils.css'
   },
 

@@ -1,10 +1,10 @@
-$dropzone-color: #fafafa;
-
+$dropzone-background: rgba(0,0,0,0.05);
+$dropzone-border-color: rgba(0,0,0,0.1);
 
 .modal-dialog.file-input,
 .file-input {
-  width: 50%; // capped at 640 by modal dialog
-  min-width: 304px; // for smaller screens
+  width: 50%;
+  min-width: 304px;
 }
 
 .file-input-intro {
@@ -17,15 +17,16 @@ $dropzone-color: #fafafa;
 
 .file-input-dropzone {
   align-items: center;
-  background-color: $dropzone-color;
+  background-color: $dropzone-background;
   display: flex;
   justify-content: flex-end;
   margin-top: 1em;
   padding: 16px;
   position: relative;
+  border: 1px solid $dropzone-border-color;
 
   &:before {
-    border: 3px dashed $dropzone-color;
+    border: 3px dashed $dropzone-background;
     bottom: 4px;
     left: 4px;
     position: absolute;
@@ -57,11 +58,6 @@ $dropzone-color: #fafafa;
 .file-input-messages > .webutils-message {
   margin-top: 1em;
 }
-
-.file-input-files {
-
-}
-
 
 .file-view {
   display: flex;

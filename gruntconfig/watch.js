@@ -15,7 +15,7 @@ var watch = {
     files: [
       config.src + '/**/*.scss'
     ],
-    tasks: ['compass']
+    tasks: ['postcss:build']
   },
   html: {
     files: [

@@ -1,4 +1,13 @@
-.download-view > .download {
-  min-height:10em;
-  width:100%;
+.download-view {
+
+  > .download {
+    min-height:10em;
+    width:100%;
+    font-family: monospace;
+    font-size: small;
+  }
+
+  > .help {
+    margin: 1em 0;
+  }
 }
