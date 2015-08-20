@@ -12,7 +12,7 @@ var postcss = {
     options: {
       processors: [
         precss(),
-        autoprefixer({'browsers': 'last 2 versions'}), // vendor prefix as needed
+        autoprefixer({'browsers': 'last 2 versions'}) // vendor prefix as needed
       ]
     },
     src: config.src + '/hazdev-webutils.scss',
