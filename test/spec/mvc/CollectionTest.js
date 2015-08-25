@@ -125,6 +125,64 @@ describe('Unit tests for the "Collection" class', function () {
   });
 
 
+  describe('reset()', function () {
+    it('triggers "reset" event when the collection is reset', function () {
+      var collection = Collection(),
+          listener = new TestClass();
+
+      collection.on('reset', listener.callback, listener);
+      collection.reset([]);
+
+      expect(listener.callbackCount).to.equal(1);
+      expect(listener.callbackData).to.deep.equal([]);
+    });
+
+    it('does not throws exception when no parameters are passed', function () {
+      var model = Model({'id': 'test'}),
+          model2 = Model({'id': 'test2'}),
+          collection = Collection();
+
+      collection.add(model, model2);
+
+      expect(function () {
+        collection.reset();
+      }).to.not.throw(Error);
+    });
+
+    it('maintains selection when item IS in reset collection', function () {
+      var model = Model({'id': 'test'}),
+          model2 = Model({'id': 'test2'}),
+          model3 = Model({'id': 'test3'}),
+          collection = Collection();
+
+      collection.add(model, model2, model3);
+      collection.select(model2);
+      expect(collection.data().length).to.equal(3);
+      expect(collection.get('test2')).to.deep.equal(model2);
+
+      collection.reset([model2, model3]);
+      expect(collection.data().length).to.equal(2);
+      expect(collection.get('test2')).to.deep.equal(model2);
+    });
+
+    it('clears selection when item IS NOT in reset collection', function () {
+      var model = Model({'id': 'test'}),
+          model2 = Model({'id': 'test2'}),
+          model3 = Model({'id': 'test3'}),
+          collection = Collection();
+
+      collection.add(model, model2, model3);
+      collection.select(model2);
+      expect(collection.data().length).to.equal(3);
+      expect(collection.get('test2')).to.deep.equal(model2);
+
+      collection.reset([model, model3]);
+      expect(collection.data().length).to.equal(2);
+      expect(collection.get('test2')).to.deep.equal(null);
+    });
+  });
+
+
   describe('select()', function () {
     it('triggers "select" event when called', function () {
       var model = Model({'id': 'test'}),
