@@ -1,5 +1,8 @@
 'use strict';
 
+var Util = require('./Util');
+
+
 var __INSTANCE__ = null;
 
 
@@ -12,7 +15,8 @@ var Events = function () {
   var _this,
       _initialize,
 
-      _listeners;
+      _listeners,
+      _stopped;
 
 
   _this = {};
@@ -20,8 +24,29 @@ var Events = function () {
   _initialize = function () {
     // map of listeners by event type
     _listeners = {};
+    _stopped = false;
   };
 
+  /**
+   * Destroy the events object.
+   *
+   * Triggers 'destroy' event.
+   *
+   * @param options {Object}
+   *        options passed to listeners.
+   * @param options.silent {Boolean}
+   *        when true, do not trigger listeners.
+   */
+  _this.destroy = function (options) {
+    if (options && options.silent !== true) {
+      _this.trigger('destroy', {
+        type: 'destroy',
+        options: options
+      });
+    }
+    _listeners = null;
+    _this = null;
+  };
 
   /**
    * Remove an event listener
@@ -118,14 +143,16 @@ var Events = function () {
         listener,
         listeners;
 
-    if (_listeners.hasOwnProperty(event)) {
+    if (_stopped) {
+      // do not notify listeners
+      return;
+    }
 
+    if (_listeners.hasOwnProperty(event)) {
       args = Array.prototype.slice.call(arguments, 1);
       listeners = _listeners[event].slice(0);
-
       for (i = 0, len = listeners.length; i < len; i++) {
         listener = listeners[i];
-
         // NOTE: if listener throws exception, this will stop...
         if (__is_string(listener.callback)) {
           listener.context[listener.callback].apply(listener.context, args);
@@ -136,21 +163,31 @@ var Events = function () {
     }
   };
 
+  /**
+   * Start triggering events if they were stopped by stopEvents().
+   */
+  _this.startEvents = function () {
+    _stopped = false;
+  };
+
+  /**
+   * Stop triggering events until startEvents() is called.
+   */
+  _this.stopEvents = function () {
+    _stopped = true;
+  };
+
+
   _initialize();
   return _this;
 };
 
+
 // make Events a global event source
 __INSTANCE__ = Events();
-Events.on = function _events_on () {
-  return __INSTANCE__.on.apply(__INSTANCE__, arguments);
-};
-Events.off = function _events_off () {
-  return __INSTANCE__.off.apply(__INSTANCE__, arguments);
-};
-Events.trigger = function _events_trigger () {
-  return __INSTANCE__.trigger.apply(__INSTANCE__, arguments);
-};
+// copy all methods from instance to factory
+Util.extend(Events, __INSTANCE__);
+
 
 // intercept window.onhashchange events, or simulate if browser doesn't
 // support, and send to global Events object
@@ -162,7 +199,6 @@ var _onHashChange = function (e) {
 // http://stackoverflow.com/questions/9339865/get-the-hashchange-event-to-work-in-all-browsers-including-ie7
 if (!('onhashchange' in window)) {
   var oldHref = document.location.hash;
-
   setInterval(function () {
     if (oldHref !== document.location.hash) {
       oldHref = document.location.hash;
@@ -173,9 +209,9 @@ if (!('onhashchange' in window)) {
       });
     }
   }, 300);
-
 } else if (window.addEventListener) {
   window.addEventListener('hashchange', _onHashChange, false);
 }
+
 
 module.exports = Events;

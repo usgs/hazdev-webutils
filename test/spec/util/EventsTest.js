@@ -125,6 +125,39 @@ describe('Unit tests for the "Events" class', function () {
     });
   });
 
+  describe('stop/startEvents()', function () {
+    it('stopEvents() prevents listener calls', function () {
+      var evts = Events(),
+          listener = sinon.spy();
+
+      evts.on('testevent', listener);
+      // verify listener is called before stopping
+      evts.trigger('testevent');
+      expect(listener.callCount).to.equal(1);
+
+      evts.stopEvents();
+      // verify listener is not called after stopping
+      evts.trigger('testevent');
+      expect(listener.callCount).to.equal(1);
+    });
+
+    it('startEvents() resumes listener calls', function () {
+      var evts = Events(),
+          listener = sinon.spy();
+
+      evts.on('testevent', listener);
+      evts.stopEvents();
+      // verify listener is not called after stopping
+      evts.trigger('testevent');
+      expect(listener.callCount).to.equal(0);
+
+      evts.startEvents();
+      // verify listener is called after starting
+      evts.trigger('testevent');
+      expect(listener.callCount).to.equal(1);
+    });
+  });
+
   describe('static instance', function () {
 
     it('works for the static instance', function () {

@@ -59,16 +59,16 @@ describe('Unit tests for the "Collection" class', function () {
 
 
   describe('add()', function () {
-    it('triggers "add" event when called', function () {
+    it('triggers "change:add" event when called', function () {
       var model = Model({'id': 'test'}),
           collection = Collection(),
           listener = new TestClass();
 
-      collection.on('add', listener.callback, listener);
+      collection.on('change:add', listener.callback, listener);
       collection.add(model);
 
       expect(listener.callbackCount).to.equal(1);
-      expect(listener.callbackData).to.deep.equal([model]);
+      expect(listener.callbackData.added).to.deep.equal([model]);
     });
 
     it('supports a variable number of arguments', function () {
@@ -85,17 +85,17 @@ describe('Unit tests for the "Collection" class', function () {
 
 
   describe('remove()', function () {
-    it('triggers "remove" event when there is selection', function () {
+    it('triggers "change:remove" event when there is selection', function () {
       var model = Model({'id': 'test'}),
           collection = Collection(),
           listener = new TestClass();
 
-      collection.on('remove', listener.callback, listener);
+      collection.on('change:remove', listener.callback, listener);
       collection.add(model);
       collection.remove(model);
 
       expect(listener.callbackCount).to.equal(1);
-      expect(listener.callbackData).to.deep.equal([model]);
+      expect(listener.callbackData.removed).to.deep.equal([model]);
     });
 
     it('throws exception when model not in collection', function () {
@@ -131,12 +131,12 @@ describe('Unit tests for the "Collection" class', function () {
           collection = Collection(),
           listener = new TestClass();
 
-      collection.on('select', listener.callback, listener);
+      collection.on('change:select', listener.callback, listener);
       collection.add(model);
       collection.select(model);
 
       expect(listener.callbackCount).to.equal(1);
-      expect(listener.callbackData).to.equal(model);
+      expect(listener.callbackData.selected).to.deep.equal([model]);
     });
 
     it('throws exception when model not in collection', function () {
@@ -151,7 +151,7 @@ describe('Unit tests for the "Collection" class', function () {
       }).to.throw(/not in collection/);
     });
 
-    it('also calls "deselect" when existing selection', function () {
+    it('includes old selection in triggered event', function () {
       var model = Model({'id': 'test'}),
           model2 = Model({'id': 'test2'}),
           collection = Collection(),
@@ -160,42 +160,36 @@ describe('Unit tests for the "Collection" class', function () {
       collection.add(model, model2);
       collection.select(model);
 
-      collection.on('deselect', listener.callback, listener);
-      collection.on('select', listener.callback, listener);
+      collection.on('change:select', listener.callback, listener);
       collection.select(model2);
 
-      expect(listener.callbackCount).to.equal(2);
-      expect(listener.callbackData).to.equal(model2);
+      expect(listener.callbackCount).to.equal(1);
+      expect(listener.callbackData.selected).to.deep.equal([model2]);
+      expect(listener.callbackData.oldSelected).to.deep.equal([model]);
     });
   });
 
+  describe('selectAll()', function () {
+    var model = Model({'id': 'test', 'value': 1.2}),
+        model2 = Model({'id': 'test2', 'value': 2.1}),
+        model3 = Model({'id': 'test3', 'value': 3.3}),
+        collection = Collection([model, model2, model3]);
 
-  describe('deselect()', function () {
-    it('triggers "deselect" event when there is selection', function () {
-      var model = Model({'id': 'test'}),
-          collection = Collection(),
-          listener = new TestClass();
-
-      collection.on('deselect', listener.callback, listener);
-      collection.add(model);
-      collection.select(model);
-      collection.deselect();
-
-      expect(listener.callbackCount).to.equal(1);
-      expect(listener.callbackData).to.equal(model);
+    it('supports multiple selection', function () {
+      // select an item
+      collection.selectAll([model, model2]);
+      // shouldn't have a selection
+      expect(collection.getSelected()).to.deep.equal([model, model2]);
     });
 
-    it('does not trigger "deselect" event when no selection', function () {
-      var model = Model({'id': 'test'}),
-          collection = Collection(),
+    it('passes options to listeners', function () {
+      var obj = {source: {}},
           listener = new TestClass();
 
-      collection.on('deselect', listener.callback, listener);
-      collection.add(model);
-      collection.deselect();
-
-      expect(listener.callbackCount).to.equal(0);
-      expect(listener.callbackData).to.equal(null);
+      collection.on('change:select', listener.callback, listener);
+      collection.selectAll([model], obj);
+      expect(listener.callbackCount).to.equal(1);
+      expect(listener.callbackData.options).to.equal(obj);
     });
   });
 
@@ -210,7 +204,7 @@ describe('Unit tests for the "Collection" class', function () {
       // select using an invalid id
       collection.selectById('test3');
       // shouldn't have a selection
-      expect(collection.getSelected()).to.equal(null);
+      expect(collection.getSelected().length).to.equal(0);
     });
 
     it('selects item with corresponding id', function () {
@@ -219,7 +213,7 @@ describe('Unit tests for the "Collection" class', function () {
       // select a different item
       collection.selectById('test');
       // should be model with id 'test'
-      expect(collection.getSelected()).to.equal(model);
+      expect(collection.getSelected()).to.deep.equal([model]);
     });
   });
 

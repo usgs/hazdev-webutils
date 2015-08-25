@@ -32,33 +32,15 @@ describe('Unit tests for the "CollectionTable" class', function () {
       // selectSpy.restore();
     });
 
-    it('binds to reset', function () {
+    it('binds to change', function () {
       /* jshint -W030 */
-      expect(bindSpy.calledWith('reset', collectionTable.render)).to.be.true;
+      expect(bindSpy.calledWith('change', collectionTable.render)).to.be.true;
       /* jshint +W030 */
     });
 
-    it('binds to add', function () {
+    it('binds to change:select', function () {
       /* jshint -W030 */
-      expect(bindSpy.calledWith('add', collectionTable.render)).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to remove', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('remove', collectionTable.render)).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to select', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('select')).to.be.true;
-      /* jshint +W030 */
-    });
-
-    it('binds to deselect', function () {
-      /* jshint -W030 */
-      expect(bindSpy.calledWith('select')).to.be.true;
+      expect(bindSpy.calledWith('change:select')).to.be.true;
       /* jshint +W030 */
     });
 
@@ -106,11 +88,39 @@ describe('Unit tests for the "CollectionTable" class', function () {
     it('removes selected class on deselect', function () {
       var selected;
       collection.select(collection.get(2));
-      collection.deselect();
+      collection.select(null);
       selected = el.querySelector('.selected');
       expect(selected).to.equal(null);
     });
 
+  });
+
+
+  describe('Supports multi-select', function () {
+    var el = document.createElement('div'),
+        collection,
+        collectionTable;
+
+    collection = Collection([
+      {id: 1},
+      {id: 2},
+      {id: 3}
+    ]);
+
+    collectionTable = CollectionTable({
+      el: el,
+      collection: collection,
+      clickToSelect: true,
+      multiSelect: true
+    });
+
+    it('adds selected class on select', function () {
+      collection.selectAll([collection.get(1), collection.get(2)]);
+      expect(el.querySelector('[data-id="1"]').classList.contains('selected'))
+          .to.equal(true);
+      expect(el.querySelector('[data-id="2"]').classList.contains('selected'))
+          .to.equal(true);
+    });
   });
 
   describe('Support row headers', function () {

@@ -338,7 +338,6 @@ Util.loadScript = function (url, options) {
 
 // Do these checks once and cache the results
 (function() {
-  var testEl = document.createElement('div');
   var testInput = document.createElement('input');
   var str = navigator.userAgent||navigator.vendor||window.opera;
 
@@ -347,7 +346,8 @@ Util.loadScript = function (url, options) {
   supportsDateInput = (testInput.type !== 'text');
 
   // clean up testing element
-  testEl = null;
+  testInput = null;
 })();
+
 
 module.exports = Util;

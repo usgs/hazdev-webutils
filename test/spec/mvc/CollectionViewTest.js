@@ -64,7 +64,7 @@ describe('CollectionView', function () {
       expect(view.el.querySelectorAll('.selected').length).to.equal(0);
       collection.select(model);
       expect(view.el.querySelectorAll('.selected').length).to.equal(1);
-      collection.deselect(model);
+      collection.select(null);
       expect(view.el.querySelectorAll('.selected').length).to.equal(0);
     });
   });

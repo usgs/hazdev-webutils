@@ -26,8 +26,6 @@ var CollectionView = function (options) {
   _this = View(options);
 
   _initialize = function (options) {
-    var selected;
-
     _collection = options.collection;
     _factory = options.factory || View;
 
@@ -45,21 +43,12 @@ var CollectionView = function (options) {
     _views = Collection([]);
 
     _collection.on('render', _this.render);
-
-    _collection.on('add', _onCollectionAdd);
-    _collection.on('remove', _onCollectionRemove);
-    _collection.on('reset', _onCollectionReset);
-
-    _collection.on('select', _onCollectionSelect);
-    _collection.on('deselect', _onCollectionDeselect);
+    _collection.on('change:add', _onCollectionAdd);
+    _collection.on('change:remove', _onCollectionRemove);
+    _collection.on('change:reset', _onCollectionReset);
+    _collection.on('change:select', _onCollectionSelect);
 
     _onCollectionReset();
-
-    // Make sure any selected model is rendered properly in the view
-    selected = _collection.getSelected();
-    if (selected) {
-      _onCollectionSelect(selected);
-    }
   };
 
 
@@ -78,6 +67,7 @@ var CollectionView = function (options) {
       if (typeof view.id === 'undefined' || view.id === null) {
         view.id = model.id;
       }
+      view.el.setAttribute('data-id', view.id);
 
       return view;
     });
@@ -85,12 +75,12 @@ var CollectionView = function (options) {
     return views;
   };
 
-  _onCollectionAdd = function (models) {
+  _onCollectionAdd = function (change) {
     var fragment,
         views;
 
     fragment = document.createDocumentFragment();
-    views = _createViews(models, fragment);
+    views = _createViews(change.added, fragment);
 
     // Add the newly created views to our view collection
     _views.add.apply(_views, views);
@@ -99,18 +89,8 @@ var CollectionView = function (options) {
     _list.appendChild(fragment);
   };
 
-  _onCollectionDeselect = function (model) {
-    var view;
-
-    view = _views.get(model.id);
-
-    if (view) {
-      view.el.classList.remove('selected');
-    }
-  };
-
-  _onCollectionRemove = function (models) {
-    models.forEach(function (model) {
+  _onCollectionRemove = function (change) {
+    change.removed.forEach(function (model) {
       var view = _views.get(model.id);
 
       if (view) {
@@ -143,26 +123,54 @@ var CollectionView = function (options) {
     _this.render();
   };
 
-  _onCollectionSelect = function (model) {
-    var view;
+  _onCollectionSelect = function () {
+    var el,
+        i,
+        id,
+        index,
+        len,
+        selected,
+        view,
+        views;
 
-    view = _views.get(model.id);
+    selected = _collection.getSelected();
+    index = Collection.index(selected);
 
-    if (view) {
-      view.el.classList.add('selected');
+    views = _list.querySelectorAll('.selected');
+    len = views.length;
+    for (i = 0; i < len; i++) {
+      el = views[i];
+      if (el.parentNode !== _list) {
+        // not direct descendent
+        continue;
+      }
+      id = el.getAttribute('data-id');
+      if (id in index) {
+        // already selected, don't select below
+        delete index[id];
+        continue;
+      } else {
+        // deselect
+        el.classList.remove('selected');
+      }
+    }
+
+    // select remaining elements
+    for (id in index) {
+      view = _views.get(id);
+      if (view) {
+        view.el.classList.add('selected');
+      }
     }
   };
 
 
   _this.destroy = Util.compose(_this.destroy, function () {
     _collection.off('render', _this.render);
-
-    _collection.off('add', _onCollectionAdd);
-    _collection.off('remove', _onCollectionRemove);
-    _collection.off('reset', _onCollectionReset);
-
-    _collection.off('select', _onCollectionSelect);
-    _collection.off('deselect', _onCollectionDeselect);
+    _collection.off('change:add', _onCollectionAdd);
+    _collection.off('change:remove', _onCollectionRemove);
+    _collection.off('change:reset', _onCollectionReset);
+    _collection.off('change:select', _onCollectionSelect);
 
     if (_destroyCollection) {
       _collection.destroy();
@@ -203,6 +211,9 @@ var CollectionView = function (options) {
 
     Util.empty(_list);
     _list.appendChild(fragment);
+
+    // update selection
+    _onCollectionSelect();
   };
 
 

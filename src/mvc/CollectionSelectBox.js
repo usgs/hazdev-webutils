@@ -1,6 +1,7 @@
 'use strict';
 
-var Util = require('../util/Util'),
+var Collection = require('./Collection'),
+    Util = require('../util/Util'),
     View = require('./View');
 
 
@@ -17,6 +18,8 @@ var _DEFAULTS = {
   format: function (item) {
     return item.id;
   },
+
+  multiSelect: false,
 
   // whether to render during initialize
   renderNow: true
@@ -46,6 +49,7 @@ var CollectionSelectBox = function (params) {
       _collection,
       _format,
       _includeBlankOption,
+      _multiSelect,
       _selectBox,
 
       _createBlankOption,
@@ -67,6 +71,7 @@ var CollectionSelectBox = function (params) {
     _blankOption = params.blankOption;
     _includeBlankOption = params.includeBlankOption;
     _format = params.format;
+    _multiSelect = params.multiSelect;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -75,13 +80,13 @@ var CollectionSelectBox = function (params) {
       _selectBox = el.appendChild(document.createElement('select'));
     }
     _selectBox.classList.add(params.className);
+    if (_multiSelect) {
+      _selectBox.setAttribute('multiple', 'multiple');
+    }
 
     // bind to events on the collection
-    _collection.on('add', _this.render);
-    _collection.on('remove', _this.render);
-    _collection.on('reset', _this.render);
-    _collection.on('select', _onSelect);
-    _collection.on('deselect', _onSelect);
+    _collection.on('change', _this.render);
+    _collection.on('change:select', _onSelect);
 
     // bind to events on this._selectBox
     _selectBox.addEventListener('change', _onChange);
@@ -99,10 +104,23 @@ var CollectionSelectBox = function (params) {
    * Handle selectbox change events.
    */
   _onChange = function () {
-    var value = _selectBox.value;
+    var checked,
+        i,
+        len,
+        toselect,
+        value;
 
+    value = _selectBox.value;
     if (_includeBlankOption && value === _blankOption.value) {
       _collection.deselect();
+    } else if (_multiSelect) {
+      toselect = [];
+      checked = _selectBox.querySelectorAll(':checked');
+      len = checked.length;
+      for (i = 0; i < len; i++) {
+        toselect.push(_collection.get(checked[i].value));
+      }
+      _collection.selectAll(toselect, {source: _this});
     } else {
       _collection.selectById(value);
     }
@@ -111,13 +129,44 @@ var CollectionSelectBox = function (params) {
   /**
    * Handle collection select events.
    */
-  _onSelect = function () {
-    var selected = _collection.getSelected();
+  _onSelect = function (evt) {
+    var checked,
+        el,
+        i,
+        id,
+        index,
+        len,
+        selected;
 
-    if (selected) {
-      _selectBox.value = selected.id;
-    } else if (_includeBlankOption) {
+    if (evt && evt.options && evt.options.source === _this) {
+      // select was triggered by this view, so should already be in sync.
+      return;
+    }
+
+    selected = _collection.getSelected();
+    len = selected.length;
+    if (len === 0) {
       _selectBox.value = _blankOption.value;
+    } else {
+      index = Collection.index(selected);
+      // deselect items that are no longer selected
+      checked = _selectBox.querySelectorAll(':checked');
+      len = checked.length;
+      for (i = 0; i < len; i++) {
+        el = checked[i];
+        id = el.getAttribute('value');
+        if (id in index) {
+          // already selected
+          delete index[id];
+        } else {
+          checked[i].selected = false;
+        }
+      }
+      // select new item(s)
+      for (id in index) {
+        el = _selectBox.querySelector('[value="' + id + '"]');
+        el.selected = true;
+      }
     }
   };
 
@@ -151,7 +200,6 @@ var CollectionSelectBox = function (params) {
    */
   _this.render = function () {
     var data = _collection.data(),
-        selected = _collection.getSelected(),
         i,
         len,
         markup = [];
@@ -161,9 +209,8 @@ var CollectionSelectBox = function (params) {
     }
 
     for (i = 0, len = data.length; i < len; i++) {
-      markup.push('<option value="' + data[i].id + '"' +
-          (selected === data[i] ? ' selected="selected"' : '') +
-          '>' + _format(data[i]) + '</option>');
+      markup.push('<option value="' + data[i].id + '"' + '>' +
+          _format(data[i]) + '</option>');
     }
 
     _selectBox.innerHTML = markup.join('');
