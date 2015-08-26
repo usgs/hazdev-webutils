@@ -62,11 +62,13 @@ var Collection = function (data) {
   /**
    * Deselect current selection.
    */
-  _this.deselect = function () {
+  _this.deselect = function (options) {
     if (_selected !== null) {
       var oldSelected = _selected;
       _selected = null;
-      _this.trigger('deselect', oldSelected);
+      if (!options || options.silent !== true) {
+        _this.trigger('deselect', oldSelected);
+      }
     }
   };
 
@@ -199,7 +201,9 @@ var Collection = function (data) {
     _data = data || [];
 
     // notify listeners
-    _this.trigger('reset', data);
+    if (!options || options.silent !== true) {
+      _this.trigger('reset', data);
+    }
 
     // reselect if there was a previous selection
     if (selectedId !== null) {
