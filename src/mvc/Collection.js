@@ -71,7 +71,7 @@ var Collection = function (data) {
    *        objects to be added to the collection.
    */
    _this.addAll = function (toadd, options) {
-     _data.push.apply(_data, arguments);
+     _data.push.apply(_data, toadd);
      _ids = null;
      if (!_isSilent(options)) {
        _this.trigger('add', toadd);
@@ -184,7 +184,7 @@ var Collection = function (data) {
    *      object to remove.
    * @deprecated see #removeAll()
    */
-  _this.remove = function (o) {
+  _this.remove = function (/* o */) {
     // trigger remove event
     _this.removeAll(Array.prototype.slice.call(arguments, 0));
   };
@@ -205,7 +205,8 @@ var Collection = function (data) {
     var i,
         len = toremove.length,
         indexes = [],
-        ids = _this.getIds();
+        ids = _this.getIds(),
+        o;
 
     // select indexes to be removed
     for (i = 0; i < len; i++) {
@@ -251,7 +252,9 @@ var Collection = function (data) {
     }
 
     // free array and id cache
-    _this.destroy();
+    _data = null;
+    _ids = null;
+    _selected = null;
 
     // set new array
     _data = data || [];
