@@ -24,6 +24,15 @@ var Events = function () {
 
 
   /**
+   * Free all references.
+   */
+  _this.destroy = function () {
+    _initialize = null;
+    _listeners = null;
+    _this = null;
+  };
+
+  /**
    * Remove an event listener
    *
    * Omitting callback clears all listeners for given event.

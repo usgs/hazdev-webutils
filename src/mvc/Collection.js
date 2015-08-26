@@ -5,7 +5,8 @@
  * Lazily builds indexes to avoid overhead until needed.
  */
 
-var Events = require('../util/Events');
+var Events = require('../util/Events'),
+    Util = require('../util/Util');
 
 
 /**
@@ -21,7 +22,9 @@ var Collection = function (data) {
 
       _data,
       _ids,
-      _selected;
+      _selected,
+
+      _isSilent;
 
 
   _this = Events();
@@ -34,6 +37,17 @@ var Collection = function (data) {
     data = null;
   };
 
+  /**
+   * Whether "silent" option is true.
+   *
+   * @param options {Object}
+   * @param options.silent {Boolean}
+   *        default false.
+   * @return {Boolean} true if options.silent is true.
+   */
+  _isSilent = function (options) {
+    return options && options.silent === true;
+  };
 
   /**
    * Add objects to the collection.
@@ -42,12 +56,27 @@ var Collection = function (data) {
    *
    * @param {Object…}
    *      a variable number of objects to append to the collection.
+   * @deprecated see #addAll()
    */
   _this.add = function () {
-    _data.push.apply(_data, arguments);
-    _ids = null;
-    _this.trigger('add', Array.prototype.slice.call(arguments, 0));
+    _this.addAll(Array.prototype.slice.call(arguments, 0));
   };
+
+  /**
+   * Add objects to the collection.
+   *
+   * Calls wrapped array.push, and clears the id cache.
+   *
+   * @param toadd {Array<Object>}
+   *        objects to be added to the collection.
+   */
+   _this.addAll = function (toadd, options) {
+     _data.push.apply(_data, toadd);
+     _ids = null;
+     if (!_isSilent(options)) {
+       _this.trigger('add', toadd);
+     }
+   };
 
   /**
    * Get the wrapped array.
@@ -62,22 +91,31 @@ var Collection = function (data) {
   /**
    * Deselect current selection.
    */
-  _this.deselect = function () {
+  _this.deselect = function (options) {
     if (_selected !== null) {
       var oldSelected = _selected;
       _selected = null;
-      _this.trigger('deselect', oldSelected);
+      if (!_isSilent(options)) {
+        _this.trigger('deselect', oldSelected);
+      }
     }
   };
 
   /**
    * Free the array and id cache.
+   *
+   * @param options {Object}
+   *        passed to #deselect().
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function (options) {
     _data = null;
     _ids = null;
-    _this.deselect();
-  };
+    _selected = null;
+    if (!_isSilent(options)) {
+      _this.trigger('destroy');
+    }
+    return options;
+  }, _this.destroy);
 
   /**
    * Get an object in the collection by ID.
@@ -137,23 +175,42 @@ var Collection = function (data) {
   };
 
   /**
-   * Remove one object from the collection.
+   * Remove objects from the collection.
    *
-   * This method calls array.splice and removes one item from array.
+   * This method calls array.splice to remove item from array.
    * Reset would be faster if modifying large chunks of the array.
    *
    * @param o {Object}
    *      object to remove.
+   * @deprecated see #removeAll()
    */
-  _this.remove = function (o) {
+  _this.remove = function (/* o */) {
+    // trigger remove event
+    _this.removeAll(Array.prototype.slice.call(arguments, 0));
+  };
+
+  /**
+   * Remove objects from the collection.
+   *
+   * Reset is faster if modifying large chunks of the array.
+   *
+   * @param toremove {Array<Object>}
+   *        objects to remove.
+   * @param options {Object}
+   * @param options.silent {Boolean}
+   *        default false.
+   *        whether to trigger events (false), or not (true).
+   */
+  _this.removeAll = function (toremove, options) {
     var i,
-        len = arguments.length,
+        len = toremove.length,
         indexes = [],
-        ids = _this.getIds();
+        ids = _this.getIds(),
+        o;
 
     // select indexes to be removed
     for (i = 0; i < len; i++) {
-      o = arguments[i];
+      o = toremove[i];
 
       // clear current selection if being removed
       if (o === _selected) {
@@ -178,14 +235,16 @@ var Collection = function (data) {
     // reset id cache
     _ids = null;
 
-    // trigger remove event
-    _this.trigger('remove', Array.prototype.slice.call(arguments, 0));
+    if (!_isSilent(options)) {
+      // trigger remove event
+      _this.trigger('remove', toremove);
+    }
   };
 
   /**
    * Replace the wrapped array with a new one.
    */
-  _this.reset = function (data) {
+  _this.reset = function (data, options) {
     // check for existing selection
     var selectedId = null;
     if (_selected !== null) {
@@ -193,19 +252,24 @@ var Collection = function (data) {
     }
 
     // free array and id cache
-    _this.destroy();
+    _data = null;
+    _ids = null;
+    _selected = null;
 
     // set new array
     _data = data || [];
 
     // notify listeners
-    _this.trigger('reset', data);
+    if (!options || options.silent !== true) {
+      _this.trigger('reset', data);
+    }
 
     // reselect if there was a previous selection
     if (selectedId !== null) {
       var selected = _this.get(selectedId);
       if (selected !== null) {
-        _this.select(selected, {'reset':true});
+        options = Util.extend({}, options, {'reset': true});
+        _this.select(selected, options);
       }
     }
   };
@@ -230,13 +294,15 @@ var Collection = function (data) {
     }
     // deselect previous selection
     if (_selected !== null) {
-      _this.deselect();
+      _this.deselect(options);
     }
 
     if (obj === _this.get(obj.id)) {
       // make sure it's part of this collection…
       _selected = obj;
-      _this.trigger('select', _selected, options);
+      if (!options || options.silent !== true) {
+        _this.trigger('select', _selected, options);
+      }
     } else {
       throw 'selecting object not in collection';
     }
@@ -244,24 +310,36 @@ var Collection = function (data) {
 
   /**
    * Utility method to select collection item using its id.
+   *
+   * Selects matching item if it exists, otherwise clears any selection.
+   *
+   * @param id {?}
+   *        id of item to select.
+   * @param options {Object}
+   *        options passed to #select() or #deselect().
    */
-  _this.selectById = function (id) {
+  _this.selectById = function (id, options) {
     var obj = _this.get(id);
     if (obj !== null) {
-      _this.select(obj);
+      _this.select(obj, options);
     } else {
-      _this.deselect();
+      _this.deselect(options);
     }
   };
 
   /**
    * Sorts the data.
+   *
+   * @param method {Function}
+   *        javascript sort method.
+   * @param options {Object}
+   *        passed to #reset()
    */
-  _this.sort = function (method) {
+  _this.sort = function (method, options) {
     _data.sort(method);
 
     // "reset" to new sort order
-    _this.reset(_data);
+    _this.reset(_data, options);
   };
 
   /**

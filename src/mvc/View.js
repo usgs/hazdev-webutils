@@ -64,7 +64,7 @@ var View = function (params) {
    * Cleans up resources allocated by the view. Should be called before
    * discarding a view.
    */
-  _this.destroy = function () {
+  _this.destroy = Util.compose(function () {
     _this.model.off('change', 'render', _this);
 
     if (_destroyModel) {
@@ -75,7 +75,7 @@ var View = function (params) {
 
     _this.model = null;
     _this.el = null;
-  };
+  }, _this.destroy);
 
 
   _initialize(params);

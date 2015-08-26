@@ -29,10 +29,6 @@ var Model = function (data) {
     data = null;
   };
 
-  _this.destroy = function () {
-    _this.off();
-  };
-
   /**
    * Get one or more values.
    *
