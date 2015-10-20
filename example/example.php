@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($TEMPLATE)) {
-  $TITLE = 'Examples Index';
+  $TITLE = 'Examples';
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>

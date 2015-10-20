@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($TEMPLATE)) {
-  $TITLE = 'Collection View UI Example';
+  $TITLE = 'Collection View Example';
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>

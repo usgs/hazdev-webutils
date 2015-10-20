@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($TEMPLATE)) {
-  $TITLE = 'File IO Example';
+  $TITLE = 'File Input View Example';
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>

@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($TEMPLATE)) {
-  $TITLE = 'Collection SelectBox View UI Test';
+  $TITLE = 'Collection SelectBox Example';
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>

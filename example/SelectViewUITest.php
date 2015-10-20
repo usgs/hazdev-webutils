@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($TEMPLATE)) {
-  $TITLE = 'Select View UI Example';
+  $TITLE = 'Select View Example';
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>
@@ -19,7 +19,7 @@ if (!isset($TEMPLATE)) {
 
 <p class="alert warning">
   This is the Old Select View and you should
-  probably use the <a href="CollectionSelectBoxUITest.html">Collection
+  probably use the <a href="CollectionSelectBoxUITest.php">Collection
   Select Box View</a>.
 </p>
 
