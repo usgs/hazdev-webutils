@@ -53,7 +53,8 @@ var Message = function (params) {
     _closeButton.setAttribute('aria-label', 'Close Alert');
     _closeButton.setAttribute('aria-controls', _id);
     _closeButton.classList.add('webutils-message-close');
-    _closeButton.innerHTML = '&times;';
+    _closeButton.classList.add('material-icons');
+    _closeButton.innerHTML = 'close';
 
     _closeButton.addEventListener('click', _onAlertClose);
 
