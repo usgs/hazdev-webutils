@@ -11,9 +11,9 @@ if (!isset($TEMPLATE)) {
     <script src="hazdev-webutils.js"></script>
     <script src="CollectionSelectBoxUITest.js"></script>
   ';
-
-  include 'template.inc.php';
 }
+
+include '_example.inc.php';
 
 ?>
 
