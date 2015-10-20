@@ -1,9 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-</head>
-<body>
-  <h1>Collection SelectBox View UI Test</h1>
+<?php
+
+if (!isset($TEMPLATE)) {
+  $TITLE = 'Collection SelectBox View UI Test';
+  $NAVIGATION = true;
+  $HEAD = '
+    <link rel="stylesheet" href="hazdev-webutils.css"/>
+  ';
+
+  $FOOT = '
+    <script src="hazdev-webutils.js"></script>
+    <script src="CollectionSelectBoxUITest.js"></script>
+  ';
+
+  include 'template.inc.php';
+}
+
+?>
 
   <p class="instructions">
     Below are two select views that are bound to the same collection. By
@@ -23,7 +35,3 @@
   <button id="removeItem">Remove First Item</button>
   <button id="resetItems">Clear All Items</button>
 
-  <script src="hazdev-webutils.js"></script>
-  <script src="CollectionSelectBoxUITest.js"></script>
-</body>
-</html>

@@ -2,6 +2,7 @@
 
 if (!isset($TEMPLATE)) {
   $TITLE = 'Message UI Example';
+  $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="hazdev-webutils.css"/>
   ';

@@ -73,7 +73,7 @@ var connect = {
       ],
       port: 8003,
       livereload: true,
-      open: 'http://localhost:8003/example.html',
+      open: 'http://localhost:8003/example.php',
       middleware: addMiddleware
     }
   },

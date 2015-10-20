@@ -56,4 +56,4 @@ dataTable = DataTable({
   clickToSelect: true
 });
 
-document.querySelector('body').appendChild(dataTable.el);
+document.querySelector('#example').appendChild(dataTable.el);
