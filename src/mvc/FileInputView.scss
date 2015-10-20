@@ -3,8 +3,8 @@ $dropzone-border-color: rgba(0,0,0,0.1);
 
 .modal-dialog.file-input,
 .file-input {
-  width: 50%;
   min-width: 304px;
+  width: 50%;
 }
 
 .file-input-intro {
@@ -18,12 +18,12 @@ $dropzone-border-color: rgba(0,0,0,0.1);
 .file-input-dropzone {
   align-items: center;
   background-color: $dropzone-background;
+  border: 1px solid $dropzone-border-color;
   display: flex;
   justify-content: flex-end;
   margin-top: 1em;
   padding: 16px;
   position: relative;
-  border: 1px solid $dropzone-border-color;
 
   &:before {
     border: 3px dashed $dropzone-background;
@@ -41,18 +41,18 @@ $dropzone-border-color: rgba(0,0,0,0.1);
 }
 
 .file-input-dropzone-text {
+  color: #444;
   flex-grow: 1;
   flex-shrink: 1;
   font-style: italic;
-  color: #444;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: hidden;
+  white-space: nowrap;
 }
 
 .file-input-browse-button {
-  margin-left: 1em;
   flex-shrink: 0;
+  margin-left: 1em;
 }
 
 .file-input-messages > .webutils-message {
@@ -60,10 +60,10 @@ $dropzone-border-color: rgba(0,0,0,0.1);
 }
 
 .file-view {
-  display: flex;
   align-items: center;
+  display: flex;
+  padding: 0.5em 0;
   transition: 100ms background ease-in;
-  padding: .5em 0;
 
   &:hover {
     background-color: #fafafa;
@@ -75,39 +75,39 @@ $dropzone-border-color: rgba(0,0,0,0.1);
 }
 
 .file-view-label {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-grow: 1;
 }
 
 .file-view-name {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .file-view-size {
+  color: #666;
   flex-grow: 0;
   flex-shrink: 0;
-  color: #666;
   font-size: 0.9em;
   margin: 0 0.5em;
 }
 
 .file-view-delete {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: #d85030;
-  margin-left: 1em;
-  line-height: 1;
-  text-decoration: none;
-  border: 1px solid rgba(216, 80, 48, 0.3);
   background-color: #fff1f0;
-  padding: 2px 4px;
+  border: 1px solid rgba(216, 80, 48, 0.3);
   border-radius: 2px;
+  color: #d85030;
   cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  line-height: 1;
+  margin-left: 1em;
+  padding: 2px 4px;
+  text-decoration: none;
 
   &:hover {
     text-shadow: 0 1px 1px #ccc;

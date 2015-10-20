@@ -1,57 +1,60 @@
 .modal {
-  position:fixed !important;
-  top:0; right:0; bottom:0; left:0;
-  margin:0;
-  padding:16px;
-  background-color:rgba(0,0,0,0.75);
-  z-index:9999;
-  overflow-y:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.75);
+  bottom:0;
+  display: flex;
+  justify-content: center;
+  left:0;
+  margin: 0;
+  overflow-y: auto;
+  padding: 16px;
+  position: fixed !important;
+  right:0;
+  top:0;
+  z-index: 9999;
 }
 
 .modal-dialog {
-  max-width:640px;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  background-color:#FFF;
-  border-radius:2px;
+  background-color: #fff;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
+  height: auto;
+  max-height: 100%;
+  max-width: 640px;
+  width: auto;
 }
 
 .modal-header {
   border-radius: 2px 2px 0 0;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-  justify-content: space-between;
-  display: flex;
-  flex-direction: row;
-  flex: none;
-  z-index: 1;
   color: #444;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 1;
 }
 
 .modal-title {
-  margin: 16px 0;
-  padding: 0 16px;
-  display: flex;
   align-items: center;
+  display: flex;
+  margin: 16px 0;
   outline: 0;
+  padding: 0 16px;
 }
 
 .modal-close-link {
-  display: flex;
   align-items: center;
-  padding: 0 1em;
-  font-size: 22px;
-  cursor: pointer;
   background: rgba(0,0,0,0.05);
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0 2px 0 0;
-  user-select: none;
+  cursor: pointer;
+  display: flex;
   flex: none;
+  font-size: 22px;
+  padding: 0 1em;
+  user-select: none;
 
   &:hover,
   &:active {
@@ -60,23 +63,23 @@
 }
 
 .modal-content {
-  height: auto;
-  overflow: auto;
   border-radius: 2px;
-  padding: 0 16px 16px;
-  -webkit-overflow-scrolling:touch;
-  max-height:none;
+  height: auto;
+  max-height: none;
   outline: none;
+  overflow: auto;
+  padding: 0 16px 16px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-footer {
+  align-items: center;
   border-radius: 0 0 2px 2px;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
   display: flex;
   flex: none;
-  align-items: center;
-  z-index: 1;
   padding: 16px;
+  z-index: 1;
 }
 
 .modal-error > .modal-header,
@@ -84,11 +87,11 @@
 .modal-success > .modal-header {
   box-shadow: inset 0 -1px 0 rgba(0,0,0,0.15);
 
-  > .modal-title:before {
+  > .modal-title: before {
+    flex: none;
+    font-size: 1.3em;
     line-height: 0;
     padding-right: 16px;
-    font-size: 1.3em;
-    flex: none;
   }
 }
 
@@ -123,5 +126,5 @@
 }
 
 .backgroundScrollDisable {
-  overflow:hidden;
+  overflow: hidden;
 }
