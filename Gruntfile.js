@@ -46,7 +46,9 @@ module.exports = function (grunt) {
   // default task useful during development
   grunt.registerTask('default', taskList([
     'dev',
-    'connect:dev',
+    'configureProxies:dev',
+    'connect:template',
+    'connect:example',
     'test',
     'watch'
   ]));

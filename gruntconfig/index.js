@@ -13,6 +13,7 @@ var config = {
 
   tasks: [
     'grunt-browserify',
+    'grunt-connect-proxy',
     'grunt-contrib-clean',
     'grunt-contrib-connect',
     'grunt-contrib-copy',
