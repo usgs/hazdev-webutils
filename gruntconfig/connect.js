@@ -48,7 +48,7 @@ var connect = {
         config.build + '/' + config.test,
         'node_modules'
       ],
-      open: 'http://localhost:8011/test.html',
+      open: 'http://localhost:' + config.testPort + '/test.html',
       port: config.testPort
     }
   },
@@ -60,7 +60,7 @@ var connect = {
         config.dist
       ],
       keepalive: true,
-      open: 'http://localhost:8012/example.php',
+      open: 'http://localhost:' + config.distPort + '/example.php',
       port: config.distPort
     }
   },
@@ -71,9 +71,9 @@ var connect = {
         config.example,
         config.build + '/' + config.src
       ],
-      port: config.examplePort,
       livereload: config.livereloadPort,
-      open: 'http://localhost:8013/example.php',
+      open: 'http://localhost:' + config.examplePort + '/example.php',
+      port: config.examplePort,
       middleware: addMiddleware
     }
   },
