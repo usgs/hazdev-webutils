@@ -34,7 +34,7 @@ var connect = {
     {
       context: '/theme/',
       host: 'localhost',
-      port: 8004,
+      port: 8014,
       rewrite: {
         '^/theme': ''
       }
@@ -48,8 +48,8 @@ var connect = {
         config.build + '/' + config.test,
         'node_modules'
       ],
-      open: 'http://localhost:8001/test.html',
-      port: 8001
+      open: 'http://localhost:8011/test.html',
+      port: 8011
     }
   },
 
@@ -60,8 +60,8 @@ var connect = {
         config.dist
       ],
       keepalive: true,
-      open: 'http://localhost:8002/example.html',
-      port: 8002
+      open: 'http://localhost:8012/example.php',
+      port: 8012
     }
   },
 
@@ -71,9 +71,9 @@ var connect = {
         config.example,
         config.build + '/' + config.src
       ],
-      port: 8003,
-      livereload: true,
-      open: 'http://localhost:8003/example.php',
+      port: 8013,
+      livereload: 8019,
+      open: 'http://localhost:8013/example.php',
       middleware: addMiddleware
     }
   },
@@ -81,7 +81,7 @@ var connect = {
   template: {
     options: {
       base: ['node_modules/hazdev-template/dist/htdocs'],
-      port: 8004
+      port: 8014
     }
   }
 
