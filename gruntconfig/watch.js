@@ -30,7 +30,7 @@ var watch = {
       config.example + '/**/*'
     ],
     options: {
-      livereload: true
+      livereload: 8019
     }
   },
   gruntfile: {
