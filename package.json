@@ -49,6 +49,7 @@
     "grunt-postcss": "^0.7.0",
     "hazdev-template": "usgs/hazdev-template",
     "mocha": "^2.1.0",
+    "phantomjs": "^1.9.18",
     "precss": "^1.1.2",
     "sinon": "^1.12.2"
   },
