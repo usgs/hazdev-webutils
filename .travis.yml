@@ -10,6 +10,7 @@ before_install:
   - npm install -g grunt-cli
   - npm --version
   - node --version
+  - npm list -g
 install:
   - npm install
 script:
