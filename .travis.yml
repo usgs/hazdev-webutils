@@ -11,8 +11,8 @@ before_install:
   - npm --version
   - node --version
   - npm list -g
-  - npm install phantomjs
 install:
+  - npm install phantomjs
   - npm install
 script:
   - npm test
