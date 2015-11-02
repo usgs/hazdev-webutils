@@ -1,16 +1,14 @@
 .modal {
   align-items: center;
   background-color: rgba(0,0,0,0.75);
-  bottom:0;
+  bottom: 0;
   display: flex;
   justify-content: center;
-  left:0;
-  margin: 0;
-  overflow-y: auto;
+  left: 0;
   padding: 16px;
   position: fixed !important;
-  right:0;
-  top:0;
+  right: 0;
+  top: 0;
   z-index: 9999;
 }
 
@@ -19,32 +17,29 @@
   border-radius: 2px;
   display: flex;
   flex-direction: column;
-  height: auto;
   max-height: 100%;
   max-width: 640px;
-  width: auto;
+  overflow-y: auto;
+  width: 100%;
 }
 
 .modal-header {
-  border-radius: 2px 2px 0 0;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
   color: #444;
   display: flex;
-  flex: none;
+  flex: 0 0 auto;
   flex-direction: row;
   justify-content: space-between;
   z-index: 1;
 
   .modal-close-link {
-    align-items: center;
+    align-self: center;
     background: rgba(0,0,0,0.05);
     border-left: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0 2px 0 0;
     cursor: pointer;
-    display: flex;
-    flex: none;
+    flex: 0 0 auto;
     font-size: 22px;
-    padding: 0 1em;
+    padding: 0.8em;
     user-select: none;
 
     &:hover,
@@ -55,29 +50,32 @@
 }
 
 .modal-title {
-  align-items: center;
-  display: flex;
-  margin: 16px 0;
+  flex: 1 1 auto;
+  margin: 0;
   outline: 0;
-  padding: 0 16px;
+  padding: 16px;
 }
 
 .modal-content {
-  border-radius: 2px;
+  flex: 1 1 auto;
   height: auto;
-  max-height: none;
   outline: none;
-  overflow: auto;
-  padding: 0 16px 16px;
+  overflow-y: auto;
+  padding: 16px;
   -webkit-overflow-scrolling: touch;
+
+  > :first-child {
+    margin-top: 0;
+  }
+  > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .modal-footer {
   align-items: center;
-  border-radius: 0 0 2px 2px;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex: none;
+  flex: 0 0 auto;
   padding: 16px;
   z-index: 1;
 }
