@@ -21,6 +21,7 @@ var EXPORTS = [
   'util/Message',
   'util/Util',
   'util/Xhr',
+  'util/math/Camera',
   'util/math/Matrix',
   'util/math/Vector'
 ];
