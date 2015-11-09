@@ -20,7 +20,8 @@ var EXPORTS = [
   'util/FileIO',
   'util/Message',
   'util/Util',
-  'util/Xhr'
+  'util/Xhr',
+  'util/math/Vector'
 ];
 
 
