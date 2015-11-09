@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var Matrix = require('util/math/Matrix'),
+var Matrix = require('math/Matrix'),
     expect = chai.expect;
 
 

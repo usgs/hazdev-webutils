@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var Vector = require('util/math/Vector'),
+var Vector = require('math/Vector'),
     expect = chai.expect;
 
 

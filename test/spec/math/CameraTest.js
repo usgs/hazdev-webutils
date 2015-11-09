@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var Camera = require('util/math/Camera'),
+var Camera = require('math/Camera'),
     expect = chai.expect;
 
 

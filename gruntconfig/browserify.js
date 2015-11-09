@@ -4,6 +4,9 @@ var config = require('./config');
 
 
 var EXPORTS = [
+  'math/Camera',
+  'math/Matrix',
+  'math/Vector',
   'mvc/Collection',
   'mvc/CollectionSelectBox',
   'mvc/CollectionTable',
@@ -20,10 +23,7 @@ var EXPORTS = [
   'util/FileIO',
   'util/Message',
   'util/Util',
-  'util/Xhr',
-  'util/math/Camera',
-  'util/math/Matrix',
-  'util/math/Vector'
+  'util/Xhr'
 ];
 
 
