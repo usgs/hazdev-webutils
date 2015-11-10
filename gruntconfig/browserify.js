@@ -4,6 +4,9 @@ var config = require('./config');
 
 
 var EXPORTS = [
+  'math/Camera',
+  'math/Matrix',
+  'math/Vector',
   'mvc/Collection',
   'mvc/CollectionSelectBox',
   'mvc/CollectionTable',

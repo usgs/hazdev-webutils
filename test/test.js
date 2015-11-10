@@ -52,6 +52,10 @@ if (!Function.prototype.bind) {
   require('./spec/util/UtilTest');
   require('./spec/util/XhrTest');
 
+  require('./spec/math/CameraTest');
+  require('./spec/math/MatrixTest');
+  require('./spec/math/VectorTest');
+
   if (window.mochaPhantomJS) {
       window.mochaPhantomJS.run();
   } else {
