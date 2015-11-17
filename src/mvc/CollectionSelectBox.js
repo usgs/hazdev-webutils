@@ -18,6 +18,9 @@ var _DEFAULTS = {
     return item.id;
   },
 
+  // callback to return valid options to remain enabled; falsey = enable all
+  getValidOptions: false,
+
   // whether to render during initialize
   renderNow: true
 };
@@ -45,6 +48,7 @@ var CollectionSelectBox = function (params) {
       _blankOption,
       _collection,
       _format,
+      _getValidOptions,
       _includeBlankOption,
       _selectBox,
 
@@ -67,6 +71,7 @@ var CollectionSelectBox = function (params) {
     _blankOption = params.blankOption;
     _includeBlankOption = params.includeBlankOption;
     _format = params.format;
+    _getValidOptions = params.getValidOptions;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -142,27 +147,56 @@ var CollectionSelectBox = function (params) {
 
     _selectBox.removeEventListener('change', _onChange);
 
+
+    _blankOption = null;
     _collection = null;
+    _includeBlankOption = null;
+    _format = null;
+    _getValidOptions = null;
     _selectBox = null;
+
+
+    _createBlankOption = null;
+    _onChange = null;
+    _onSelect = null;
+
+
+    _initialize = null;
+    _this = null;
   }, _this.destroy);
 
   /**
    * Update select box items.
    */
   _this.render = function () {
-    var data = _collection.data(),
-        selected = _collection.getSelected(),
+    var data,
+        selected,
         i,
+        id,
         len,
-        markup = [];
+        markup,
+        validOptions;
+
+    data = _collection.data();
+    selected = _collection.getSelected();
+    markup = [];
 
     if (_includeBlankOption === true) {
       markup.push(_createBlankOption());
     }
 
+    if (_getValidOptions) {
+      validOptions = _getValidOptions();
+    } else {
+      validOptions = data.map(function (o) { return o.id; });
+    }
+
     for (i = 0, len = data.length; i < len; i++) {
-      markup.push('<option value="' + data[i].id + '"' +
+      id = data[i].id;
+
+      markup.push('<option value="' + id + '"' +
           (selected === data[i] ? ' selected="selected"' : '') +
+          (validOptions.indexOf(id) === -1 ? ' disabled="disabled"' : '') +
           '>' + _format(data[i]) + '</option>');
     }
 
