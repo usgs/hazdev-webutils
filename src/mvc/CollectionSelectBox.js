@@ -4,6 +4,10 @@ var Util = require('../util/Util'),
     View = require('./View');
 
 
+var __to_id = function (o) {
+  return o.id;
+};
+
 var _DEFAULTS = {
   // classname added to select box
   className: 'collection-selectbox',
@@ -117,10 +121,19 @@ var CollectionSelectBox = function (params) {
    * Handle collection select events.
    */
   _onSelect = function () {
-    var selected = _collection.getSelected();
+    var selected,
+        validOptions;
+
+    selected = _collection.getSelected();
+    validOptions = _getValidOptions ? _getValidOptions() :
+        _collection.data().map(__to_id);
 
     if (selected) {
-      _selectBox.value = selected.id;
+      if (validOptions.indexOf(selected.id) === -1) {
+        _collection.deselect();
+      } else {
+        _selectBox.value = selected.id;
+      }
     } else if (_includeBlankOption) {
       _selectBox.value = _blankOption.value;
     }
@@ -185,11 +198,7 @@ var CollectionSelectBox = function (params) {
       markup.push(_createBlankOption());
     }
 
-    if (_getValidOptions) {
-      validOptions = _getValidOptions();
-    } else {
-      validOptions = data.map(function (o) { return o.id; });
-    }
+    validOptions = _getValidOptions ? _getValidOptions() : data.map(__to_id);
 
     for (i = 0, len = data.length; i < len; i++) {
       id = data[i].id;
