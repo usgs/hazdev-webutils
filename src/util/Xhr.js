@@ -132,6 +132,8 @@ ajax = function (options) {
 
   // send data
   xhr.send(postdata);
+
+  return xhr;
 };
 
 /**
