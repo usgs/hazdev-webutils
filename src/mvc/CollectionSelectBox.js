@@ -4,10 +4,6 @@ var Util = require('../util/Util'),
     View = require('./View');
 
 
-var __to_id = function (o) {
-  return o.id;
-};
-
 var _DEFAULTS = {
   // classname added to select box
   className: 'collection-selectbox',
@@ -21,9 +17,6 @@ var _DEFAULTS = {
   format: function (item) {
     return item.id;
   },
-
-  // callback to return valid options to remain enabled; falsey = enable all
-  getValidOptions: false,
 
   // whether to render during initialize
   renderNow: true
@@ -57,6 +50,7 @@ var CollectionSelectBox = function (params) {
       _selectBox,
 
       _createBlankOption,
+      _defaultGetValidOptions,
       _onChange,
       _onSelect;
 
@@ -75,7 +69,7 @@ var CollectionSelectBox = function (params) {
     _blankOption = params.blankOption;
     _includeBlankOption = params.includeBlankOption;
     _format = params.format;
-    _getValidOptions = params.getValidOptions;
+    _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -104,6 +98,10 @@ var CollectionSelectBox = function (params) {
   };
 
 
+  _defaultGetValidOptions = function () {
+    return _collection.data().map(function (o) { return o.id; });
+  };
+
   /**
    * Handle selectbox change events.
    */
@@ -125,8 +123,7 @@ var CollectionSelectBox = function (params) {
         validOptions;
 
     selected = _collection.getSelected();
-    validOptions = _getValidOptions ? _getValidOptions() :
-        _collection.data().map(__to_id);
+    validOptions = _getValidOptions();
 
     if (selected) {
       if (validOptions.indexOf(selected.id) === -1) {
@@ -170,6 +167,7 @@ var CollectionSelectBox = function (params) {
 
 
     _createBlankOption = null;
+    _defaultGetValidOptions = null;
     _onChange = null;
     _onSelect = null;
 
@@ -198,7 +196,7 @@ var CollectionSelectBox = function (params) {
       markup.push(_createBlankOption());
     }
 
-    validOptions = _getValidOptions ? _getValidOptions() : data.map(__to_id);
+    validOptions = _getValidOptions();
 
     for (i = 0, len = data.length; i < len; i++) {
       id = data[i].id;
