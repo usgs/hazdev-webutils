@@ -45,10 +45,12 @@ var CollectionSelectBox = function (params) {
       _blankOption,
       _collection,
       _format,
+      _getValidOptions,
       _includeBlankOption,
       _selectBox,
 
       _createBlankOption,
+      _defaultGetValidOptions,
       _onChange,
       _onSelect;
 
@@ -67,6 +69,7 @@ var CollectionSelectBox = function (params) {
     _blankOption = params.blankOption;
     _includeBlankOption = params.includeBlankOption;
     _format = params.format;
+    _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -95,6 +98,10 @@ var CollectionSelectBox = function (params) {
   };
 
 
+  _defaultGetValidOptions = function () {
+    return _collection.data().map(function (o) { return o.id; });
+  };
+
   /**
    * Handle selectbox change events.
    */
@@ -112,10 +119,18 @@ var CollectionSelectBox = function (params) {
    * Handle collection select events.
    */
   _onSelect = function () {
-    var selected = _collection.getSelected();
+    var selected,
+        validOptions;
+
+    selected = _collection.getSelected();
+    validOptions = _getValidOptions();
 
     if (selected) {
-      _selectBox.value = selected.id;
+      if (validOptions.indexOf(selected.id) === -1) {
+        _collection.deselect();
+      } else {
+        _selectBox.value = selected.id;
+      }
     } else if (_includeBlankOption) {
       _selectBox.value = _blankOption.value;
     }
@@ -142,27 +157,53 @@ var CollectionSelectBox = function (params) {
 
     _selectBox.removeEventListener('change', _onChange);
 
+
+    _blankOption = null;
     _collection = null;
+    _includeBlankOption = null;
+    _format = null;
+    _getValidOptions = null;
     _selectBox = null;
+
+
+    _createBlankOption = null;
+    _defaultGetValidOptions = null;
+    _onChange = null;
+    _onSelect = null;
+
+
+    _initialize = null;
+    _this = null;
   }, _this.destroy);
 
   /**
    * Update select box items.
    */
   _this.render = function () {
-    var data = _collection.data(),
-        selected = _collection.getSelected(),
+    var data,
+        selected,
         i,
+        id,
         len,
-        markup = [];
+        markup,
+        validOptions;
+
+    data = _collection.data();
+    selected = _collection.getSelected();
+    markup = [];
 
     if (_includeBlankOption === true) {
       markup.push(_createBlankOption());
     }
 
+    validOptions = _getValidOptions();
+
     for (i = 0, len = data.length; i < len; i++) {
-      markup.push('<option value="' + data[i].id + '"' +
+      id = data[i].id;
+
+      markup.push('<option value="' + id + '"' +
           (selected === data[i] ? ' selected="selected"' : '') +
+          (validOptions.indexOf(id) === -1 ? ' disabled="disabled"' : '') +
           '>' + _format(data[i]) + '</option>');
     }
 
