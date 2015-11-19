@@ -62,14 +62,14 @@ var CollectionSelectBox = function (params) {
    * @constructor
    *
    */
-  _initialize = function () {
+  _initialize = function (params) {
     var el = _this.el;
 
-    _collection = params.collection;
     _blankOption = params.blankOption;
-    _includeBlankOption = params.includeBlankOption;
+    _collection = params.collection;
     _format = params.format;
     _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
+    _includeBlankOption = params.includeBlankOption;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -97,6 +97,14 @@ var CollectionSelectBox = function (params) {
     params = null;
   };
 
+  _createBlankOption = function () {
+    return [
+    '<option ',
+        'value="', _blankOption.value, '">',
+      _blankOption.text,
+    '</option>'
+    ].join('');
+  };
 
   _defaultGetValidOptions = function () {
     return _collection.data().map(function (o) { return o.id; });
@@ -136,14 +144,6 @@ var CollectionSelectBox = function (params) {
     }
   };
 
-  _createBlankOption = function () {
-    return [
-    '<option ',
-        'value="', _blankOption.value, '">',
-      _blankOption.text,
-    '</option>'
-    ].join('');
-  };
 
   /**
    * Destroy CollectionSelectBox.
@@ -157,20 +157,17 @@ var CollectionSelectBox = function (params) {
 
     _selectBox.removeEventListener('change', _onChange);
 
-
     _blankOption = null;
     _collection = null;
-    _includeBlankOption = null;
     _format = null;
     _getValidOptions = null;
+    _includeBlankOption = null;
     _selectBox = null;
-
 
     _createBlankOption = null;
     _defaultGetValidOptions = null;
     _onChange = null;
     _onSelect = null;
-
 
     _initialize = null;
     _this = null;
@@ -181,11 +178,11 @@ var CollectionSelectBox = function (params) {
    */
   _this.render = function () {
     var data,
-        selected,
         i,
         id,
         len,
         markup,
+        selected,
         validOptions;
 
     data = _collection.data();
@@ -212,7 +209,8 @@ var CollectionSelectBox = function (params) {
   };
 
 
-  _initialize();
+  _initialize(params);
+  params = null;
   return _this;
 };
 
