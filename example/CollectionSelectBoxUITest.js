@@ -2,21 +2,38 @@
 'use strict';
 
 var Collection = require('mvc/Collection'),
-    Model = require('mvc/Model'),
-    CollectionSelectBox = require('mvc/CollectionSelectBox');
+    CollectionSelectBox = require('mvc/CollectionSelectBox'),
+    Model = require('mvc/Model');
 
 
-var c = Collection(),
-    box1 = document.querySelector('#selectBox1'),
-    box2 = document.querySelector('#selectBox2'),
-    modelId = 0;
+var box1,
+    box2,
+    c,
+    modelId;
 
-CollectionSelectBox({collection: c, el: box1});
-CollectionSelectBox({collection: c, el: box2});
+c = Collection();
+box1 = document.querySelector('#selectBox1');
+box2 = document.querySelector('#selectBox2');
+modelId = 0;
+
+
+CollectionSelectBox({
+  collection: c,
+  el: box1
+});
+CollectionSelectBox({
+  collection: c,
+  el: box2
+});
 
 var addModel = function () {
-  var m = Model({id: modelId, value: '' + modelId,
-      display: 'Custom Model ' + modelId});
+  var m;
+
+  m = Model({
+        display: 'Custom Model ' + modelId,
+        id: modelId,
+        value: '' + modelId
+      });
 
   c.add(m);
 
@@ -24,7 +41,10 @@ var addModel = function () {
 };
 
 var removeModel = function () {
-  var data = c.data();
+  var data;
+
+  data = c.data();
+
   if (!data || data.length <= 0) {
     alert('No more items to remove!');
     return;
@@ -48,3 +68,68 @@ addModel();
 addModel();
 addModel();
 addModel();
+
+
+
+var box3,
+    c2,
+    m2,
+    output,
+    select;
+
+box3 = document.querySelector('#selectBox3');
+output = document.querySelector('#output');
+c2 = Collection();
+
+m2 = Model({
+  error: null,
+  id: 'ID-101',
+  value: 'show me'
+});
+
+c2.add({
+  error: 'Yes, 20',
+  id: 'Error',
+  value: 'one-oh-three'
+});
+c2.add({
+  error: null,
+  id: 'No-error',
+  value: 'No error'
+});
+
+select = CollectionSelectBox({
+  collection: c2,
+  el: box3,
+  includeBlankOption: true,
+  model: m2
+});
+
+var updateModel = function () {
+  var selected;
+
+  selected = c2.getSelected();
+
+  m2.set({
+    error: selected.error,
+    id: selected.id,
+    value: selected.value
+  });
+};
+
+var updateOutput = function () {
+  var text;
+
+  text = [
+    '{' +
+      'error: ' + select.model.get('error') + ', ' +
+      'id: ' + select.model.id + ', ' +
+      'value: ' + select.model.get('value') +
+    '}'
+  ].join();
+
+  output.innerHTML = text;
+};
+
+c2.on('select', updateModel);
+box3.addEventListener('click', updateOutput);
