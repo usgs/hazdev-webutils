@@ -39,6 +39,12 @@ describe('Unit tests for the "SelectedCollectionView" class', function () {
       /* jshint +W030 */
     });
 
+    it('binds to reset', function () {
+      /* jshint -W030 */
+      expect(bindSpyCollection.calledWith('reset')).to.be.true;
+      /* jshint +W030 */
+    });
+
     it('binds to deselect', function () {
       /* jshint -W030 */
       expect(bindSpyCollection.calledWith('deselect')).to.be.true;
