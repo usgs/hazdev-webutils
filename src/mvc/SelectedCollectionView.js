@@ -37,6 +37,7 @@ var SelectedCollectionView = function (params) {
     }
 
     _this.collection.on('deselect', 'onCollectionDeselect', _this);
+    _this.collection.on('reset', 'onCollectionReset', _this);
     _this.collection.on('select', 'onCollectionSelect', _this);
   };
 
@@ -49,6 +50,7 @@ var SelectedCollectionView = function (params) {
       _this.onCollectionDeselect();
     }
     _this.collection.off('deselect', 'onCollectionDeselect', _this);
+    _this.collection.off('reset', 'onCollectionReset', _this);
     _this.collection.off('select', 'onCollectionSelect', _this);
 
     if (_destroyCollection) {
@@ -67,6 +69,17 @@ var SelectedCollectionView = function (params) {
   _this.onCollectionDeselect = function () {
     _this.model.off('change', 'render', _this);
     _this.model = null;
+    _this.render({model: _this.model});
+  };
+
+  /**
+   * unset event bindings for the collection, if set.
+   */
+  _this.onCollectionReset = function () {
+    if (_this.model) {
+      _this.model.off('change', 'render', _this);
+      _this.model = null;
+    }
     _this.render({model: _this.model});
   };
 
