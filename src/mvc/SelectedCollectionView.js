@@ -67,8 +67,10 @@ var SelectedCollectionView = function (params) {
    * unset the event bindings for the collection
    */
   _this.onCollectionDeselect = function () {
-    _this.model.off('change', 'render', _this);
-    _this.model = null;
+    if (_this.model) {
+      _this.model.off('change', 'render', _this);
+      _this.model = null;
+    }
     _this.render({model: _this.model});
   };
 
