@@ -45,4 +45,8 @@ include '_example.inc.php';
   </p>
 
   <select id="selectBox3"></select>
+  <p>
+    The selected model looks like this:
+    <span id="output"></span>
+  </p>
 </section>
