@@ -63,7 +63,9 @@ var CollectionSelectBox = function (params) {
    *
    */
   _initialize = function (params) {
-    var el = _this.el;
+    var el;
+
+    el = _this.el;
 
     _blankOption = params.blankOption;
     _collection = params.collection;
@@ -93,8 +95,6 @@ var CollectionSelectBox = function (params) {
     if (params.renderNow) {
       _this.render();
     }
-
-    params = null;
   };
 
   _createBlankOption = function () {
@@ -114,7 +114,9 @@ var CollectionSelectBox = function (params) {
    * Handle selectbox change events.
    */
   _onChange = function () {
-    var value = _selectBox.value;
+    var value;
+
+    value = _selectBox.value;
 
     if (_includeBlankOption && value === _blankOption.value) {
       _collection.deselect();
@@ -186,8 +188,8 @@ var CollectionSelectBox = function (params) {
         validOptions;
 
     data = _collection.data();
-    selected = _collection.getSelected();
     markup = [];
+    selected = _collection.getSelected();
 
     if (_includeBlankOption === true) {
       markup.push(_createBlankOption());
