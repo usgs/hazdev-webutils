@@ -84,6 +84,7 @@ c2 = Collection();
 m2 = Model({
   error: null,
   id: 'ID-101',
+  stuff: 'yeah, more stuff',
   value: 'show me'
 });
 

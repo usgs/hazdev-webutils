@@ -9,8 +9,8 @@ var _DEFAULTS = {
   className: 'collection-selectbox',
   includeBlankOption: false,
   blankOption: {
-    value: '-1',
-    text: 'Please select&hellip;'
+    id: 'Please select...',
+    value: '-1'
   },
 
   // callback to format each collection item
@@ -49,7 +49,6 @@ var CollectionSelectBox = function (params) {
       _includeBlankOption,
       _selectBox,
 
-      _createBlankOption,
       _defaultGetValidOptions,
       _onChange,
       _onSelect;
@@ -73,6 +72,9 @@ var CollectionSelectBox = function (params) {
     _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
     _includeBlankOption = params.includeBlankOption;
 
+    if (_includeBlankOption) {
+      _collection.add(_blankOption);
+    }
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
       _selectBox = el;
@@ -95,15 +97,6 @@ var CollectionSelectBox = function (params) {
     if (params.renderNow) {
       _this.render();
     }
-  };
-
-  _createBlankOption = function () {
-    return [
-    '<option ',
-        'value="', _blankOption.value, '">',
-      _blankOption.text,
-    '</option>'
-    ].join('');
   };
 
   _defaultGetValidOptions = function () {
@@ -142,7 +135,8 @@ var CollectionSelectBox = function (params) {
         _selectBox.value = selected.id;
       }
     } else if (_includeBlankOption) {
-      _selectBox.value = _blankOption.value;
+      // _selectBox.value = _blankOption.value;
+      _collection.selectById(_blankOption.value);
     }
   };
 
@@ -166,7 +160,6 @@ var CollectionSelectBox = function (params) {
     _includeBlankOption = null;
     _selectBox = null;
 
-    _createBlankOption = null;
     _defaultGetValidOptions = null;
     _onChange = null;
     _onSelect = null;
@@ -191,8 +184,12 @@ var CollectionSelectBox = function (params) {
     markup = [];
     selected = _collection.getSelected();
 
-    if (_includeBlankOption === true) {
-      markup.push(_createBlankOption());
+    if (_includeBlankOption && selected === null) {
+      data.map(function (d) {
+        if (d.id === _blankOption.id) {
+          _collection.select(d);
+        }
+      });
     }
 
     validOptions = _getValidOptions();
