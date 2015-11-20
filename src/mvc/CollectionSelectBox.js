@@ -135,7 +135,6 @@ var CollectionSelectBox = function (params) {
         _selectBox.value = selected.id;
       }
     } else if (_includeBlankOption) {
-      // _selectBox.value = _blankOption.value;
       _collection.selectById(_blankOption.value);
     }
   };
