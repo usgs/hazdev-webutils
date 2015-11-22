@@ -107,23 +107,43 @@ select = CollectionSelectBox({
 });
 
 var updateModel = function () {
-  var selected;
+  var error,
+      id,
+      selected,
+      value;
 
   selected = c2.getSelected();
 
+  try {
+    error = selected.error;
+    id = selected.id;
+    value = selected.value;
+  } catch (e) {
+    error = 'null';
+    id = 'null';
+    value = 'null';
+  }
+
   m2.set({
-    error: selected.error,
-    id: selected.id,
-    value: selected.value
+    error: error,
+    id: id,
+    value: value
   });
 };
 
 var updateOutput = function () {
-  var text;
+  var error,
+      text;
+
+  try {
+    error = select.model.get('error');
+  } catch (e) {
+    error = 'null';
+  }
 
   text = [
     '{' +
-      'error: ' + select.model.get('error') + ', ' +
+      'error: ' + error + ', ' +
       'id: ' + select.model.id + ', ' +
       'value: ' + select.model.get('value') +
     '}'
