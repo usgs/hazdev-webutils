@@ -9,7 +9,7 @@ var _DEFAULTS = {
   className: 'collection-selectbox',
   includeBlankOption: false,
   blankOption: {
-    id: 'Please select...',
+    text: 'Please select&hellip;',
     value: '-1'
   },
 
@@ -49,6 +49,7 @@ var CollectionSelectBox = function (params) {
       _includeBlankOption,
       _selectBox,
 
+      _createBlankOption,
       _defaultGetValidOptions,
       _onChange,
       _onSelect;
@@ -72,9 +73,6 @@ var CollectionSelectBox = function (params) {
     _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
     _includeBlankOption = params.includeBlankOption;
 
-    if (_includeBlankOption) {
-      _collection.add(_blankOption);
-    }
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
       _selectBox = el;
@@ -97,6 +95,15 @@ var CollectionSelectBox = function (params) {
     if (params.renderNow) {
       _this.render();
     }
+  };
+
+  _createBlankOption = function () {
+    return [
+    '<option ',
+        'value="', _blankOption.value, '">',
+      _blankOption.text,
+    '</option>'
+    ].join('');
   };
 
   _defaultGetValidOptions = function () {
@@ -135,7 +142,7 @@ var CollectionSelectBox = function (params) {
         _selectBox.value = selected.id;
       }
     } else if (_includeBlankOption) {
-      _collection.selectById(_blankOption.value);
+      _selectBox.value = _blankOption.value;
     }
   };
 
@@ -159,6 +166,7 @@ var CollectionSelectBox = function (params) {
     _includeBlankOption = null;
     _selectBox = null;
 
+    _createBlankOption = null;
     _defaultGetValidOptions = null;
     _onChange = null;
     _onSelect = null;
@@ -183,12 +191,8 @@ var CollectionSelectBox = function (params) {
     markup = [];
     selected = _collection.getSelected();
 
-    if (_includeBlankOption && selected === null) {
-      data.map(function (d) {
-        if (d.id === _blankOption.id) {
-          _collection.select(d);
-        }
-      });
+    if (_includeBlankOption === true) {
+      markup.push(_createBlankOption());
     }
 
     validOptions = _getValidOptions();
