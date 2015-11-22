@@ -115,10 +115,9 @@ describe('Unit tests for the "CollectionSelectBox" class', function () {
         includeBlankOption: true
       });
 
-      // collection.deselect();
+      collection.deselect();
 
-      // expect(el.value).to.equal('-1');
-      expect(el.value).to.equal('2');
+      expect(el.value).to.equal('-1');
     });
   });
 });
