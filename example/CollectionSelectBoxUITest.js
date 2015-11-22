@@ -132,5 +132,7 @@ var updateOutput = function () {
   output.innerHTML = text;
 };
 
+// Make sure to bind to both select and deselect for full functionality.
+c2.on('deselect', updateModel);
 c2.on('select', updateModel);
 box3.addEventListener('click', updateOutput);
