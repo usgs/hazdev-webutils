@@ -9,8 +9,8 @@ var _DEFAULTS = {
   className: 'collection-selectbox',
   includeBlankOption: false,
   blankOption: {
-    value: '-1',
-    text: 'Please select&hellip;'
+    text: 'Please select&hellip;',
+    value: '-1'
   },
 
   // callback to format each collection item
@@ -62,14 +62,16 @@ var CollectionSelectBox = function (params) {
    * @constructor
    *
    */
-  _initialize = function () {
-    var el = _this.el;
+  _initialize = function (params) {
+    var el;
 
-    _collection = params.collection;
+    el = _this.el;
+
     _blankOption = params.blankOption;
-    _includeBlankOption = params.includeBlankOption;
+    _collection = params.collection;
     _format = params.format;
     _getValidOptions = params.getValidOptions || _defaultGetValidOptions;
+    _includeBlankOption = params.includeBlankOption;
 
     // reuse or create select box
     if (el.nodeName === 'SELECT') {
@@ -93,10 +95,16 @@ var CollectionSelectBox = function (params) {
     if (params.renderNow) {
       _this.render();
     }
-
-    params = null;
   };
 
+  _createBlankOption = function () {
+    return [
+    '<option ',
+        'value="', _blankOption.value, '">',
+      _blankOption.text,
+    '</option>'
+    ].join('');
+  };
 
   _defaultGetValidOptions = function () {
     return _collection.data().map(function (o) { return o.id; });
@@ -106,7 +114,9 @@ var CollectionSelectBox = function (params) {
    * Handle selectbox change events.
    */
   _onChange = function () {
-    var value = _selectBox.value;
+    var value;
+
+    value = _selectBox.value;
 
     if (_includeBlankOption && value === _blankOption.value) {
       _collection.deselect();
@@ -136,14 +146,6 @@ var CollectionSelectBox = function (params) {
     }
   };
 
-  _createBlankOption = function () {
-    return [
-    '<option ',
-        'value="', _blankOption.value, '">',
-      _blankOption.text,
-    '</option>'
-    ].join('');
-  };
 
   /**
    * Destroy CollectionSelectBox.
@@ -157,20 +159,17 @@ var CollectionSelectBox = function (params) {
 
     _selectBox.removeEventListener('change', _onChange);
 
-
     _blankOption = null;
     _collection = null;
-    _includeBlankOption = null;
     _format = null;
     _getValidOptions = null;
+    _includeBlankOption = null;
     _selectBox = null;
-
 
     _createBlankOption = null;
     _defaultGetValidOptions = null;
     _onChange = null;
     _onSelect = null;
-
 
     _initialize = null;
     _this = null;
@@ -181,16 +180,16 @@ var CollectionSelectBox = function (params) {
    */
   _this.render = function () {
     var data,
-        selected,
         i,
         id,
         len,
         markup,
+        selected,
         validOptions;
 
     data = _collection.data();
-    selected = _collection.getSelected();
     markup = [];
+    selected = _collection.getSelected();
 
     if (_includeBlankOption === true) {
       markup.push(_createBlankOption());
@@ -212,7 +211,8 @@ var CollectionSelectBox = function (params) {
   };
 
 
-  _initialize();
+  _initialize(params);
+  params = null;
   return _this;
 };
 
