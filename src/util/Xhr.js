@@ -116,7 +116,7 @@ ajax = function (options) {
           }
         }
       } else {
-        if (options.error !== null) {
+        if (options.error) {
           options.error(xhr.status, xhr);
         }
       }
