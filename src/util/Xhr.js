@@ -111,7 +111,7 @@ ajax = function (options) {
             options.success(data, xhr);
           } catch (e) {
             if (options.error !== null) {
-              options.error(e.name, e);
+              options.error(e, xhr);
             }
           }
         }
