@@ -102,15 +102,21 @@ ajax = function (options) {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         if (options.success !== null) {
-          data = xhr.response;
-          contentType = xhr.getResponseHeader('Content-Type');
-          if (contentType && contentType.indexOf('json') !== -1) {
-            data = JSON.parse(data);
+          try {
+            data = xhr.response;
+            contentType = xhr.getResponseHeader('Content-Type');
+            if (contentType && contentType.indexOf('json') !== -1) {
+              data = JSON.parse(data);
+            }
+            options.success(data, xhr);
+          } catch (e) {
+            if (options.error !== null) {
+              options.error(e, xhr);
+            }
           }
-          options.success(data, xhr);
         }
       } else {
-        if (options.error !== null) {
+        if (options.error) {
           options.error(xhr.status, xhr);
         }
       }
