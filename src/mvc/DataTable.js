@@ -19,9 +19,13 @@ var CollectionTable = require('./CollectionTable'),
  *        Optional, default is Tab Separated Values.
  * @param params.columns {Array<Object>}
  *        column objects used by CollectionTable.
- * @param params.columns[X].formatDownload {Function(Object)}
+ * @param params.columns[X].downloadFormat {Function(Object)}
  *        Optional, default is column.format.
  *        Function used to format a column value for download.
+ *        Used by DataTable._formatDownload.
+ * @param params.columns[X].downloadTitle {string}
+ *        Optional, default is column.title.
+ *        column title value for download.
  *        Used by DataTable._formatDownload.
  * @see CollectionTable
  * @see SortView
@@ -117,7 +121,7 @@ var DataTable = function (params) {
 
     for (c = 0, cLen = _columns.length; c < cLen; c++) {
       column = _columns[c];
-      row.push(column.title);
+      row.push(column.downloadTitle || column.title);
     }
     content.push(row.join('\t'));
 
