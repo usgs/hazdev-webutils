@@ -29,6 +29,9 @@ will be fixed in a subsequent update.
 
 Changelog
 ---------
+### 0.1.7 - 2016-01-07
+ - Added DataTable `column` parameter `downloadTitle` for custom download
+   formatting.
 
 ### 0.0.5 - 2014-02-24
  - Added toJSON method to Collection and Model for serialization to JSON.
