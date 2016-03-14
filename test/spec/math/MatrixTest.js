@@ -53,20 +53,20 @@ describe('Unit tests for the "Matrix" class', function () {
       ], 3, 3);
       ev = m.jacobi();
 
-      expect(ev[0].magnitude()).to.be.closeTo(1.3080, 1e-4);
-      expect(ev[0].unit().x()).to.be.closeTo(0.7370, 1e-4);
-      expect(ev[0].unit().y()).to.be.closeTo(-0.5910, 1e-4);
-      expect(ev[0].unit().z()).to.be.closeTo(-0.3280, 1e-4);
+      expect(ev[0].eigenvalue).to.be.closeTo(1.3080, 1e-4);
+      expect(ev[0].x()).to.be.closeTo(0.7370, 1e-4);
+      expect(ev[0].y()).to.be.closeTo(-0.5910, 1e-4);
+      expect(ev[0].z()).to.be.closeTo(-0.3280, 1e-4);
 
-      expect(ev[1].magnitude()).to.be.closeTo(1.6431, 1e-4);
-      expect(ev[1].unit().x()).to.be.closeTo(0.3280, 1e-4);
-      expect(ev[1].unit().y()).to.be.closeTo(0.7370, 1e-4);
-      expect(ev[1].unit().z()).to.be.closeTo(-0.5910, 1e-4);
+      expect(ev[1].eigenvalue).to.be.closeTo(1.6431, 1e-4);
+      expect(ev[1].x()).to.be.closeTo(0.3280, 1e-4);
+      expect(ev[1].y()).to.be.closeTo(0.7370, 1e-4);
+      expect(ev[1].z()).to.be.closeTo(-0.5910, 1e-4);
 
-      expect(ev[2].magnitude()).to.be.closeTo(6.0489, 1e-4);
-      expect(ev[2].unit().x()).to.be.closeTo(0.5910, 1e-4);
-      expect(ev[2].unit().y()).to.be.closeTo(0.3280, 1e-4);
-      expect(ev[2].unit().z()).to.be.closeTo(0.7370, 1e-4);
+      expect(ev[2].eigenvalue).to.be.closeTo(6.0489, 1e-4);
+      expect(ev[2].x()).to.be.closeTo(0.5910, 1e-4);
+      expect(ev[2].y()).to.be.closeTo(0.3280, 1e-4);
+      expect(ev[2].z()).to.be.closeTo(0.7370, 1e-4);
     });
   });
 
