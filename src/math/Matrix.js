@@ -255,8 +255,7 @@ __jacobi = function (data, m, n, maxRotations) {
   for (i = 0; i < n; i++) {
     // i-th vector is i-th column
     vector = Vector(__col(v, m, n, i));
-    // set vector magnitude to value
-    vector = vector.multiply(e[i]);
+    vector.eigenvalue = e[i];
     vectors.push(vector);
   }
 
