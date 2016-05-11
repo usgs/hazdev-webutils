@@ -24,7 +24,7 @@ describe('Unit tests for the "Events" class', function () {
 
   describe('off()', function () {
     it('removes all listeners when no callback is used', function () {
-      var evts = new Events(),
+      var evts = Events(),
           listener1 = sinon.spy(),
           listener2 = sinon.spy(),
           static1 = sinon.spy(),
@@ -60,7 +60,7 @@ describe('Unit tests for the "Events" class', function () {
     });
 
     it('removes listeners of same type when no context is used', function () {
-      var evts = new Events(),
+      var evts = Events(),
           listener = sinon.spy(),
           context1 = {name: 'Object1', callback: listener},
           context2 = {name: 'Object2', callback: listener},
@@ -91,8 +91,30 @@ describe('Unit tests for the "Events" class', function () {
       expect(s_listener.callCount).to.equal(2);
     });
 
+    it('does not throw exception when no listeners of type', function () {
+      var context,
+          evts,
+          listener,
+          removeListener;
+
+      listener = sinon.spy();
+      context = {name: 'Object1', callback: listener};
+      evts = Events();
+
+      evts.on('myevent', context.callback, context);
+      // no more listeners, this should not throw an exception
+      removeListener = function () {
+        evts.off('myevent', context.callback, context);
+      };
+
+      // this is okay, listener already added
+      expect(removeListener).to.not.throw(Error);
+      // second time shouldn't throw either
+      expect(removeListener).to.not.throw(Error);
+    });
+
     it('removes callback based on context', function () {
-      var evts = new Events(),
+      var evts = Events(),
           listener = sinon.spy(),
           context1 = {name: 'Object1', callback: listener},
           context2 = {name: 'Object2', callback: listener},

@@ -52,6 +52,9 @@ var Events = function () {
       // removing all listeners on this object
       _listeners = null;
       _listeners = {};
+    } else if (!_listeners.hasOwnProperty(evt)) {
+      // no listeners, nothing to do
+      return;
     } else if (typeof callback === 'undefined') {
       // removing all listeners for this event
       delete _listeners[evt];
