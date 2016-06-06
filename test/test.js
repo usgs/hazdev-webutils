@@ -46,6 +46,7 @@ if (!Function.prototype.bind) {
   require('./spec/mvc/ModelTest');
   require('./spec/mvc/SelectedCollectionViewTest');
   require('./spec/mvc/SelectViewTest');
+  require('./spec/mvc/ViewTest');
 
   require('./spec/util/EventsTest');
   require('./spec/util/FileIOTest');
