@@ -297,7 +297,7 @@ var Collection = function (data) {
       _this.deselect(options);
     }
 
-    if (obj === _this.get(obj.id)) {
+    if (obj === null || obj === _this.get(obj.id)) {
       // make sure it's part of this collection…
       _selected = obj;
       if (!options || options.silent !== true) {
