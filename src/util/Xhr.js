@@ -101,8 +101,6 @@ ajax = function (options) {
 
   xhr = new XMLHttpRequest();
 
-  xhr.timeout = options.timeout;
-
   // setup callback
   xhr.onreadystatechange = function () {
     var data, contentType;
@@ -139,6 +137,7 @@ ajax = function (options) {
 
   // handle timeout
   if (options.ontimeout !== null) {
+    xhr.timeout = options.timeout;
     xhr.ontimeout = function () {
       options.ontimeout(xhr);
     }
