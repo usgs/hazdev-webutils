@@ -26,7 +26,9 @@ var _DEFAULT_AJAX_OPTIONS = {
   method: 'GET',
   headers: null,
   data: null,
-  rawdata: null
+  rawdata: null,
+  timeout: 5000,
+  ontimeout: null
 };
 
 // API Method Declarations
@@ -50,7 +52,7 @@ var ajax,
  * @param options.error {Function} optional
  *      called when script fails to load
  * @param options.done {Function}
- *        called when ajax is complete, after success or error.
+ *      called when ajax is complete, after success or error.
  * @param options.method {String}
  *      request method, default is 'GET'
  * @param options.headers {Object}
@@ -61,6 +63,10 @@ var ajax,
  * @param options.rawdata {?}
  *      passed directly to send method, when options.data is null.
  *      Content-type header must also be specified. Default is null.
+ * @param options.timeout {Number}
+ *      time in milliseconds a request can take, default is 5000.
+ * @param options.ontimeout {Function} optional
+ *      called when script fails to load due to network timeout.
  */
 ajax = function (options) {
   var h,
@@ -128,6 +134,14 @@ ajax = function (options) {
 
   // open request
   xhr.open(options.method, url, true);
+
+  // handle timeout
+  if (options.ontimeout !== null) {
+    xhr.timeout = options.timeout;
+    xhr.ontimeout = function () {
+      options.ontimeout(xhr);
+    }
+  };
 
   // send headers
   if (options.headers !== null) {
