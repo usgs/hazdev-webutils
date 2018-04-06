@@ -1,6 +1,6 @@
 {
   "name": "hazdev-webutils",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "homepage": "http://earthquake.usgs.gov/",
   "repository": "https://github.com/usgs/hazdev-webutils.git",
   "description": "Utilities commonly used in web applications developed by the EHP HazDev team.",
@@ -36,7 +36,7 @@
     "chai": "^3.5.0",
     "cssnano": "^3.7.0",
     "gateway": "^1.0.0",
-    "grunt": "^1.0.1",
+    "grunt": "0.4.5",
     "grunt-browserify": "^5.0.0",
     "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "^1.0.0",
