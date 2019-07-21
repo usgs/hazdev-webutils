@@ -1,4 +1,4 @@
-/* global chai, describe, it */
+/* global afterEach, beforeEach, chai, describe, it */
 'use strict';
 
 var Model = require('mvc/Model'),
@@ -70,6 +70,71 @@ describe('Unit tests for the "Model" class', function () {
       m.set({'id': 'testid_other'});
       expect(m.id).to.equal('testid_other');
     });
+  });
+
+  describe('update()', function () {
+    var m,
+        l1,
+        l2,
+        l3;
+
+    beforeEach(function () {
+      m = Model({a: {b: {c: 1}}});
+      l1 = new TestClass();
+      l2 = new TestClass();
+      l3 = new TestClass();
+      m.on('change:a.b', l1.callback, l1);
+      m.on('change:a.b.c', l2.callback, l2);
+      m.on('change', l3.callback, l3);
+    });
+
+    afterEach(function () {
+      m.off();
+      m.destroy();
+      m = null;
+      l1 = null;
+      l2 = null;
+      l3 = null;
+    });
+
+    it('adds new keys', function () {
+      m.update({a: {b: {d: 2}}});
+      // 1) triggers change:a.b
+      expect(l1.callbackCount).to.equal(1);
+      expect(l1.callbackData.d).to.equal(2);
+      // 2) sets a.b.d
+      expect(m.get().a.b.d).to.equal(2);
+      // 3) doesn't change a.b.c
+      expect(m.get().a.b.c).to.equal(1);
+      expect(l2.callbackCount).to.equal(0);
+      // 4) triggers change
+      expect(l3.callbackCount).to.equal(1);
+      expect(l3.callbackData.a.b.d).to.equal(2);
+    });
+
+    it('updates existing keys', function () {
+      // updating a.b.c:
+      m.update({a: {b: {c: 3}}});
+      // 1) triggers change:a.b
+      expect(l1.callbackCount).to.equal(1);
+      expect(l1.callbackData.c).to.equal(3);
+      // 2) triggers change:a.b.c
+      expect(l2.callbackCount).to.equal(1);
+      expect(l2.callbackData).to.equal(3);
+      // 3) updates a.b.c
+      expect(m.get().a.b.c).to.equal(3);
+      // 4) triggers change
+      expect(l3.callbackCount).to.equal(1);
+      expect(l3.callbackData.a.b.c).to.equal(3);
+    });
+
+    it('ignores unchanged values', function () {
+      m.update({a: {b: {c: 1}}});
+      expect(l1.callbackCount).to.equal(0);
+      expect(l2.callbackCount).to.equal(0);
+      expect(l3.callbackCount).to.equal(0);
+    });
+
   });
 
   describe('toJSON()', function () {

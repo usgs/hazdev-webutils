@@ -47,6 +47,116 @@ Util.extend = function (dst) {
 };
 
 /**
+ * Compare differences between two objects.
+ *
+ * Specifically, search for values in o1 that differ from the same value in o2.
+ *
+ * @param o1 {Object}
+ *      reference object.
+ * @param o2 {Object}
+ *      comparison object.
+ * @return {Object}
+ *      object containing all differences in o2 compared to o1,
+ *      or "false" if objects are identical.
+ */
+Util.deepCompare = function (o1, o2) {
+  var changes,
+      nestedChanges,
+      prop,
+      v1, v2;
+
+  changes = {};
+  // iterate over sources where properties are read
+  if (o2) {
+    for (prop in o2) {
+      v1 = o1[prop];
+      v2 = o2[prop];
+      if (v1 === v2) {
+        // already up to date
+        continue;
+      } else {
+        if (v1 !== null && typeof v1 === 'object' &&
+            v2 !== null && typeof v2 === 'object') {
+          // if dst and src are objects, recurse
+          nestedChanges = Util.deepCompare(v1, v2);
+          if (!Util.isObjectEmpty(nestedChanges)) {
+            changes[prop] = nestedChanges;
+          }
+        } else {
+          changes[prop] = v2;
+        }
+      }
+    }
+  }
+
+  // return differences
+  return changes;
+};
+
+/**
+ * Check if an object is empty.
+ *
+ * @param o {Object}
+ *        object to check.
+ * @return {Boolean}
+ *         true if object has no properties, false otherwise.
+ */
+Util.isObjectEmpty = function (o) {
+  var empty,
+      key;
+
+  empty = true;
+  for (key in o) {
+    empty = false;
+    break;
+  }
+
+  return empty;
+};
+
+/**
+ * Merge properties from a series of objects.
+ *
+ * Unlike extend(), if dst and src contain objects their keys are merged.
+ *
+ * @param dst {Object}
+ *      target where merged properties are copied to.
+ * @param <variable> {Object}
+ *      source objects for properties. When a source is non null, it's
+ *      properties are copied to the dst object. Properties are copied in
+ *      the order of arguments: a property on a later argument overrides a
+ *      property on an earlier argument.
+ */
+Util.deepExtend = function (dst) {
+  var i, len, src, prop,
+      srcval, dstval;
+
+  // iterate over sources where properties are read
+  for (i = 1, len = arguments.length; i < len; i++) {
+    src = arguments[i];
+    if (src) {
+      for (prop in src) {
+        dstval = dst[prop];
+        srcval = src[prop];
+        if (dstval === srcval) {
+          // already up to date
+          continue;
+        } else if (dstval !== null && typeof dstval === 'object' &&
+            srcval !== null && typeof srcval === 'object') {
+          // if dst and src are objects, recurse
+          dst[prop] = Util.deepExtend({}, dstval, srcval);
+        } else {
+          dst[prop] = src[prop];
+        }
+      }
+    }
+  }
+
+  // return updated object
+  return dst;
+};
+
+/**
  * Checks if objects are equal.
  *
  * @param a {Object}
