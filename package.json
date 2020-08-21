@@ -28,7 +28,7 @@
   "scripts": {
     "test": "grunt test"
   },
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "license": "Public Domain",
   "dependencies": {},
   "devDependencies": {
