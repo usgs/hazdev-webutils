@@ -30,6 +30,7 @@
     "test": "grunt test"
   },
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "license": "Public Domain",
   "dependencies": {},
   "devDependencies": {
