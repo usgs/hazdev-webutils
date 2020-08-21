@@ -1,15 +1,15 @@
 'use strict';
 
 
-var Collection = require('mvc/Collection'),
-    CollectionView = require('mvc/CollectionView'),
-    ModalView = require('mvc/ModalView'),
-    Model = require('mvc/Model'),
-    View = require('mvc/View'),
+var Collection = require('./Collection'),
+    CollectionView = require('./CollectionView'),
+    ModalView = require('./ModalView'),
+    Model = require('./Model'),
+    View = require('./View'),
 
-    FileIO = require('util/FileIO'),
-    Message = require('util/Message'),
-    Util = require('util/Util');
+    FileIO = require('../util/FileIO'),
+    Message = require('../util/Message'),
+    Util = require('../util/Util');
 
 
 var _FILE_SIZE_SUFFIXES = ['B', 'KB', 'MB', 'GB'];

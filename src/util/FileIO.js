@@ -1,7 +1,7 @@
 'use strict';
 
 
-var Util = require('util/Util');
+var Util = require('./Util');
 
 
 // Default values to be used by constructor

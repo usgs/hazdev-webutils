@@ -2,7 +2,7 @@
 
 var Matrix = require('./Matrix'),
     Vector = require('./Vector'),
-    Util = require('util/Util');
+    Util = require('../util/Util');
 
 
 var _DEFAULTS = {

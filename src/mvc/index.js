@@ -1,0 +1,15 @@
+module.exports = {
+  Collection: require('./Collection'),
+  CollectionSelectBox: require('./CollectionSelectBox'),
+  CollectionTable: require('./CollectionTable'),
+  CollectionView: require('./CollectionView'),
+  DataTable: require('./DataTable'),
+  DownloadView: require('./DownloadView'),
+  FileInputView: require('./FileInputView'),
+  ModalView: require('./ModalView'),
+  Model: require('./Model'),
+  SelectedCollectionView: require('./SelectedCollectionView'),
+  SelectView: require('./SelectView'),
+  SortView: require('./SortView'),
+  View: require('./View'),
+};
